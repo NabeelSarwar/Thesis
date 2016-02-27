@@ -3,7 +3,6 @@ import numpy as np
 import extreme_deconvolution as xd
 from sklearn.mixture import GMM
 from astroML.density_estimation import XDGMM
-import json
 
 import matplotlib
 
@@ -126,6 +125,18 @@ def generateReport(predictions, results):
     report['Accuracy'] = 1.0 * (truepositive + truenegative) / len(results)
     return report
 
+def writeReport(report, fileName):
+    buf = open(filename, 'w')
+    f.write('TPR: {0}\n'.format(report['TPR']))
+    f.write('TNR: {0}\n'.format(report['TNR']))
+    f.write('FPR: {0}\n'.format(report['FPR']))
+    f.write('FNR: {0}\n'.format(report['FNR']))
+    f.write('Precision: {0}\n'.format(report['Precision']))
+    f.write('Recall: {0}\n'.format(report['Recall']))
+    f.write('Accuracy: {0}\n'.format(report['Accuracy']))
+    f.close()
+
+
 starTrainNumber = int(np.floor(len(starIndices[0]) * 0.8))
 starTestNumber = len(starIndices[0]) - starTrainNumber
 starIndicesTrain = np.random.choice(starIndices[0], starTrainNumber, replace=False)
@@ -210,13 +221,14 @@ predictions = np.array(starPredictions.tolist() +  galaxyPredictions.tolist())
 results = np.array([1 for i in range(len(starPredictions))] + [0 for i in range(len(galaxyPredictions))])
 
 report = generateReport(predictions, results)
-json.dump(report, open('deconv_results.json', 'w'))
-
+writeReport(report, 'data/deconv/deconvresults.txt')
 
 #analyze bad classifications
 badStarPredictions = np.where(starPredictions == 0)[0]
 badStarIndices = starIndicesTest[badStarPredictions]
 
+# these are indices of the array where there are bad predictions
+# use these to get the bad indices in the catalog
 badGalaxyPredictions = np.where(galaxyPredictions == 1)[0]
 badGalaxyIndices = galaxyIndicesTest[badGalaxyPredictions]
 
@@ -224,9 +236,15 @@ starPredictionsNumbers = np.array([predictStarDouble(np.array([XTestStar[i]]), n
 
 galaxyPredictionsNumbers = np.array([predictStarDouble(np.array([XTestGalaxy[i]]), np.array([XErrTestGalaxy[i]]), galaxyIndicesTest[i]) for i in range(galaxyTestNumber)])
 
+# these are the bad probabilities
 badStarPredictions = starPredictionsNumbers[badStarPredictions]
 badGalaxyPredictions = galaxyPredictionsNumbers[badGalaxyPredictions]
 
+starSaveInformation = np.array([badStarIndices, badStarPredictions]).transpose()
+galaxySaveInformation = np.array([badGalaxyIndices, badGalaxyPredictions]).tranpose()
+
+np.savetxt('data/deconv/starBadPredictionIndexProbability.txt', starSaveInformation)
+np.savetxt('data/deconv/galaxyBadPredictionIndexProbability.txt', galaxySaveInformation)
 
 # indices correspond to indices in catalog above
 def AnalyzeBadPoints(predictions, indices, magnitudes1, magnitudes2, title, xaxistitle, fileName):
@@ -241,4 +259,25 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, magnitudes2, title, xaxi
 
 
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[cold['magR']], catalog[cold['magI']], \
-        'P(Star) for False Negatives in R-I', 'R-I (AB)', 'data/PStar/false_negatives_ri.png')
+        'P(Star) for False Negatives in R-I', 'R-I (AB)', 'data/PStar/false_negatives_ri_star.png')
+AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[cold['magI']], catalog[cold['magZ']], \
+        'P(Star) for False Negatives in I-Z', 'I-Z (AB)', 'data/PStar/false_negatives_iz_star.png')
+AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[cold['mag_j']], catalog[cold['mag_h']], \
+        'P(Star) for False Negatives in J-H', 'J-H (AB)', 'data/PStar/false_negatives_jh_star.png')
+AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[cold['mag_h']], catalog[cold['mag_k']], \
+        'P(Star) for False Negatives in H-K', 'J-H (AB)', 'data/PStar/false_negatives_hk_star.png')
+AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[cold['mag_36']], catalog[cold['mag_45']], \
+        r'P(Star) for False Negatives in $3.6\mu{}m-4.5\mu{}m$', r'$3.6\mu{}m-4.5\mu{}m$ (AB)', \
+        'data/PStar/false_negatives_chan1chan2_star.png')
+
+AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[cold['magR']], catalog[cold['magI']], \
+        'P(Star) for False Negatives in R-I', 'R-I (AB)', 'data/PStar/false_negatives_ri_galaxy.png')
+AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[cold['magI']], catalog[cold['magZ']], \
+        'P(Star) for False Negatives in I-Z', 'I-Z (AB)', 'data/PStar/false_negatives_iz_galaxy.png')
+AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[cold['mag_j']], catalog[cold['mag_h']], \
+        'P(Star) for False Negatives in J-H', 'J-H (AB)', 'data/PStar/false_negatives_jh_galaxy.png')
+AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[cold['mag_h']], catalog[cold['mag_k']], \
+        'P(Star) for False Negatives in H-K', 'J-H (AB)', 'data/PStar/false_negatives_hk_galaxy.png')
+AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[cold['mag_36']], catalog[cold['mag_45']], \
+        r'P(Star) for False Negatives in $3.6\mu{}m-4.5\mu{}m$', r'$3.6\mu{}m-4.5\mu{}m$ (AB)', \
+        'data/PStar/false_negatives_chan1chan2_galaxy.png')
