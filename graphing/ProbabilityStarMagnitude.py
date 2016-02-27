@@ -126,7 +126,7 @@ def generateReport(predictions, results):
     return report
 
 def writeReport(report, fileName):
-    buf = open(filename, 'w')
+    buf = open(fileName, 'w')
     f.write('TPR: {0}\n'.format(report['TPR']))
     f.write('TNR: {0}\n'.format(report['TNR']))
     f.write('FPR: {0}\n'.format(report['FPR']))
