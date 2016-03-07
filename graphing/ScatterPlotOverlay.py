@@ -8,13 +8,20 @@ plt.ioff()
 
 import numpy as np
 import pyfits
+
 matchedCat = pyfits.getdata('MatchHellDeconv2.fits')
+
+badStarIndices = np.genfromtxt('data/deconv/starBadPredictionIndexProbability.txt')[:, 0].tolist()
+badGalaxyIndices = np.genfromtxt('data/deconv/galaxyBadPredictionIndexProbability.txt')[:, 0].tolist()
+
+badIndices = badStarIndices + badGalaxyIndices
 
 starindices = np.where(matchedCat['mu_class'] == 2)[0]
 galaxyindices = np.where(matchedCat['mu_class'] == 1)[0]
 
 print starindices
 print galaxyindices
+
 starGalHash = {}
 for e in starindices:
     starGalHash[e] = 'star'
@@ -39,8 +46,10 @@ chan3mags = matchedCat['mag_58']
 chan4mags = matchedCat['mag_80']
 
 def randomPlot(magSource1, magSource2):
-    goodIndices = np.array([True for i in range(len(magSource1))])
-    numbers = np.random.permutation(np.where(goodIndices == True)[0])
+    # the indices we want to plot are the bad labels
+    goodIndices = badIndices
+    numbers = np.random.permutation(goodIndices)
+
     print len(numbers)
     for e in numbers:
         if starGalHash[e] == 'star':
