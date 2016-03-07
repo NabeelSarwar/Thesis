@@ -64,6 +64,8 @@ def PlotSpectra(index, filename):
     ymax = (3*yticks[-1] - yticks[-2])/2.
     plt.ylim(ymin, ymax)
     plt.yticks(yticks)
+    
+    plt.gca().invert_yaxis()
 
     # the first entry is for the zero point
     ax.set_xticklabels(['R', 'I', 'Z', 'J', 'H', 'K', 'Chan 1', 'Chan 2'])
