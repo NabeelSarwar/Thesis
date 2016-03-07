@@ -65,7 +65,7 @@ def PlotSpectra(index, filename):
     plt.ylim(ymin, ymax)
     plt.yticks(yticks)
     
-    plt.gca().invert_yaxis()
+    ax.set_ylim(ax.get_ylim()[::-1])
 
     # the first entry is for the zero point
     ax.set_xticklabels(['R', 'I', 'Z', 'J', 'H', 'K', 'Chan 1', 'Chan 2'])
@@ -89,5 +89,4 @@ starIndices = np.random.choice(np.array(starIndices), 50, replace=False)
 for index in starIndices:
     fileName = 'data/spectra/good_star_{0}.png'.format(int(index))
     PlotSpectra(index, fileName)
-
 
