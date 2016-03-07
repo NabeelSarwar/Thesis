@@ -192,7 +192,6 @@ modelGMM = sklearn.mixture.GMM(n_components=numComp)
 modelSVM = sklearn.svm.LinearSVC()
 logisticModel = sklearn.linear_model.LogisticRegression()
 
-
 reportSVM = tryModel(modelSVM, magnitudeMatrix, ids, results)
 reportLogistic = tryModel(logisticModel, magnitudeMatrix, ids, results)
 json.dump(reportSVM, open('data/svm_results.json', 'w'))
