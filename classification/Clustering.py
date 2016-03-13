@@ -54,6 +54,8 @@ def generateReport(model, data, results):
 
 def writeReport(report, fileName):
     buf = open(fileName, 'w')
+    # because I return a test and train report
+    report = report['test']
     buf.write('TPR: {0}\n'.format(report['TPR']))
     buf.write('TNR: {0}\n'.format(report['TNR']))
     buf.write('FPR: {0}\n'.format(report['FPR']))
@@ -216,14 +218,14 @@ bestModelLogistic = clf.best_estimator_
 bestParamsLogistic = clf.best_params_
 print 'Trying Logistic Model'
 reportLogistic = tryModel(bestModelLogistic, magnitudeMatrix, ids, results)
-writeReport(reportLogistic, 'data/logistic/best_params_logistic.txt')
+writeReport(reportLogistic, 'data/logistic/best_logistic.txt')
 json.dump(bestParamsLogistic, open('data/logistic/best_params_logistic.json', 'w'))
 
 
 # Try out the various svm models
 print 'Linear SVM'
 modelSVMLinear = sklearn.svm.LinearSVC()
-grid = {'C': [1, 2, 3, 5, 10], 'penalty': ['l1', 'l2']}
+grid = {'C': [1, 2, 3, 5, 10], 'dual': [False], 'penalty': ['l1', 'l2']}
 
 clf = sklearn.grid_search.GridSearchCV(modelSVMLinear, param_grid=grid)
 
