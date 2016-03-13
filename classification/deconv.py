@@ -163,6 +163,7 @@ if len(galaxyIndicesTest) != galaxyTestNumber:
 
 print 'Making Arrays'
 print 'Making X'
+
 XTrainStar = np.array([makeEntry(index) for index in starIndicesTrain])
 XTestStar = np.array([makeEntry(index) for index in starIndicesTest])
 XTrainGalaxy = np.array([makeEntry(index) for index in galaxyIndicesTrain])
@@ -223,12 +224,13 @@ def TryModel(nGaussiansStar, nGaussiansGalaxy):
 
 maxr = None
 maxprecision = -1
-for r in itertools.product(np.arange(1, 31), np.arange(1, 31)):
+for r in itertools.product(np.arange(13, 31), np.arange(13, 31)):
     print 'Trying Model Star: {0}, Galaxy: {1}'.format(r[0], r[1])
     precision, clfstar, clfgalaxy = TryModel(r[0], r[1])
     if precision > maxprecision:
         maxprecision = precision
         maxr = r
+
 starPredictions = np.array([predictStar(clfstar, clfgalaxy, np.array([XTestStar[i]]), np.array([XErrTestStar[i]]), i) for i in range(starTestNumber)])
 
 galaxyPredictions = np.array([predictStar(clfstar, clfgalaxy, np.array([XTestGalaxy[i]]), np.array([XErrTestGalaxy[i]]), i) for i in range(galaxyTestNumber)])
