@@ -247,10 +247,10 @@ gaussianResults.close()
 
 
 #analyze bad classifications
-badStarPredictions = np.where(starPredictions == 0)
+badStarPredictions = starPredictions == 0
 badStarIndices = starIndicesTest[badStarPredictions]
 
-badGalaxyPredictions = np.where(galaxyPredictions == 1)
+badGalaxyPredictions = galaxyPredictions == 1
 badGalaxyIndices = galaxyIndicesTest[badGalaxyPredictions]
 
 def DeconvolutionGraphAnalysis(indices, bandColumn, bandTitle, starBoolean):
