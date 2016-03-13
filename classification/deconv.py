@@ -123,6 +123,18 @@ def generateReport(predictions, results):
     report['Accuracy'] = 1.0 * (truepositive + truenegative) / len(results)
     return report
 
+def writeReport(report, fileName):
+    buf = open(fileName, 'w')
+    buf.write('TPR: {0}\n'.format(report['TPR']))
+    buf.write('TNR: {0}\n'.format(report['TNR']))
+    buf.write('FPR: {0}\n'.format(report['FPR']))
+    buf.write('FNR: {0}\n'.format(report['FNR']))
+    buf.write('Precision: {0}\n'.format(report['Precision']))
+    buf.write('Recall: {0}\n'.format(report['Recall']))
+    buf.write('Accuracy: {0}\n'.format(report['Accuracy']))
+    buf.close()
+
+
 starTrainNumber = int(np.floor(len(starIndices[0]) * 0.8))
 starTestNumber = len(starIndices[0]) - starTrainNumber
 starIndicesTrain = np.random.choice(starIndices[0], starTrainNumber, replace=False)
