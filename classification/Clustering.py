@@ -204,24 +204,10 @@ holdMatrix = np.zeros(magnitudeMatrix.shape, dtype=typ)
 holdMatrix[:] = magnitudeMatrix[:]
 magnitudeMatrix = holdMatrix
 
-numComp = 10
-modelGMM = sklearn.mixture.GMM(n_components=numComp)
-
-modelSVM = sklearn.svm.LinearSVC()
-logisticModel = sklearn.linear_model.LogisticRegression()
-
-reportSVM = tryModel(modelSVM, magnitudeMatrix, ids, results)
-reportLogistic = tryModel(logisticModel, magnitudeMatrix, ids, results)
-json.dump(reportSVM, open('data/svm_results.json', 'w'))
-json.dump(reportLogistic, open('data/logisitic_regression_results.json', 'w'))
-print 'Done'
-
-
 # Try out the various logistic regresion models
-
 print 'Logistic Model'
-modelLogistic = sklearn.linear_model.LogisticRegresion()
-grid = {'penalty': ['l1', 'l2'], 'dual': [True, False], 'C': [1, 2, 3, 5, 10]}
+modelLogistic = sklearn.linear_model.LogisticRegression()
+grid = {'penalty': ['l1', 'l2'], 'C': [1, 2, 3, 5, 10]}
 
 clf = sklearn.grid_search.GridSearchCV(modelLogistic, param_grid=grid)
 clf.fit(magnitudeMatrix, results)
@@ -237,7 +223,7 @@ json.dump(bestParamsLogistic, open('data/logistic/best_params_logistic.json', 'w
 # Try out the various svm models
 print 'Linear SVM'
 modelSVMLinear = sklearn.svm.LinearSVC()
-grid = {'C': [1, 2, 3, 5, 10], dual: [True, False], 'penalty': ['l1', 'l2']}
+grid = {'C': [1, 2, 3, 5, 10], 'penalty': ['l1', 'l2']}
 
 clf = sklearn.grid_search.GridSearchCV(modelSVMLinear, param_grid=grid)
 
@@ -266,3 +252,4 @@ reportSVMRBF = tryModel(bestModelSVMRBF, magnitudeMatrix, ids, results)
 writeReport(reportSVMRBF, 'data/svm/best_svm_rbf.txt')
 json.dump(bestParamsSVMRBF, open('data/svm/best_params_svm_rbf.json', 'w'))
 
+print 'Done'
