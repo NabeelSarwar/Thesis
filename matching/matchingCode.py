@@ -274,10 +274,10 @@ mag58 = Column(data=-2.5 * np.log10(spitzerData['flux_c3_2'].data/0.625) + 23.9,
 mag80 = Column(data=-2.5 * np.log10(spitzerData['flux_c4_2'].data/0.580) + 23.9, name = 'mag_80', unit = 'AB mag')
 
 #include magnitude errors
-mag36error = Column(data = np.abs(1.08574/mag36.data*spitzerData['err_c1_2'].data), name='mag_36error', unit='AB mag')
-mag45error = Column(data = np.abs(1.08574/mag45.data*spitzerData['err_c2_2'].data), name='mag_45error', unit='AB mag')
-mag58error = Column(data = np.abs(1.08574/mag58.data*spitzerData['err_c3_2'].data), name='mag_58error', unit='AB mag')
-mag80error = Column(data = np.abs(1.08574/mag80.data*spitzerData['err_c4_2'].data), name='mag_80error', unit='AB mag')
+mag36error = Column(data = np.abs(1.08574/spitzerData['flux_c1_2'].data*spitzerData['err_c1_2'].data), name='mag_36error', unit='AB mag')
+mag45error = Column(data = np.abs(1.08574/spitzerData['flux_c2_2'].data * spitzerData['err_c2_2'].data), name='mag_45error', unit='AB mag')
+mag58error = Column(data = np.abs(1.08574/ spitzerData['flux_c3_2'].data*spitzerData['err_c3_2'].data), name='mag_58error', unit='AB mag')
+mag80error = Column(data = np.abs(1.08574/spitzerData['flux_c4_2'].data *spitzerData['err_c4_2'].data), name='mag_80error', unit='AB mag')
 spitzerData.add_columns([mag36, mag45, mag58, mag80, mag36error, mag45error, mag58error, mag80error])
 ascii.write(output='SpitzerWithMag.tbl', table=spitzerData, format='ipac')
 
