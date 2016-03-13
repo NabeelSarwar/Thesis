@@ -1,4 +1,5 @@
 import json
+import sklearn.grid_search
 import sklearn.mixture
 import sklearn.svm
 import sklearn.linear_model
@@ -51,6 +52,18 @@ def generateReport(model, data, results):
     report['Accuracy'] = 1.0 * (truepositive + truenegative) / len(results)
     return report
 
+def writeReport(report, fileName):
+    buf = open(fileName, 'w')
+    buf.write('TPR: {0}\n'.format(report['TPR']))
+    buf.write('TNR: {0}\n'.format(report['TNR']))
+    buf.write('FPR: {0}\n'.format(report['FPR']))
+    buf.write('FNR: {0}\n'.format(report['FNR']))
+    buf.write('Precision: {0}\n'.format(report['Precision']))
+    buf.write('Recall: {0}\n'.format(report['Recall']))
+    buf.write('Accuracy: {0}\n'.format(report['Accuracy']))
+    buf.close()
+
+
 def tryModel(model, data, ids, results):
     trainingReport = {}
     testReport = {}
@@ -90,6 +103,7 @@ def tryModel(model, data, ids, results):
 matchedCat = pyfits.getdata('MatchHell2.fits')
 #shortcut and
 sand = np.logical_and
+
 markerS = markers.MarkerStyle(marker='.')
 goodIndices = matchedCat['cmodel_flux_g'] > 0
 goodIndices = sand(goodIndices, matchedCat['cmodel_flux_r'] > 0)
@@ -101,7 +115,9 @@ goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_r'] != 0)
 goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_i'] != 0)
 goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_z'] != 0)
 goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_y'] != 0)
+
 matchedCat = matchedCat[goodIndices]
+matchedCat = pyfits.BinTableHDU(matchedCat).data
 
 magG = -2.5*np.log10(matchedCat['cmodel_flux_g']/matchedCat['flux_zeromag_g'])
 magR = -2.5*np.log10(matchedCat['cmodel_flux_r']/matchedCat['flux_zeromag_r'])
@@ -115,21 +131,22 @@ magIError = np.abs(1.08574 / matchedCat['cmodel_flux_i'] * matchedCat['cmodel_fl
 magZError = np.abs(1.08574 / matchedCat['cmodel_flux_z'] * matchedCat['cmodel_flux_err_z'])
 magYError = np.abs(1.08574 / matchedCat['cmodel_flux_y'] * matchedCat['cmodel_flux_err_y'])
 
+# no need to limit on our data
 # establish the indices with proper colors, and then get this
-goodIndices = magRError < 0.2
-goodIndices = sand(goodIndices, magIError < 0.2)
-goodIndices = sand(goodIndices, magZError < 0.2)
-goodIndices = sand(goodIndices, matchedCat['mag_j_error'] < 0.2)
-goodIndices = sand(goodIndices, matchedCat['mag_h_error'] < 0.2)
-goodIndices = sand(goodIndices, matchedCat['mag_k_error'] < 0.2)
-goodIndices = sand(goodIndices, matchedCat['mag_36error'] < 0.2)
-goodIndices = sand(goodIndices, matchedCat['mag_45error'] < 0.2)
+# goodIndices = magRError < 0.2
+# goodIndices = sand(goodIndices, magIError < 0.2)
+# goodIndices = sand(goodIndices, magZError < 0.2)
+# goodIndices = sand(goodIndices, matchedCat['mag_j_error'] < 0.2)
+# goodIndices = sand(goodIndices, matchedCat['mag_h_error'] < 0.2)
+# goodIndices = sand(goodIndices, matchedCat['mag_k_error'] < 0.2)
+# goodIndices = sand(goodIndices, matchedCat['mag_36error'] < 0.2)
+# goodIndices = sand(goodIndices, matchedCat['mag_45error'] < 0.2)
 
 
 # now  we have the proper errors
-matchedCat = matchedCat[goodIndices]
-print 'Good indices'
-print np.any(goodIndices)
+# matchedCat = matchedCat[goodIndices]
+# print 'Good indices'
+# print np.any(goodIndices)
 
 ymags = matchedCat['mag_y']
 jmags = matchedCat['mag_j']
@@ -181,6 +198,7 @@ magnitudeMatrix = np.matrix([magR-magI, magI-magZ, jmags-hmags, hmags-kmags, kma
 
 #all of this was to be able to restructure the magnitudeMatrix to have floats with column names
 #but it was all for naught
+
 typ = np.dtype('float64')
 holdMatrix = np.zeros(magnitudeMatrix.shape, dtype=typ)
 holdMatrix[:] = magnitudeMatrix[:]
@@ -197,4 +215,54 @@ reportLogistic = tryModel(logisticModel, magnitudeMatrix, ids, results)
 json.dump(reportSVM, open('data/svm_results.json', 'w'))
 json.dump(reportLogistic, open('data/logisitic_regression_results.json', 'w'))
 print 'Done'
+
+
+# Try out the various logistic regresion models
+
+print 'Logistic Model'
+modelLogistic = sklearn.linear_model.LogisticRegresion()
+grid = {'penalty': ['l1', 'l2'], 'dual': [True, False], 'C': [1, 2, 3, 5, 10]}
+
+clf = sklearn.grid_search.GridSearchCV(modelLogistic, param_grid=grid)
+clf.fit(magnitudeMatrix, results)
+
+bestModelLogistic = clf.best_estimator_
+bestParamsLogistic = clf.best_params_
+print 'Trying Logistic Model'
+reportLogistic = tryModel(bestModelLogistic, magnitudeMatrix, ids, results)
+writeReport(reportLogistic, 'data/logistic/best_params_logistic.txt')
+json.dump(bestParamsLogistic, open('data/logistic/best_params_logistic.json', 'w'))
+
+
+# Try out the various svm models
+print 'Linear SVM'
+modelSVMLinear = sklearn.svm.LinearSVC()
+grid = {'C': [1, 2, 3, 5, 10], dual: [True, False], 'penalty': ['l1', 'l2']}
+
+clf = sklearn.grid_search.GridSearchCV(modelSVMLinear, param_grid=grid)
+
+clf.fit(magnitudeMatrix, results)
+
+bestModelSVMLinear = clf.best_estimator_
+bestParamsSVMLinear = clf.best_params_
+print 'Trying Linear Model'
+reportSVMLinear = tryModel(bestModelSVMLinear, magnitudeMatrix, ids, results)
+writeReport(reportSVMLinear, 'data/svm/best_svm_linear.txt')
+json.dump(bestParamsSVMLinear, open('data/svm/best_params_svm_linear.json', 'w'))
+
+
+print 'RBF SVM'
+modelSVMRBF = sklearn.svm.SVC()
+grid = {'C': [1, 2, 3, 5, 10], 'gamma' : ['auto', 0.1, 0.5, 1, 2, 3]}
+
+clf = sklearn.grid_search.GridSearchCV(modelSVMRBF, param_grid=grid)
+
+clf.fit(magnitudeMatrix, results)
+
+bestModelSVMRBF = clf.best_estimator_
+bestParamsSVMRBF = clf.best_params_
+print 'Trying RBF Model'
+reportSVMRBF = tryModel(bestModelSVMRBF, magnitudeMatrix, ids, results)
+writeReport(reportSVMRBF, 'data/svm/best_svm_rbf.txt')
+json.dump(bestParamsSVMRBF, open('data/svm/best_params_svm_rbf.json', 'w'))
 
