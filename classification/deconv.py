@@ -1,3 +1,4 @@
+import itertools
 import pyfits
 import numpy as np
 import extreme_deconvolution as xd
@@ -69,7 +70,7 @@ def  makeNoiseMatrix(index):
     return noise
 
 # 1 is star prediction, 0 is no star
-def predictStar(X, Xerr, index):
+def predictStar(clfstar, clfgalaxy, X, Xerr, index):
     if np.any(np.isnan(Xerr)):
         print index
     #numerator = PStar * np.exp(clfstar.logL(X, Xerr))
@@ -160,9 +161,6 @@ galaxyIndicesTest = np.array(galaxyIndicesTest)
 if len(galaxyIndicesTest) != galaxyTestNumber:
     raise Exception('False Galaxy Test numbers')
 
-nGaussiansStar = 18
-nGaussiansGalaxy = 27
-
 print 'Making Arrays'
 print 'Making X'
 XTrainStar = np.array([makeEntry(index) for index in starIndicesTrain])
@@ -176,49 +174,76 @@ XErrTestStar = np.array([makeNoiseMatrix(index) for index in starIndicesTest])
 XErrTrainGalaxy = np.array([makeNoiseMatrix(index) for index in galaxyIndicesTrain])
 XErrTestGalaxy = np.array([makeNoiseMatrix(index) for index in galaxyIndicesTest])
 
-#convolving
-print 'Estimating Gaussians'
-GMMStar = GMM(nGaussiansStar, n_iter = 10, covariance_type='full').fit(XTrainStar)
-GMMGalaxy = GMM(nGaussiansGalaxy, n_iter=10, covariance_type='full').fit(XTrainGalaxy)
+def TryModel(nGaussiansStar, nGaussiansGalaxy): 
+    print 'Star Gaussians: {0}'.format(nGaussiansStar)
+    print 'Galaxy Gaussians: {0}'.format(nGaussiansGalaxy)
 
-ampstar = GMMStar.weights_
-meanstar = GMMStar.means_
-covarstar = GMMStar.covars_
+    #convolving
+    print 'Estimating Gaussians'
+    GMMStar = GMM(nGaussiansStar, n_iter = 10, covariance_type='full').fit(XTrainStar)
+    GMMGalaxy = GMM(nGaussiansGalaxy, n_iter=10, covariance_type='full').fit(XTrainGalaxy)
 
-ampgalaxy = GMMGalaxy.weights_
-meangalaxy = GMMGalaxy.means_
-covargalaxy = GMMGalaxy.covars_
+    ampstar = GMMStar.weights_
+    meanstar = GMMStar.means_
+    covarstar = GMMStar.covars_
 
-
-# Results are saved in `amp`, `mean`, and `covar`
-print 'Deconvolving star'
-
-xd.extreme_deconvolution(XTrainStar, XErrTrainStar, ampstar, meanstar, covarstar)
-
-clfstar = XDGMM(nGaussiansStar)
-clfstar.alpha = ampstar
-clfstar.mu = meanstar
-clfstar.V = covarstar
-
-print 'Deconvolving galaxies'
-xd.extreme_deconvolution(XTrainGalaxy, XErrTrainGalaxy, ampgalaxy, meangalaxy, covargalaxy)
-
-clfgalaxy = XDGMM(nGaussiansGalaxy)
-clfgalaxy.alpha = ampgalaxy
-clfgalaxy.mu = meangalaxy
-clfgalaxy.V = covargalaxy
+    ampgalaxy = GMMGalaxy.weights_
+    meangalaxy = GMMGalaxy.means_
+    covargalaxy = GMMGalaxy.covars_
 
 
-print 'Predicting'
-# need to pass XTestStar[i] and XTestGalaxy[i] as np.array([XTestStar[i]]) because internally it assumes 2D matrix
-starPredictions = np.array([predictStar(np.array([XTestStar[i]]), np.array([XErrTestStar[i]]), i) for i in range(starTestNumber)])
-galaxyPredictions = np.array([predictStar(np.array([XTestGalaxy[i]]), np.array([XErrTestGalaxy[i]]), i) for i in range(galaxyTestNumber)])
+    # Results are saved in `amp`, `mean`, and `covar`
+    print 'Deconvolving star'
+
+    xd.extreme_deconvolution(XTrainStar, XErrTrainStar, ampstar, meanstar, covarstar)
+
+    clfstar = XDGMM(nGaussiansStar)
+    clfstar.alpha = ampstar
+    clfstar.mu = meanstar
+    clfstar.V = covarstar
+
+    print 'Deconvolving galaxies'
+    xd.extreme_deconvolution(XTrainGalaxy, XErrTrainGalaxy, ampgalaxy, meangalaxy, covargalaxy)
+
+    clfgalaxy = XDGMM(nGaussiansGalaxy)
+    clfgalaxy.alpha = ampgalaxy
+    clfgalaxy.mu = meangalaxy
+    clfgalaxy.V = covargalaxy
+
+
+    print 'Predicting'
+    # need to pass XTestStar[i] and XTestGalaxy[i] as np.array([XTestStar[i]]) because internally it assumes 2D matrix
+    starPredictions = np.array([predictStar(clfstar, clfgalaxy, np.array([XTestStar[i]]), np.array([XErrTestStar[i]]), i) for i in range(starTestNumber)])
+    galaxyPredictions = np.array([predictStar(clfstar, clfgalaxy, np.array([XTestGalaxy[i]]), np.array([XErrTestGalaxy[i]]), i) for i in range(galaxyTestNumber)])
+
+    predictions = np.array(starPredictions.tolist() +  galaxyPredictions.tolist())
+    results = np.array([1 for i in range(len(starPredictions))] + [0 for i in range(len(galaxyPredictions))])
+    report = generateReport(predictions, results)
+    return (report['Precision'], clfstar, clfgalaxy)
+
+maxr = None
+maxprecision = -1
+for r in itertools.product(np.arange(1, 31), np.arange(1, 31)):
+    print 'Trying Model Star: {0}, Galaxy: {1}'.format(r[0], r[1])
+    precision, clfstar, clfgalaxy = TryModel(r[0], r[1])
+    if precision > maxprecision:
+        maxprecision = precision
+        maxr = r
+starPredictions = np.array([predictStar(clfstar, clfgalaxy, np.array([XTestStar[i]]), np.array([XErrTestStar[i]]), i) for i in range(starTestNumber)])
+
+galaxyPredictions = np.array([predictStar(clfstar, clfgalaxy, np.array([XTestGalaxy[i]]), np.array([XErrTestGalaxy[i]]), i) for i in range(galaxyTestNumber)])
 
 predictions = np.array(starPredictions.tolist() +  galaxyPredictions.tolist())
 results = np.array([1 for i in range(len(starPredictions))] + [0 for i in range(len(galaxyPredictions))])
-
 report = generateReport(predictions, results)
+
 json.dump(report, open('data/deconv/deconv_results.json', 'w'))
+
+gaussianResults = open('data/deconv/GaussianResults.txt', 'w')
+gaussianResults.write('Precision {0}\n'.format(maxprecision))
+gaussianResults.write('Gaussians Star {0}\n'.format(maxr[0]))
+gaussianResults.write('Gaussians Galaxy {0}\n'.format(maxr[1]))
+gaussianResults.close()
 
 
 #analyze bad classifications
@@ -246,7 +271,7 @@ def DeconvolutionGraphAnalysis(indices, bandColumn, bandTitle, starBoolean):
     
 print 'Graphing'
 # to be able to use the following function
-catalog = pyfits.getdata('MatchHellDeconv.fits')
+catalog = pyfits.getdata('MatchHellDeconv2.fits')
 DeconvolutionGraphAnalysis(badStarIndices, 'magR', 'R', 1)
 DeconvolutionGraphAnalysis(badStarIndices, 'magI', 'I', 1)
 DeconvolutionGraphAnalysis(badStarIndices, 'magZ', 'Z', 1)
