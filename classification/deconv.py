@@ -224,12 +224,19 @@ def TryModel(nGaussiansStar, nGaussiansGalaxy):
 
 maxr = None
 maxprecision = -1
+bestclfstar = None
+bestclfgalaxy = None
 for r in itertools.product(np.arange(13, 31), np.arange(13, 31)):
     print 'Trying Model Star: {0}, Galaxy: {1}'.format(r[0], r[1])
     precision, clfstar, clfgalaxy = TryModel(r[0], r[1])
     if precision > maxprecision:
         maxprecision = precision
         maxr = r
+        bestclfstar = clfstar
+        bestclfgalaxy = clfgalaxy
+
+clfstar = bestclfstar
+clfgalaxy = bestclfgalaxy
 
 starPredictions = np.array([predictStar(clfstar, clfgalaxy, np.array([XTestStar[i]]), np.array([XErrTestStar[i]]), i) for i in range(starTestNumber)])
 
