@@ -75,7 +75,6 @@ chan4magsBad = matchedCatBad['mag_80']
 
 def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2bad, mag3bad, xaxistitle, yaxistitle, filename):
     fig = plt.figure()
-    fig.tight_layout()
 
     ax1 = plt.subplot(121)
 
@@ -109,8 +108,8 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
 
     ax1.set_ylim([-2, 2])
     ax1.set_xlim([-2, 2])
-    ax1.set_xlabel(xaxistitle)
-    ax1.set_ylabel(yaxistitle)
+    ax1.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
+    ax1.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax1.set_title('Distribution of Colors for All Sources')
 
     ax2 = plt.subplot(122)
@@ -124,21 +123,21 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
 
     ax2.set_ylim([-2, 2])
     ax2.set_xlim([-2, 2])
-    ax2.set_xlabel(xaxistitle)
-    ax2.set_ylabel(yaxistitle)
+    ax2.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
+    ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax2.set_title('Distribution of Colors for Misclassified Sources')
     handles, labels = ax2.get_legend_handles_labels()
     ax2.legend(handles, labels)
 
 
     # speed up performance
+    fig.tight_layout()
     plt.savefig(filename)
     plt.close(fig)
     print 'done'
 
 def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error, color1Bad, color2Bad, xaxistitle, yaxistitle, filename):
     fig = plt.figure()
-    fig.tight_layout()
 
     ax1 = plt.subplot(121)
 
@@ -172,13 +171,14 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
 
     ax1.set_ylim([-2, 2])
     ax1.set_xlim([-2, 2])
-    ax1.set_xlabel(xaxistitle)
-    ax1.set_ylabel(yaxistitle)
+    ax1.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
+    ax1.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax1.set_title('Distribution of Colors for All Sources')
 
     ax2 = plt.subplot(122)
     magSource1Bad = color1Bad
     magSource2Bad = color2Bad
+
     print 'Number Bad Stars {0}'.format(len(badStarIndices))
     print 'Number Bad Galaxies {0}'.format(len(badGalaxyIndices))
 
@@ -189,14 +189,15 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
 
     ax2.set_ylim([-2, 2])
     ax2.set_xlim([-2, 2])
-    ax2.set_xlabel(xaxistitle)
-    ax2.set_ylabel(yaxistitle)
+    ax2.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
+    ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax2.set_title('Distribution of Colors for Misclassified Sources')
     handles, labels = ax2.get_legend_handles_labels()
     ax2.legend(handles, labels)
 
 
     # speed up performance
+    fig.tight_layout()
     plt.savefig(filename)
     plt.close(fig)
     print 'done'
