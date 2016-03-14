@@ -75,8 +75,9 @@ chan4magsBad = matchedCatBad['mag_80']
 
 def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2bad, mag3bad, xaxistitle, yaxistitle, filename):
     fig = plt.figure()
+    fig.tight_layout()
 
-    ax1 = plt.subplot(211)
+    ax1 = plt.subplot(121)
 
     magSource1 = mag1 - mag2
     magSource2 = mag2 - mag3
@@ -99,9 +100,9 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
     print 'Number All Galaxies {0}'.format(len(galaxyIndicesLocal))
 
 
-    plt.plot(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], markersize=1, marker='.', c='blue', \
-            markerfacecolor='None',  label = 'Galaxies')
-    plt.plot(magSource1[starIndicesLocal], magSource2[starIndicesLocal], markersize=1, marker='.', c='red', markerfacecolor='None', \
+    plt.scatter(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], marker='.', c='blue', \
+            label = 'Galaxies')
+    plt.scatter(magSource1[starIndicesLocal], magSource2[starIndicesLocal], marker='.', c='red', \
             label='Stars')
     handles, labels = ax1.get_legend_handles_labels()
     ax1.legend(handles, labels)
@@ -112,13 +113,14 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
     ax1.set_ylabel(yaxistitle)
     ax1.set_title('Distribution of Colors for All Sources')
 
-    ax2 = plt.subplot(212)
+    ax2 = plt.subplot(122)
     magSource1Bad = mag1bad - mag2bad
     magSource2Bad = mag2bad - mag3bad
-    plt.plot(magSource1Bad[badGalaxyIndices], magSource2Bad[badGalaxyIndices], c='blue', \
-            markerfacecolor='None',  label = 'Galaxies')
-    plt.plot(magSource1Bad[badStarIndices], magSource2Bad[badStarIndices], c='red', \
-            markerfacecolor='None', label='Stars')
+
+    plt.scatter(magSource1Bad[badGalaxyIndices], magSource2Bad[badGalaxyIndices], marker='o', c='blue', \
+            label = 'Galaxies')
+    plt.scatter(magSource1Bad[badStarIndices], magSource2Bad[badStarIndices], marker='o', c='red', \
+            label='Stars')
 
     ax2.set_ylim([-2, 2])
     ax2.set_xlim([-2, 2])
@@ -136,8 +138,9 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
 
 def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error, color1Bad, color2Bad, xaxistitle, yaxistitle, filename):
     fig = plt.figure()
+    fig.tight_layout()
 
-    ax1 = plt.subplot(211)
+    ax1 = plt.subplot(121)
 
     magSource1 = color1
     magSource2 = color2
@@ -159,9 +162,9 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     print 'Number All Stars {0}'.format(len(starIndicesLocal))
     print 'Number All Galaxies {0}'.format(len(galaxyIndicesLocal))
 
-    plt.plot(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], markersize=1, marker='.', c='blue', \
-            markerfacecolor='None',  label = 'Galaxies')
-    plt.plot(magSource1[starIndicesLocal], magSource2[starIndicesLocal], markersize=1, marker='.', c='red', markerfacecolor='None', \
+    plt.scatter(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], marker='o', c='blue', \
+            label = 'Galaxies')
+    plt.scatter(magSource1[starIndicesLocal], magSource2[starIndicesLocal], marker='o', c='red', \
             label='Stars')
     
     handles, labels = ax1.get_legend_handles_labels()
@@ -173,16 +176,16 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax1.set_ylabel(yaxistitle)
     ax1.set_title('Distribution of Colors for All Sources')
 
-    ax2 = plt.subplot(212)
+    ax2 = plt.subplot(122)
     magSource1Bad = color1Bad
     magSource2Bad = color2Bad
     print 'Number Bad Stars {0}'.format(len(badStarIndices))
     print 'Number Bad Galaxies {0}'.format(len(badGalaxyIndices))
 
-    plt.plot(magSource1Bad[badGalaxyIndices], magSource2Bad[badGalaxyIndices], c='blue', \
-            markerfacecolor='None',  label = 'Galaxies')
-    plt.plot(magSource1Bad[badStarIndices], magSource2Bad[badStarIndices], c='red', \
-            markerfacecolor='None', label='Stars')
+    plt.scatter(magSource1Bad[badGalaxyIndices], magSource2Bad[badGalaxyIndices], c='blue', marker='o',\
+            label = 'Galaxies')
+    plt.scatter(magSource1Bad[badStarIndices], magSource2Bad[badStarIndices], c='red', marker='o',\
+            label='Stars')
 
     ax2.set_ylim([-2, 2])
     ax2.set_xlim([-2, 2])
