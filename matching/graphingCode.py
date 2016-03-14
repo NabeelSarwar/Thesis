@@ -206,4 +206,3 @@ randomPlot(chan2chan3, chan3chan4, good)
 #plt.scatter(chan2chan3[sand(starindices, good)], chan3chan4[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(chan2chan3[sand(galaxyindices, good)], chan3chan4[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/chan2chan3vschan3chan4.png')
-
