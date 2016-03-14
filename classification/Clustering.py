@@ -82,7 +82,7 @@ def tryModel(model, data, ids, results):
     testSetSize = data.shape[0] - trainingSetSize
     trainingIndices = np.random.choice(data.shape[0], size= trainingSetSize, replace=False)
     allIndices = range(data.shape[0])
-    testIndices = filter(lambda x: not x in trainingIndices, allIndices)
+    testIndices = np.array(filter(lambda x: not x in trainingIndices, allIndices))
     newResults = []
     for e in results:
         if e==2:
