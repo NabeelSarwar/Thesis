@@ -74,7 +74,7 @@ chan4magsBad = matchedCatBad['mag_80']
 
 
 def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2bad, mag3bad, xaxistitle, yaxistitle, filename):
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10, 5))
 
     ax1 = plt.subplot(121)
 
@@ -137,7 +137,7 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
     print 'done'
 
 def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error, color1Bad, color2Bad, xaxistitle, yaxistitle, filename):
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10,5))
 
     ax1 = plt.subplot(121)
 
