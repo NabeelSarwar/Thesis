@@ -24,6 +24,8 @@ def generateReport(model, data, results):
     truenegative = 0
     falsenegative = 0
     predictions = model.predict(data)
+    badStarIndices = []
+    badGalaxyIndices = []
     if len(results) != len(predictions):
         print 'Incorrect predictions'
     for i in range(len(predictions)):
@@ -34,9 +36,11 @@ def generateReport(model, data, results):
                 truepositive +=1
             else:
                 falsenegative +=1
+                badStarIndices.append(i)
         elif actual==0:
             if pred==1:
                 falsepositive+=1
+                badGalaxyIndices.append(i)
             else:
                 truenegative+=1
         else:
@@ -50,7 +54,9 @@ def generateReport(model, data, results):
     report['Precision'] = 1.0 * truepositive / (truepositive + falsepositive)
     report['Recall'] = 1.0 * truepositive/(truepositive+falsenegative)
     report['Accuracy'] = 1.0 * (truepositive + truenegative) / len(results)
-    return report
+    badGalaxyIndices = np.array(badGalaxyIndices)
+    badStarIndices = np.array(badStarIndices)
+    return report, badStarIndices, badGalaxyIndices
 
 def writeReport(report, fileName):
     buf = open(fileName, 'w')
@@ -67,6 +73,9 @@ def writeReport(report, fileName):
 
 
 def tryModel(model, data, ids, results):
+    if len(ids) != len(results):
+        raise Exception('bad length')
+
     trainingReport = {}
     testReport = {}
     trainingSetSize = int(data.shape[0] * 0.8)
@@ -98,9 +107,15 @@ def tryModel(model, data, ids, results):
         print trainingSetSize
 
     model.fit(trainingSet, results[trainingIndices])
-    trainingReport = generateReport(model, trainingSet, results[trainingIndices])
-    testReport = generateReport(model, testSet, results[testIndices])
-    return {'training': trainingReport, 'test': testReport}
+    trainingReport, _, _ = generateReport(model, trainingSet, results[trainingIndices])
+    testReport, badStarIndicesTest, badGalaxyIndicesTest = generateReport(model, testSet, results[testIndices])
+
+    # need to get the proper test indices
+    badStarIndices = testIndices[badStarIndicesTest]
+    badGalaxyIndices = testIndices[badStarIndicesTest]
+    badStarIDs = ids[badStarIndices]
+    badGalaxyIDs = ids[badGalaxyIndices]
+    return {'training': trainingReport, 'test': testReport}, badStarIDs, badGalaxyIDs
 
 matchedCat = pyfits.getdata('MatchHell2.fits')
 #shortcut and
@@ -217,9 +232,12 @@ clf.fit(magnitudeMatrix, results)
 bestModelLogistic = clf.best_estimator_
 bestParamsLogistic = clf.best_params_
 print 'Trying Logistic Model'
-reportLogistic = tryModel(bestModelLogistic, magnitudeMatrix, ids, results)
+reportLogistic, badStarIDs, badGalaxyIDs = tryModel(bestModelLogistic, magnitudeMatrix, ids, results)
+np.savetxt('data/logistic/badStarIDs.txt', badStarIDs)
+np.savetxt('data/logistic/badGalaxyIDs.txt', badGalaxyIDs)
 writeReport(reportLogistic, 'data/logistic/best_logistic.txt')
 json.dump(bestParamsLogistic, open('data/logistic/best_params_logistic.json', 'w'))
+
 
 
 # Try out the various svm models
@@ -234,7 +252,9 @@ clf.fit(magnitudeMatrix, results)
 bestModelSVMLinear = clf.best_estimator_
 bestParamsSVMLinear = clf.best_params_
 print 'Trying Linear Model'
-reportSVMLinear = tryModel(bestModelSVMLinear, magnitudeMatrix, ids, results)
+reportSVMLinear, badStarIDs, badGalaxyIDs = tryModel(bestModelSVMLinear, magnitudeMatrix, ids, results)
+np.savetxt('data/svm/badStarIDslinear.txt', badStarIDs)
+np.savetxt('data/svm/badGalaxyIDslinear.txt', badGalaxyIDs)
 writeReport(reportSVMLinear, 'data/svm/best_svm_linear.txt')
 json.dump(bestParamsSVMLinear, open('data/svm/best_params_svm_linear.json', 'w'))
 
@@ -250,7 +270,9 @@ clf.fit(magnitudeMatrix, results)
 bestModelSVMRBF = clf.best_estimator_
 bestParamsSVMRBF = clf.best_params_
 print 'Trying RBF Model'
-reportSVMRBF = tryModel(bestModelSVMRBF, magnitudeMatrix, ids, results)
+reportSVMRBF, badStarIDs, badGalaxyIDs = tryModel(bestModelSVMRBF, magnitudeMatrix, ids, results)
+np.savetxt('data/svm/badStarIDsRBF.txt', badStarIDs)
+np.savetxt('data/svm/badGalaxyIDsRBF.txt', badGalaxyIDs)
 writeReport(reportSVMRBF, 'data/svm/best_svm_rbf.txt')
 json.dump(bestParamsSVMRBF, open('data/svm/best_params_svm_rbf.json', 'w'))
 
