@@ -5,7 +5,7 @@ import pyfits
 import numpy as np
 import os
 
-matchedCat = pyfits.getdata('MatchHell.fits')
+matchedCat = pyfits.getdata('MatchHell2.fits')
 #shortcut and
 sand = np.logical_and
 
@@ -98,5 +98,8 @@ goodIndices = sand(goodIndices, matchedCat['mag_45error'] < 0.2)
 orig_cols = matchedCat.columns
 orig_cols = pyfits.ColDefs([pyfits.Column(name = col.name, format=col.format, array=np.array(col.array)[goodIndices]) for col in orig_cols])
 hdu = pyfits.BinTableHDU.from_columns(orig_cols)
-os.remove('MatchHellErrorCut.fits')
-hdu.writeto('MatchHellErrorCut.fits')
+try:
+    os.remove('MatchHellErrorCut2.fits')
+except:
+    pass
+hdu.writeto('MatchHellErrorCut2.fits')
