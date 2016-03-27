@@ -57,6 +57,6 @@ hdu = pyfits.BinTableHDU.from_columns(orig_cols + new_cols)
 #remove the file if it exists
 try:
     os.remove('MatchHellHSCMags2.fits')
-except:
+except OSError:
     pass
 hdu.writeto('MatchHellHSCMags2.fits')
