@@ -1,5 +1,6 @@
 import pyfits
 import numpy as np
+import os
 
 matchedCat  = pyfits.getdata('MatchHell2.fits')
 
