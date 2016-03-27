@@ -303,5 +303,4 @@ spitzerHSC.writeFits('SpitzerHSCHST.fits')
 # load in jose's work
 # thus finish overall matching
 print 'I got to here'
-matchedCat = matchCats(matchedCat, hschst)
 matchedCat.writeFits('MatchHell2.fits')
