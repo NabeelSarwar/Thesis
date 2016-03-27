@@ -72,7 +72,10 @@ orig_cols = matchedCat.columns
 orig_cols = pyfits.ColDefs([pyfits.Column(name = col.name, format=col.format, array=np.array(col.array)[goodIndices]) for col in orig_cols])
 new_cols = pyfits.ColDefs(cols)
 hdu = pyfits.BinTableHDU.from_columns(orig_cols + new_cols)
-os.remove('MatchHellErrorCut2.fits')
+try:
+    os.remove('MatchHellErrorCut2.fits')
+except OSError:
+    pass
 hdu.writeto('MatchHellErrorCut2.fits')
 
 #dirty way to not have to deal with the data
@@ -99,6 +102,6 @@ orig_cols = pyfits.ColDefs([pyfits.Column(name = col.name, format=col.format, ar
 hdu = pyfits.BinTableHDU.from_columns(orig_cols)
 try:
     os.remove('MatchHellErrorCut2.fits')
-except:
+except OSError:
     pass
 hdu.writeto('MatchHellErrorCut2.fits')
