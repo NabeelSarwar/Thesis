@@ -66,10 +66,12 @@ def  makeNoiseMatrix(index):
 
     noise[0, 1] = -data[cold['magIError']]**2
     noise[2, 3] = -data[cold['mag_h_error']]**2
+    noise[3, 4] = -data[cold['mag_k_error']]**2
     noise[4, 5] = -data[cold['mag_36error']]**2
 
     noise[1, 0] = noise[0, 1]
     noise[3, 2] = noise[2, 3]
+    noise[4, 3] = noise[3, 4]
     noise[5, 4] = noise[4, 5]
 
     return noise
