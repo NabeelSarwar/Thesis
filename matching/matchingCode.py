@@ -268,10 +268,10 @@ names = sum(names, [])
 spitzerData = spitzerData[np.logical_and.reduce((spitzerData['flux_c1_2'] > 0, spitzerData['flux_c2_2'] > 0 , spitzerData['flux_c3_2'] > 0, spitzerData['flux_c4_2'] > 0 ))]
 
 # getting the magnitudes using the spitzer data
-mag36 = Column(data=-2.5 * np.log10(spitzerData['flux_c1_2'].data/0.765) + 23.9, name ='mag_36', unit='AB mag')
-mag45 = Column(data=-2.5 * np.log10(spitzerData['flux_c2_2'].data/0.740) + 23.9, name ='mag_45', unit='AB mag')
-mag58 = Column(data=-2.5 * np.log10(spitzerData['flux_c3_2'].data/0.625) + 23.9, name = 'mag_58', unit = 'AB mag')
-mag80 = Column(data=-2.5 * np.log10(spitzerData['flux_c4_2'].data/0.580) + 23.9, name = 'mag_80', unit = 'AB mag')
+mag36 = Column(data=-2.5 * np.log10(spitzerData['flux_c1_2'].data/0.765) + 23.9 - 2.788, name ='mag_36', unit='AB mag')
+mag45 = Column(data=-2.5 * np.log10(spitzerData['flux_c2_2'].data/0.740) + 23.9 -3.255, name ='mag_45', unit='AB mag')
+mag58 = Column(data=-2.5 * np.log10(spitzerData['flux_c3_2'].data/0.625) + 23.9 -3.743, name = 'mag_58', unit = 'AB mag')
+mag80 = Column(data=-2.5 * np.log10(spitzerData['flux_c4_2'].data/0.580) + 23.9 -4.372, name = 'mag_80', unit = 'AB mag')
 
 #include magnitude errors
 mag36error = Column(data = np.abs(1.08574/spitzerData['flux_c1_2'].data*spitzerData['err_c1_2'].data), name='mag_36error', unit='AB mag')
