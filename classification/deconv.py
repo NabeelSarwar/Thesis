@@ -53,7 +53,7 @@ def makeEntry(index):
     return colors 
 
 def  makeNoiseMatrix(index):
-    noise = np.zeros(25).reshape(5, 5)
+    noise = np.zeros(25).reshape(6, 6)
 
     data = catalog[index]
 
