@@ -62,18 +62,33 @@ magIBad = matchedCatBad['magI']
 magZBad = matchedCatBad['magZ']
 magYBad = matchedCatBad['magY']
 
+cleanDeconvG = matchedCatBad['magGError'] < 0.2
+cleanDeconvR = matchedCatBad['magRError'] < 0.2
+cleanDeconvI = matchedCatBad['magIError'] < 0.2
+cleanDeconvZ = matchedCatBad['magZError'] < 0.2
+
 ymagsBad = matchedCatBad['mag_y']
 jmagsBad = matchedCatBad['mag_j']
 hmagsBad = matchedCatBad['mag_h']
 kmagsBad = matchedCatBad['mag_k']
+
+cleanDeconvJ = matchedCatBad['mag_j_error'] < 0.2
+cleanDeconvH = matchedCatBad['mag_h_error'] < 0.2
+cleanDeconvK = matchedCatBad['mag_k_error'] < 0.2
 
 chan1magsBad = matchedCatBad['mag_36']
 chan2magsBad = matchedCatBad['mag_45']
 chan3magsBad = matchedCatBad['mag_58']
 chan4magsBad = matchedCatBad['mag_80']
 
+cleanDeconvChan1 = matchedCatBad['mag_36error'] < 0.2
+cleanDeconvChan2 = matchedCatBad['mag_45error'] < 0.2
+cleanDeconvChan3 = matchedCatBad['mag_58error'] < 0.2
+cleanDeconvChan4 = matchedCatBad['mag_80error'] < 0.2
 
-def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2bad, mag3bad, xaxistitle, yaxistitle, filename):
+
+def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2bad, mag3bad, \
+        cleanIndicesbad1, cleanIndicesBad2, cleanIndicesBad3, xaxistitle, yaxistitle, filename):
     fig = plt.figure(figsize=(10, 5))
 
     ax1 = plt.subplot(121)
