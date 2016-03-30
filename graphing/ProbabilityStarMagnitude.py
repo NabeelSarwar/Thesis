@@ -34,7 +34,6 @@ galaxyIndices = np.where(catalog[: , cold['mu_class']]==1)
 PStar = 1.0 * len(starIndices[0]) / len(catalog)
 PGalaxy = 1.0 * len(galaxyIndices[0])/ len(catalog)
 
-
 # can always get id
 def makeEntry(index):
     colors = []
@@ -43,6 +42,7 @@ def makeEntry(index):
     colors.append(data[cold['magI']]- data[cold['magZ']])
     colors.append(data[cold['mag_j']] - data[cold['mag_h']])
     colors.append(data[cold['mag_h']] - data[cold['mag_k']])
+    colors.append(data[cold['mag_k']] - data[cold['mag_36']])
     colors.append(data[cold['mag_36']] - data[cold['mag_45']])
     colors = np.array(colors)
 
@@ -51,7 +51,7 @@ def makeEntry(index):
     return colors 
 
 def  makeNoiseMatrix(index):
-    noise = np.zeros(25).reshape(5, 5)
+    noise = np.zeros(36).reshape(6, 6)
 
     data = catalog[index]
 
@@ -59,12 +59,18 @@ def  makeNoiseMatrix(index):
     noise[1, 1] = data[cold['magIError']]**2 + data[cold['magZError']]**2
     noise[2, 2] = data[cold['mag_j_error']]**2 + data[cold['mag_h_error']]**2
     noise[3, 3] = data[cold['mag_h_error']]**2 + data[cold['mag_k_error']]**2
-    noise[4, 4] = data[cold['mag_36error']]**2 + data[cold['mag_45error']]**2
+    noise[4, 4] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
+    noise[5, 5] = data[cold['mag_36error']]**2 + data[cold['mag_45error']]**2
+
     noise[0, 1] = -data[cold['magIError']]**2
     noise[2, 3] = -data[cold['mag_h_error']]**2
+    noise[3, 4] = -data[cold['mag_k_error']]**2
+    noise[4, 5] = -data[cold['mag_36error']]**2
 
     noise[1, 0] = noise[0, 1]
     noise[3, 2] = noise[2, 3]
+    noise[4, 3] = noise[3, 4]
+    noise[5, 4] = noise[4, 5]
 
     return noise
 
@@ -178,7 +184,7 @@ galaxyIndicesTest = np.array(galaxyIndicesTest)
 if len(galaxyIndicesTest) != galaxyTestNumber:
     raise Exception('False Galaxy Test numbers')
 
-nGaussiansStar = 15
+nGaussiansStar = 20
 nGaussiansGalaxy = 30
 
 print 'Making Arrays'
