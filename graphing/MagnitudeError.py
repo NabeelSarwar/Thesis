@@ -39,23 +39,40 @@ def MagnitudeErrorPlot(magnitudes, errors, bandString, starboolean):
     # to get nice ranges
     # this needs to happen after plotting otherwise plot gets messed up
 
+    qr1x = np.percentile(magnitudes, 25)
+    qr3x = np.percentile(magnitudes, 75)
+    IQRx = qr3x - qr1x
     # do it for x
     xticks, xticklabels = plt.xticks()
-    # shift half a step to the left
-    # x0 - (x1 - x0) / 2 = (3 * x0 - x1) / 2
-    xmin = (3*xticks[0] - xticks[1])/2.
+
+    if np.min(magnitudes) < (qr1x - 1.5 * IQRx):
+        xmin = qr1x - 1.5 * IQRx
+    else:
+        xmin = (3*xticks[0] - xticks[1])/2.
     # shift half a step to the right
-    xmax = (3*xticks[-1] - xticks[-2])/2.
+
+    if np.max(magnitudes) > (qr3x + 1.5 * IQRx):
+        xmax = qr3x + 1.5 * IQRx
+    else:
+        xmax = (3*xticks[-1] - xticks[-2])/2.
     plt.xlim(xmin, xmax)
     plt.xticks(xticks)
 
     # do it for y
+
+    qr1y = np.percentile(errors, 25)
+    qr3y = np.percentile(errors, 75)
+    IQRy = qr3y - qr1y
     yticks, yticklabels = plt.yticks()
-    # shift half a step to the left
-    # x0 - (x1 - x0) / 2 = (3 * x0 - x1) / 2
-    ymin = (3*yticks[0] - yticks[1])/2.
-    # shaft half a step to the right
-    ymax = (3*yticks[-1] - yticks[-2])/2.
+    if np.min(errors) < (qr1y - 1.5 * IQRy):
+        ymin = qr1y - 1.5 * IQRy
+    else:
+        ymin = (3*yticks[0] - yticks[1])/2.
+
+    if np.max(errors) > (qr3y + 1.5 * IQRy):
+        ymax = qr3y + 1.5 * IQRy
+    else: 
+        ymax = (3*yticks[-1] - yticks[-2])/2.
     plt.ylim(ymin, ymax)
     plt.yticks(yticks)
 
