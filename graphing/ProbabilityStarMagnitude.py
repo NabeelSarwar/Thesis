@@ -278,6 +278,26 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileN
     plt.ylabel(r'$P(Star)$')
     plt.xlabel(xaxistitle)
 
+    qr1x = np.percentile(color, 25)
+    qr3x = np.percentile(color, 75)
+    IQRx = qr3x - qr1x
+    # do it for x
+    xticks, xticklabels = plt.xticks()
+
+    if np.min(magnitudes) < (qr1x - 1.5 * IQRx):
+        xmin = qr1x - 1.5 * IQRx
+    else:
+        xmin = (3*xticks[0] - xticks[1])/2.
+    # shift half a step to the right
+
+    if np.max(magnitudes) > (qr3x + 1.5 * IQRx):
+        xmax = qr3x + 1.5 * IQRx
+    else:
+        xmax = (3*xticks[-1] - xticks[-2])/2.
+
+    plt.xlim(xmin, xmax)
+    plt.xticks(xticks)
+
     plt.scatter(color, predictions)
     plt.savefig(fileName)
 
