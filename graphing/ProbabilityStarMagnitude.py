@@ -284,13 +284,13 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileN
     # do it for x
     xticks, xticklabels = plt.xticks()
 
-    if np.min(magnitudes) < (qr1x - 1.5 * IQRx):
+    if np.min(color) < (qr1x - 1.5 * IQRx):
         xmin = qr1x - 1.5 * IQRx
     else:
         xmin = (3*xticks[0] - xticks[1])/2.
     # shift half a step to the right
 
-    if np.max(magnitudes) > (qr3x + 1.5 * IQRx):
+    if np.max(color) > (qr3x + 1.5 * IQRx):
         xmax = qr3x + 1.5 * IQRx
     else:
         xmax = (3*xticks[-1] - xticks[-2])/2.
