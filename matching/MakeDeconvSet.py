@@ -2,7 +2,7 @@ import pyfits
 import numpy as np
 import os
 
-catalog = pyfits.getdata('MatchHellHSCMags2.fits')
+catalog = pyfits.getdata('MatchHellErrorCut2.fits')
 
 columns = ['magR', 'magI', 'magZ', 'mag_j' ,'mag_h', 'mag_k', 'mag_36', 'mag_45']
 columns = ['magR', 'magI', 'magZ', 'mag_j' ,'mag_h', 'mag_k', 'mag_36', 'mag_45', 'magRError', 'magIError', 'magZError', 'mag_j_error', \
