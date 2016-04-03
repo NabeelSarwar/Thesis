@@ -224,11 +224,24 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
 
     # separate the noisy stars and galaxies from the non noisy ones (all from improper classifications)
     indices1 = sand(badGalaxyIndices, sand(cleanIndicesBad1, cleanIndicesBad2))
-    indices2 = sand(badGalaxyIndice, sand(cleanIndicesBad3, cleanIndicesBad4))
-    plt.scatter(magSource1Bad[indices1], magSource2Bad[badGalaxyIndices], c='blue', marker='o',\
+    indices2 = sand(badGalaxyIndices, sand(cleanIndicesBad3, cleanIndicesBad4))
+    indices3 = sand(badStarIndices, sand(cleanIndicesBad1, cleanIndicesBad2))
+    indices4 = sand(badStarIndices, sand(cleanIndicesBad3, cleanIndicesBad4))
+
+    plt.scatter(magSource1Bad[indices1], magSource2Bad[indices2], c='blue', marker='o',\
             label = 'Galaxies')
-    plt.scatter(magSource1Bad[badStarIndices], magSource2Bad[badStarIndices], c='red', marker='o',\
+    plt.scatter(magSource1Bad[indices3], magSource2Bad[indices4], c='red', marker='o',\
             label='Stars')
+
+    indices1 = sand(badGalaxyIndices, np.logical_not(sand(cleanIndicesBad1, cleanIndicesBad2)))
+    indices2 = sand(badGalaxyIndices, np.logical_not(sand(cleanIndicesBad3, cleanIndicesBad4)))
+    indices3 = sand(badStarIndices, np.logical_not(sand(cleanIndicesBad1, cleanIndicesBad2)))
+    indices4 = sand(badStarIndices, np.logical_not(sand(cleanIndicesBad3, cleanIndicesBad4)))
+
+    plt.scatter(magSource1Bad[indices1], magSource2Bad[indices2], c='blue', marker='o',\
+            label = 'Noisy Galaxies')
+    plt.scatter(magSource1Bad[indices3], magSource2Bad[indices4], c='red', marker='o',\
+            label='Noisy Stars')
 
     ax2.set_ylim([-2, 2])
     ax2.set_xlim([-2, 2])
@@ -247,13 +260,17 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
 
 
 randomPlot(magGAll, magRAll, magIAll, magGErrorAll, magRErrorAll, magIErrorAll, magGBad, magRBad, magIBad,\
+        cleanDeconvG, cleanDeconvR, cleanDeconvI, \
         'g-r', 'r-i', 'data/SideBySide/gri.png')
 randomPlot(magRAll, magIAll, magZAll, magRErrorAll, magIErrorAll, magZErrorAll, magRBad, magIBad, magZBad, \
+        cleanDeconvR, cleanDeconvI, cleanDeconvZ, \
         'r-i', 'i-z', 'data/SideBySide/riz.png')
 randomPlot(jmagsAll, hmagsAll, kmagsAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'],\
         jmagsBad, hmagsBad, kmagsBad, \
+        cleanDeconvJ, cleanDeconvH, cleanDeconvK, 
         'j-h', 'h-k', 'data/SideBySide/jhk.png')
 
 randomPlotColors(hmagsAll-kmagsAll, chan1magsAll-chan2magsAll, matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], \
                 matchedCatAll['mag_36error'], matchedCatAll['mag_45error'], hmagsBad - kmagsBad, chan1magsBad-chan2magsBad, \
+                cleanDeconvH, cleanDeconvK, cleanDeconvChan1, cleanDeconvChan2, \
                 r'$3.6\mu{}m - 4.5\mu{}m$', 'h-k', 'data/SideBySide/hkchan1chan2.png')
