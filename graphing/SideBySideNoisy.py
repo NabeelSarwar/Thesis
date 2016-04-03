@@ -238,9 +238,9 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     indices3 = sand(badStarIndices, np.logical_not(sand(cleanIndicesBad1, cleanIndicesBad2)))
     indices4 = sand(badStarIndices, np.logical_not(sand(cleanIndicesBad3, cleanIndicesBad4)))
 
-    plt.scatter(magSource1Bad[indices1], magSource2Bad[indices2], c='blue', marker='o',\
+    plt.scatter(magSource1Bad[indices1], magSource2Bad[indices2], c='blue', marker='s',\
             label = 'Noisy Galaxies')
-    plt.scatter(magSource1Bad[indices3], magSource2Bad[indices4], c='red', marker='o',\
+    plt.scatter(magSource1Bad[indices3], magSource2Bad[indices4], c='red', marker='s',\
             label='Noisy Stars')
 
     ax2.set_ylim([-2, 2])
