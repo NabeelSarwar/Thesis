@@ -222,7 +222,10 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     print 'Number Bad Stars {0}'.format(len(badStarIndices))
     print 'Number Bad Galaxies {0}'.format(len(badGalaxyIndices))
 
-    plt.scatter(magSource1Bad[badGalaxyIndices], magSource2Bad[badGalaxyIndices], c='blue', marker='o',\
+    # separate the noisy stars and galaxies from the non noisy ones (all from improper classifications)
+    indices1 = sand(badGalaxyIndices, sand(cleanIndicesBad1, cleanIndicesBad2))
+    indices2 = sand(badGalaxyIndice, sand(cleanIndicesBad3, cleanIndicesBad4))
+    plt.scatter(magSource1Bad[indices1], magSource2Bad[badGalaxyIndices], c='blue', marker='o',\
             label = 'Galaxies')
     plt.scatter(magSource1Bad[badStarIndices], magSource2Bad[badStarIndices], c='red', marker='o',\
             label='Stars')
