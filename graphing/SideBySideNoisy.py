@@ -112,16 +112,12 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
     starIndicesLocal = np.random.choice(starIndicesLocal, int(len(starIndicesLocal)*0.2), replace=False)
     galaxyIndicesLocal = np.random.choice(galaxyIndicesLocal, int(len(galaxyIndicesLocal) * 0.2), replace=False)
 
-    print 'Number All Stars {0}'.format(len(starIndicesLocal))
-    print 'Number All Galaxies {0}'.format(len(galaxyIndicesLocal))
-
-
     plt.scatter(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], marker='.', c='blue', \
             label = 'Galaxies')
     plt.scatter(magSource1[starIndicesLocal], magSource2[starIndicesLocal], marker='.', c='red', \
             label='Stars')
     handles, labels = ax1.get_legend_handles_labels()
-    ax1.legend(handles, labels)
+    ax1.legend(handles, labels, loc='bottom right')
 
     ax1.set_ylim([-2, 2])
     ax1.set_xlim([-2, 2])
@@ -143,10 +139,10 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
 
     plt.scatter(magSource1Bad[sand(badGalaxyIndices, cleanSource1Bad)], \
                 magSource2Bad[sand(badGalaxyIndices, cleanSource2Bad)], \
-                marker='o', c='blue', label = 'Galaxies')
+                marker='.', c='blue', label = 'Galaxies')
     plt.scatter(magSource1Bad[sand(badStarIndices, cleanSource1Bad)], \
                 magSource2Bad[sand(badStarIndices, cleanSource2Bad)], \
-                marker='o', c='red', label='Stars')
+                marker='.', c='red', label='Stars')
 
     # plot the noisy data
     plt.scatter(magSource1Bad[sand(badGalaxyIndices, np.logical_not(cleanSource1Bad))], \
@@ -163,7 +159,7 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
     ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax2.set_title('Distribution of Colors for Misclassified Sources')
     handles, labels = ax2.get_legend_handles_labels()
-    ax2.legend(handles, labels)
+    ax2.legend(handles, labels, loc='bottom right')
 
 
     # speed up performance
@@ -196,16 +192,14 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     starIndicesLocal = np.random.choice(starIndicesLocal, int(len(starIndicesLocal)*0.2), replace=False)
     galaxyIndicesLocal = np.random.choice(galaxyIndicesLocal, int(len(galaxyIndicesLocal) * 0.2), replace=False)
 
-    print 'Number All Stars {0}'.format(len(starIndicesLocal))
-    print 'Number All Galaxies {0}'.format(len(galaxyIndicesLocal))
 
-    plt.scatter(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], marker='o', c='blue', \
+    plt.scatter(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], marker='.', c='blue', \
             label = 'Galaxies')
-    plt.scatter(magSource1[starIndicesLocal], magSource2[starIndicesLocal], marker='o', c='red', \
+    plt.scatter(magSource1[starIndicesLocal], magSource2[starIndicesLocal], marker='.', c='red', \
             label='Stars')
     
     handles, labels = ax1.get_legend_handles_labels()
-    ax1.legend(handles, labels)
+    ax1.legend(handles, labels, loc='bottom right')
 
     ax1.set_ylim([-2, 2])
     ax1.set_xlim([-2, 2])
@@ -220,8 +214,6 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     badStarIndices = [True if i in badStarIndicesGlob else False for i in range(len(magSource1Bad))]
     badGalaxyIndices = [True if i in badGalaxyIndicesGlob else False for i in range(len(magSource1Bad))]
 
-    print 'Number Bad Stars {0}'.format(len(badStarIndices))
-    print 'Number Bad Galaxies {0}'.format(len(badGalaxyIndices))
 
     # separate the noisy stars and galaxies from the non noisy ones (all from improper classifications)
     indices1 = sand(badGalaxyIndices, sand(cleanIndicesBad1, cleanIndicesBad2))
@@ -229,9 +221,9 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     indices3 = sand(badStarIndices, sand(cleanIndicesBad1, cleanIndicesBad2))
     indices4 = sand(badStarIndices, sand(cleanIndicesBad3, cleanIndicesBad4))
 
-    plt.scatter(magSource1Bad[indices1], magSource2Bad[indices2], c='blue', marker='o',\
+    plt.scatter(magSource1Bad[indices1], magSource2Bad[indices2], c='blue', marker='.',\
             label = 'Galaxies')
-    plt.scatter(magSource1Bad[indices3], magSource2Bad[indices4], c='red', marker='o',\
+    plt.scatter(magSource1Bad[indices3], magSource2Bad[indices4], c='red', marker='.',\
             label='Stars')
 
     indices1 = sand(badGalaxyIndices, np.logical_not(sand(cleanIndicesBad1, cleanIndicesBad2)))
@@ -250,7 +242,7 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax2.set_title('Distribution of Colors for Misclassified Sources')
     handles, labels = ax2.get_legend_handles_labels()
-    ax2.legend(handles, labels)
+    ax2.legend(handles, labels, loc='bottom right')
 
 
     # speed up performance
