@@ -117,7 +117,7 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
     plt.scatter(magSource1[starIndicesLocal], magSource2[starIndicesLocal], marker='.', c='red', \
             label='Stars')
     handles, labels = ax1.get_legend_handles_labels()
-    ax1.legend(handles, labels, loc='bottom right')
+    ax1.legend(handles, labels, loc='lower left')
 
     ax1.set_ylim([-2, 2])
     ax1.set_xlim([-2, 2])
@@ -159,7 +159,7 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
     ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax2.set_title('Distribution of Colors for Misclassified Sources')
     handles, labels = ax2.get_legend_handles_labels()
-    ax2.legend(handles, labels, loc='bottom right')
+    ax2.legend(handles, labels, loc='lower left')
 
 
     # speed up performance
@@ -199,7 +199,7 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
             label='Stars')
     
     handles, labels = ax1.get_legend_handles_labels()
-    ax1.legend(handles, labels, loc='bottom right')
+    ax1.legend(handles, labels, loc='lower left')
 
     ax1.set_ylim([-2, 2])
     ax1.set_xlim([-2, 2])
@@ -242,7 +242,7 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax2.set_title('Distribution of Colors for Misclassified Sources')
     handles, labels = ax2.get_legend_handles_labels()
-    ax2.legend(handles, labels, loc='bottom right')
+    ax2.legend(handles, labels, loc='lower left')
 
 
     # speed up performance
