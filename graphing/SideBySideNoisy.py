@@ -254,16 +254,16 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
 
 randomPlot(magGAll, magRAll, magIAll, magGErrorAll, magRErrorAll, magIErrorAll, magGBad, magRBad, magIBad,\
         cleanDeconvG, cleanDeconvR, cleanDeconvI, \
-        'g-r', 'r-i', 'data/SideBySide/gri.png')
+        'g-r', 'r-i', 'data/SideBySide/grinoisy.png')
 randomPlot(magRAll, magIAll, magZAll, magRErrorAll, magIErrorAll, magZErrorAll, magRBad, magIBad, magZBad, \
         cleanDeconvR, cleanDeconvI, cleanDeconvZ, \
-        'r-i', 'i-z', 'data/SideBySide/riz.png')
+        'r-i', 'i-z', 'data/SideBySide/riznoisy.png')
 randomPlot(jmagsAll, hmagsAll, kmagsAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'],\
         jmagsBad, hmagsBad, kmagsBad, \
         cleanDeconvJ, cleanDeconvH, cleanDeconvK, 
-        'j-h', 'h-k', 'data/SideBySide/jhk.png')
+        'j-h', 'h-k', 'data/SideBySide/jhknoisy.png')
 
 randomPlotColors(hmagsAll-kmagsAll, chan1magsAll-chan2magsAll, matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], \
                 matchedCatAll['mag_36error'], matchedCatAll['mag_45error'], hmagsBad - kmagsBad, chan1magsBad-chan2magsBad, \
                 cleanDeconvH, cleanDeconvK, cleanDeconvChan1, cleanDeconvChan2, \
-                r'$3.6\mu{}m - 4.5\mu{}m$', 'h-k', 'data/SideBySide/hkchan1chan2.png')
+                r'$3.6\mu{}m - 4.5\mu{}m$', 'h-k', 'data/SideBySide/hkchan1chan2noisy.png')
