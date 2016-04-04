@@ -53,6 +53,7 @@ chan4magsAll = matchedCatAll['mag_80']
 # now let's get the bad predictions and such
 matchedCatBad = pyfits.getdata('MatchHellDeconv2.fits')
 
+# this is needed for proper indexing because reading this way will give floats
 deconvStarIndices = np.genfromtxt('data/deconv/starBadPredictionIndexProbability.txt')[:, 0].tolist()
 deconvGalaxyIndices = np.genfromtxt('data/deconv/galaxyBadPredictionIndexProbability.txt')[:, 0].tolist()
 
@@ -80,6 +81,14 @@ matchedCat = pyfits.getdata('MatchHellErrorCut2.fits')
 #shortcut and
 sand = np.logical_and
 
+def ErrorCutIDsToMask(idArray):
+    indices = []
+    for i in range(len(matchedCat['id'])):
+        if matchedCat['id'][i] in idArray:
+            indices.append(i)
+    mask = np.array([True if i in indices else False for i in range(len(matchedCat['id']))])
+    return mask
+
 markerS = markers.MarkerStyle(marker='.')
 goodIndices = matchedCat['cmodel_flux_g'] > 0
 goodIndices = sand(goodIndices, matchedCat['cmodel_flux_r'] > 0)
@@ -94,6 +103,21 @@ goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_y'] != 0)
 
 matchedCat = matchedCat[goodIndices]
 matchedCat = pyfits.BinTableHDU(matchedCat).data
+
+idsStarLog = np.genfromtxt('data/logistic/badStarIDs.txt')
+idsGalaxyLog = np.genfromtxt('data/logistic/badGalaxyIDs.txt')
+idsStarLog = np.array([int(i) for i in idsStarLog])
+idsGalaxyLog = np.array([int(i) for i in idsGalaxyLog])
+
+idsStarSVML = np.genfromtxt('data/svm/badStarIDslinear.txt')
+idsGalaxySVML = np.genfromtxt('data/svm/badGalaxyIDslinear.txt')
+idsStarSVML = np.array([int(i) for i in idsStarSVML])
+idsGalaxySVML = np.array([int(i) for i in idsGalaxySVML])
+
+idsStarSVMR = np.genfromtxt('data/svm/badStarIDsRBF.txt')
+idsGalaxySVMR = np.genfromtxt('data/svm/badGalaxyIDsRBF.txt')
+idsStarSVMR = np.array([int(i) for i in idsStarSVMR])
+idsGalaxySVMR = np.array([int(i) for i in idsGalaxySVMR])
 
 #EC stands for ErrorCut
 magGEC = -2.5*np.log10(matchedCat['cmodel_flux_g']/matchedCat['flux_zeromag_g'])
@@ -112,75 +136,11 @@ chan2magsEC = matchedCat['mag_45']
 chan3magsEC = matchedCat['mag_58']
 chan4magsEC = matchedCat['mag_80']
 
-
-def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2bad, mag3bad, \
-        cleanIndicesbad1, cleanIndicesBad2, cleanIndicesBad3, xaxistitle, yaxistitle, filename):
-    fig = plt.figure(figsize=(10, 5))
-
-    ax1 = plt.subplot(121)
-
-    magSource1 = mag1 - mag2
-    magSource2 = mag2 - mag3
-    good12 = sand(mag1Error < 0.2, mag2Error < 0.2)
-    good23 = sand(mag2Error < 0.2, mag3Error <0.2)
-    goodIndices = sand(good12, good23)
-
-    starIndicesLocal = sand(starindicesAll, goodIndices)
-    galaxyIndicesLocal = sand(galaxyindicesAll, goodIndices)
-
-    # because I sample indices
-    starIndicesLocal = np.where(starIndicesLocal==True)[0]
-    galaxyIndicesLocal = np.where(galaxyIndicesLocal==True)[0]
-    
-
-    starIndicesLocal = np.random.choice(starIndicesLocal, int(len(starIndicesLocal)*0.2), replace=False)
-    galaxyIndicesLocal = np.random.choice(galaxyIndicesLocal, int(len(galaxyIndicesLocal) * 0.2), replace=False)
-
-    print 'Number All Stars {0}'.format(len(starIndicesLocal))
-    print 'Number All Galaxies {0}'.format(len(galaxyIndicesLocal))
-
-
-    plt.scatter(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], marker='.', c='blue', \
-            label = 'Galaxies')
-    plt.scatter(magSource1[starIndicesLocal], magSource2[starIndicesLocal], marker='.', c='red', \
-            label='Stars')
-    handles, labels = ax1.get_legend_handles_labels()
-    ax1.legend(handles, labels)
-
-    ax1.set_ylim([-2, 2])
-    ax1.set_xlim([-2, 2])
-    ax1.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
-    ax1.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
-    ax1.set_title('Distribution of Colors for All Sources')
-
-    ax2 = plt.subplot(122)
-    magSource1Bad = mag1bad - mag2bad
-    magSource2Bad = mag2bad - mag3bad
-
-    plt.scatter(magSource1Bad[badGalaxyIndices], magSource2Bad[badGalaxyIndices], marker='o', c='blue', \
-            label = 'Galaxies')
-    plt.scatter(magSource1Bad[badStarIndices], magSource2Bad[badStarIndices], marker='o', c='red', \
-            label='Stars')
-
-    ax2.set_ylim([-2, 2])
-    ax2.set_xlim([-2, 2])
-    ax2.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
-    ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
-    ax2.set_title('Distribution of Colors for Misclassified Sources')
-    handles, labels = ax2.get_legend_handles_labels()
-    ax2.legend(handles, labels)
-
-
-    # speed up performance
-    fig.tight_layout()
-    plt.savefig(filename)
-    plt.close(fig)
-    print 'done'
-
-def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error, color1Bad, color2Bad, xaxistitle, yaxistitle, filename):
+def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error, color1Deconv, color2Deconv, \
+        color1Clustering, color2Clustering, xaxistitle, yaxistitle, filename):
     fig = plt.figure(figsize=(10,5))
 
-    ax1 = plt.subplot(121)
+    ax1 = plt.subplot(321)
 
     magSource1 = color1
     magSource2 = color2
@@ -199,16 +159,13 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     starIndicesLocal = np.random.choice(starIndicesLocal, int(len(starIndicesLocal)*0.2), replace=False)
     galaxyIndicesLocal = np.random.choice(galaxyIndicesLocal, int(len(galaxyIndicesLocal) * 0.2), replace=False)
 
-    print 'Number All Stars {0}'.format(len(starIndicesLocal))
-    print 'Number All Galaxies {0}'.format(len(galaxyIndicesLocal))
-
     plt.scatter(magSource1[galaxyIndicesLocal], magSource2[galaxyIndicesLocal], marker='o', c='blue', \
             label = 'Galaxies')
     plt.scatter(magSource1[starIndicesLocal], magSource2[starIndicesLocal], marker='o', c='red', \
             label='Stars')
     
     handles, labels = ax1.get_legend_handles_labels()
-    ax1.legend(handles, labels)
+    ax1.legend(handles, labels, loc='lower left')
 
     ax1.set_ylim([-2, 2])
     ax1.set_xlim([-2, 2])
@@ -216,12 +173,9 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax1.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax1.set_title('Distribution of Colors for All Sources')
 
-    ax2 = plt.subplot(122)
-    magSource1Bad = color1Bad
-    magSource2Bad = color2Bad
-
-    print 'Number Bad Stars {0}'.format(len(badStarIndices))
-    print 'Number Bad Galaxies {0}'.format(len(badGalaxyIndices))
+    ax2 = plt.subplot(322)
+    magSource1Bad = color1Deconv
+    magSource2Bad = color2Deconv
 
     plt.scatter(magSource1Bad[badGalaxyIndices], magSource2Bad[badGalaxyIndices], c='blue', marker='o',\
             label = 'Galaxies')
@@ -232,9 +186,66 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax2.set_xlim([-2, 2])
     ax2.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
     ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
-    ax2.set_title('Distribution of Colors for Misclassified Sources')
+    ax2.set_title('Distribution of Colors for Misclassified Sources (XD)')
     handles, labels = ax2.get_legend_handles_labels()
-    ax2.legend(handles, labels)
+    ax2.legend(handles, labels, loc='lower left')
+
+    # logistic regression IDs
+    ax3 = plt.subplot(323)
+    magSource1Bad = color1Clustering
+    magSource2Bad = color2Clustering
+    galaxyMask = ErrorCutIDsToMask(idsGalaxyLog)
+    starMask = ErrorCutIDsToMask(idsStarLog)
+    
+    plt.scatter(magSource1Bad[galaxyMask], magSource2Bad[galaxyMask], c='blue', marker='o',\
+            label = 'Galaxies')
+    plt.scatter(magSource1Bad[starMask], magSource2Bad[starMask], c='red', marker='o',\
+            label='Stars')
+    ax3.set_ylim([-2, 2])
+    ax3.set_xlim([-2, 2])
+    ax3.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
+    ax3.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
+    ax3.set_title('Distribution of Colors for Misclassified Sources (LR)')
+    handles, labels = ax3.get_legend_handles_labels()
+    ax3.legend(handles, labels, loc='lower left')
+
+    # svm linear IDs
+    ax4 = plt.subplot(324)
+    magSource1Bad = color1Clustering
+    magSource2Bad = color2Clustering
+    galaxyMask = ErrorCutIDsToMask(idsGalaxySVML)
+    starMask = ErrorCutIDsToMask(idsStarSVML)
+    
+    plt.scatter(magSource1Bad[galaxyMask], magSource2Bad[galaxyMask], c='blue', marker='o',\
+            label = 'Galaxies')
+    plt.scatter(magSource1Bad[starMask], magSource2Bad[starMask], c='red', marker='o',\
+            label='Stars')
+    ax4.set_ylim([-2, 2])
+    ax4.set_xlim([-2, 2])
+    ax4.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
+    ax4.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
+    ax4.set_title('Distribution of Colors for Misclassified Sources (SVM-Linear)')
+    handles, labels = ax4.get_legend_handles_labels()
+    ax4.legend(handles, labels, loc='lower left')
+
+    #SVM RBF IDs
+    ax5 = plt.subplot(325)
+    magSource1Bad = color1Clustering
+    magSource2Bad = color2Clustering
+    galaxyMask = ErrorCutIDsToMask(idsGalaxySVMR)
+    starMask = ErrorCutIDsToMask(idsStarSVMR)
+    
+    plt.scatter(magSource1Bad[galaxyMask], magSource2Bad[galaxyMask], c='blue', marker='o',\
+            label = 'Galaxies')
+    plt.scatter(magSource1Bad[starMask], magSource2Bad[starMask], c='red', marker='o',\
+            label='Stars')
+    ax5.set_ylim([-2, 2])
+    ax5.set_xlim([-2, 2])
+    ax5.set_xlabel(xaxistitle, fontdict={'fontsize': 10})
+    ax5.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
+    ax5.set_title('Distribution of Colors for Misclassified Sources (SVM-RBF)')
+    handles, labels = ax5.get_legend_handles_labels()
+    ax5.legend(handles, labels, loc='lower left')
 
 
     # speed up performance
@@ -244,14 +255,22 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     print 'done'
 
 
-randomPlot(magGAll, magRAll, magIAll, magGErrorAll, magRErrorAll, magIErrorAll, magGBad, magRBad, magIBad,\
-        'g-r', 'r-i', 'data/SideBySide/gri.png')
-randomPlot(magRAll, magIAll, magZAll, magRErrorAll, magIErrorAll, magZErrorAll, magRBad, magIBad, magZBad, \
-        'r-i', 'i-z', 'data/SideBySide/riz.png')
 randomPlot(jmagsAll, hmagsAll, kmagsAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'],\
         jmagsBad, hmagsBad, kmagsBad, \
         'j-h', 'h-k', 'data/SideBySide/jhk.png')
 
+randomPlotColors(magGAll-magRAll, magRAll-magIAll, magGErrorAll, magRErrorAll, magRErrorAll, magIErrorAll, magGDeconv-magRDeconv, \
+        magRDeconv-magIDeconv, magGEC-magREC, magREC-magIEC, 'g-r (AB)', 'r-i (AB)', 'data/SideBySide/gri.png')
+
+randomPlotColors(magRAll-magIAll, magIAll-magZAll, magRErrorAll, magIErrorAll, magIErrorAll, magZErrorAll, \
+        magRDeconv - magIDeconv, magIDeconv-magZDeconv, magREC - magIEC, magIEC - magZEC, \
+        'r-i (AB)', 'i-z (AB)', 'data/SideBySide/riz.png')
+
+randomPlotColors(jmagsAll-hmagsAll, hmagsAll-kmagsAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'], \
+        matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], jmagsDeconv-hmagsDeconv, hmagsDeconv-kmagsDeconv, \
+        jmagsEC-hmagsEC, hmagsEC-kmagsEC, 'j-h (AB)', 'h-k (AB)', 'data/SideBySide/jhk.png')
+
 randomPlotColors(hmagsAll-kmagsAll, chan1magsAll-chan2magsAll, matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], \
-                matchedCatAll['mag_36error'], matchedCatAll['mag_45error'], hmagsBad - kmagsBad, chan1magsBad-chan2magsBad, \
+                matchedCatAll['mag_36error'], matchedCatAll['mag_45error'], hmagsDeconv - kmagsDeconv, chan1magsDeconv-chan2magsDeconv, \
+                hmagsEC-kmagsEC, chan1magsEC-chan2magsEC, \
                 r'$3.6\mu{}m - 4.5\mu{}m$', 'h-k', 'data/SideBySide/hkchan1chan2.png')
