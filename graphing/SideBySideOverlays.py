@@ -53,38 +53,64 @@ chan4magsAll = matchedCatAll['mag_80']
 # now let's get the bad predictions and such
 matchedCatBad = pyfits.getdata('MatchHellDeconv2.fits')
 
-badStarIndices = np.genfromtxt('data/deconv/starBadPredictionIndexProbability.txt')[:, 0].tolist()
-badGalaxyIndices = np.genfromtxt('data/deconv/galaxyBadPredictionIndexProbability.txt')[:, 0].tolist()
+deconvStarIndices = np.genfromtxt('data/deconv/starBadPredictionIndexProbability.txt')[:, 0].tolist()
+deconvGalaxyIndices = np.genfromtxt('data/deconv/galaxyBadPredictionIndexProbability.txt')[:, 0].tolist()
 
-magGBad = matchedCatBad['magG']
-magRBad = matchedCatBad['magR']
-magIBad = matchedCatBad['magI']
-magZBad = matchedCatBad['magZ']
-magYBad = matchedCatBad['magY']
+magGDeconv = matchedCatBad['magG']
+magRDeconv = matchedCatBad['magR']
+magIDeconv = matchedCatBad['magI']
+magZDeconv = matchedCatBad['magZ']
+magYDeconv = matchedCatBad['magY']
 
-cleanDeconvG = matchedCatBad['magGError'] < 0.2
-cleanDeconvR = matchedCatBad['magRError'] < 0.2
-cleanDeconvI = matchedCatBad['magIError'] < 0.2
-cleanDeconvZ = matchedCatBad['magZError'] < 0.2
 
-ymagsBad = matchedCatBad['mag_y']
-jmagsBad = matchedCatBad['mag_j']
-hmagsBad = matchedCatBad['mag_h']
-kmagsBad = matchedCatBad['mag_k']
+ymagsDeconv = matchedCatBad['mag_y']
+jmagsDeconv = matchedCatBad['mag_j']
+hmagsDeconv = matchedCatBad['mag_h']
+kmagsDeconv = matchedCatBad['mag_k']
 
-cleanDeconvJ = matchedCatBad['mag_j_error'] < 0.2
-cleanDeconvH = matchedCatBad['mag_h_error'] < 0.2
-cleanDeconvK = matchedCatBad['mag_k_error'] < 0.2
 
-chan1magsBad = matchedCatBad['mag_36']
-chan2magsBad = matchedCatBad['mag_45']
-chan3magsBad = matchedCatBad['mag_58']
-chan4magsBad = matchedCatBad['mag_80']
+chan1magsDeconv = matchedCatBad['mag_36']
+chan2magsDeconv = matchedCatBad['mag_45']
+chan3magsDeconv = matchedCatBad['mag_58']
+chan4magsDeconv = matchedCatBad['mag_80']
 
-cleanDeconvChan1 = matchedCatBad['mag_36error'] < 0.2
-cleanDeconvChan2 = matchedCatBad['mag_45error'] < 0.2
-cleanDeconvChan3 = matchedCatBad['mag_58error'] < 0.2
-cleanDeconvChan4 = matchedCatBad['mag_80error'] < 0.2
+
+# get the data from SVM and regression
+matchedCat = pyfits.getdata('MatchHellErrorCut2.fits')
+#shortcut and
+sand = np.logical_and
+
+markerS = markers.MarkerStyle(marker='.')
+goodIndices = matchedCat['cmodel_flux_g'] > 0
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_r'] > 0)
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_i'] > 0)
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_z'] > 0)
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_y'] > 0)
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_g'] != 0)
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_r'] != 0)
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_i'] != 0)
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_z'] != 0)
+goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_y'] != 0)
+
+matchedCat = matchedCat[goodIndices]
+matchedCat = pyfits.BinTableHDU(matchedCat).data
+
+#EC stands for ErrorCut
+magGEC = -2.5*np.log10(matchedCat['cmodel_flux_g']/matchedCat['flux_zeromag_g'])
+magREC = -2.5*np.log10(matchedCat['cmodel_flux_r']/matchedCat['flux_zeromag_r'])
+magIEC = -2.5*np.log10(matchedCat['cmodel_flux_i']/matchedCat['flux_zeromag_i'])
+magZEC = -2.5*np.log10(matchedCat['cmodel_flux_z']/matchedCat['flux_zeromag_z'])
+magYEC = -2.5*np.log10(matchedCat['cmodel_flux_y']/matchedCat['flux_zeromag_y'])
+
+ymagsEC = matchedCat['mag_y']
+jmagsEC = matchedCat['mag_j']
+hmagsEC = matchedCat['mag_h']
+kmagsEC = matchedCat['mag_k']
+
+chan1magsEC = matchedCat['mag_36']
+chan2magsEC = matchedCat['mag_45']
+chan3magsEC = matchedCat['mag_58']
+chan4magsEC = matchedCat['mag_80']
 
 
 def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2bad, mag3bad, \
