@@ -132,8 +132,8 @@ def randomPlot(mag1, mag2, mag3, mag1Error, mag2Error, mag3Error, mag1bad, mag2b
     # bad galaxy indices and bad star indices are index counts, convert them to mask
     # mag source 1 bad should have the right number of entries
 
-    badStarIndices = [True if i in badStarIndicesGlob else False for i in range(len(magSource1Bad))]
-    badGalaxyIndices = [True if i in badGalaxyIndicesGlob else False for i in range(len(magSource1Bad))]
+    badStarIndices = np.array([True if i in badStarIndicesGlob else False for i in range(len(magSource1Bad))])
+    badGalaxyIndices = np.array([True if i in badGalaxyIndicesGlob else False for i in range(len(magSource1Bad))])
     cleanSource1Bad = np.logical_and(cleanIndicesBad1, cleanIndicesBad2)
     cleanSource2Bad = np.logical_and(cleanIndicesBad2, cleanIndicesBad3)
 
@@ -211,8 +211,8 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     magSource1Bad = color1Bad
     magSource2Bad = color2Bad
 
-    badStarIndices = [True if i in badStarIndicesGlob else False for i in range(len(magSource1Bad))]
-    badGalaxyIndices = [True if i in badGalaxyIndicesGlob else False for i in range(len(magSource1Bad))]
+    badStarIndices = np.array([True if i in badStarIndicesGlob else False for i in range(len(magSource1Bad))])
+    badGalaxyIndices = np.array([True if i in badGalaxyIndicesGlob else False for i in range(len(magSource1Bad))])
 
 
     # separate the noisy stars and galaxies from the non noisy ones (all from improper classifications)
