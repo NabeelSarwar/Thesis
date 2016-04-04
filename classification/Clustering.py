@@ -112,7 +112,7 @@ def tryModel(model, data, ids, results):
 
     # need to get the proper test indices
     badStarIndices = testIndices[badStarIndicesTest]
-    badGalaxyIndices = testIndices[badStarIndicesTest]
+    badGalaxyIndices = testIndices[badGalaxyIndicesTest]
     badStarIDs = ids[badStarIndices]
     badGalaxyIDs = ids[badGalaxyIndices]
     return {'training': trainingReport, 'test': testReport}, badStarIDs, badGalaxyIDs
@@ -148,39 +148,11 @@ magIError = np.abs(1.08574 / matchedCat['cmodel_flux_i'] * matchedCat['cmodel_fl
 magZError = np.abs(1.08574 / matchedCat['cmodel_flux_z'] * matchedCat['cmodel_flux_err_z'])
 magYError = np.abs(1.08574 / matchedCat['cmodel_flux_y'] * matchedCat['cmodel_flux_err_y'])
 
-# no need to limit on our data
-# establish the indices with proper colors, and then get this
-# goodIndices = magRError < 0.2
-# goodIndices = sand(goodIndices, magIError < 0.2)
-# goodIndices = sand(goodIndices, magZError < 0.2)
-# goodIndices = sand(goodIndices, matchedCat['mag_j_error'] < 0.2)
-# goodIndices = sand(goodIndices, matchedCat['mag_h_error'] < 0.2)
-# goodIndices = sand(goodIndices, matchedCat['mag_k_error'] < 0.2)
-# goodIndices = sand(goodIndices, matchedCat['mag_36error'] < 0.2)
-# goodIndices = sand(goodIndices, matchedCat['mag_45error'] < 0.2)
-
-
-# now  we have the proper errors
-# matchedCat = matchedCat[goodIndices]
-# print 'Good indices'
-# print np.any(goodIndices)
 
 ymags = matchedCat['mag_y']
 jmags = matchedCat['mag_j']
 hmags = matchedCat['mag_h']
 kmags = matchedCat['mag_k']
-
-magG = -2.5*np.log10(matchedCat['cmodel_flux_g']/matchedCat['flux_zeromag_g'])
-magR = -2.5*np.log10(matchedCat['cmodel_flux_r']/matchedCat['flux_zeromag_r'])
-magI = -2.5*np.log10(matchedCat['cmodel_flux_i']/matchedCat['flux_zeromag_i'])
-magZ = -2.5*np.log10(matchedCat['cmodel_flux_z']/matchedCat['flux_zeromag_z'])
-magY = -2.5*np.log10(matchedCat['cmodel_flux_y']/matchedCat['flux_zeromag_y'])
-
-magGError = np.abs(1.08574 / matchedCat['cmodel_flux_g'] * matchedCat['cmodel_flux_err_g'])
-magRError = np.abs(1.08574 / matchedCat['cmodel_flux_r'] * matchedCat['cmodel_flux_err_r'])
-magIError = np.abs(1.08574 / matchedCat['cmodel_flux_i'] * matchedCat['cmodel_flux_err_i'])
-magZError = np.abs(1.08574 / matchedCat['cmodel_flux_z'] * matchedCat['cmodel_flux_err_z'])
-magYError = np.abs(1.08574 / matchedCat['cmodel_flux_y'] * matchedCat['cmodel_flux_err_y'])
 
 chan1mags = matchedCat['mag_36']
 chan2mags = matchedCat['mag_45']
