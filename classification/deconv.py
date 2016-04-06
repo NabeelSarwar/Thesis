@@ -12,7 +12,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 catalog = pyfits.getdata('MatchHellDeconv2.fits')
-columns = ['magR', 'magI', 'magZ', 'mag_j' ,'mag_h', 'mag_k', 'mag_36', 'mag_45', 'magRError', 'magIError', 'magZError', 'mag_j_error', \
+columns = ['magR', 'magI', 'magZ', 'magY',  'mag_j' ,'mag_h', 'mag_k', 'mag_36', 'mag_45', \
+        'magRError', 'magIError', 'magZError', 'magYError', 'mag_j_error', \
         'mag_h_error', 'mag_k_error', 'mag_36error', 'mag_45error', 'mu_class', 'id']
 
 cold = dict([(columns[i], i) for i in range(len(columns))])
@@ -42,6 +43,7 @@ def makeEntry(index):
     data = catalog[index]
     colors.append(data[cold['magR']] - data[cold['magI']])
     colors.append(data[cold['magI']]- data[cold['magZ']])
+    colors.append(data[cold['magZ']] - data[cold['magY']])
     colors.append(data[cold['mag_j']] - data[cold['mag_h']])
     colors.append(data[cold['mag_h']] - data[cold['mag_k']])
     colors.append(data[cold['mag_k']] - data[cold['mag_36']])
@@ -53,26 +55,30 @@ def makeEntry(index):
     return colors 
 
 def  makeNoiseMatrix(index):
-    noise = np.zeros(36).reshape(6, 6)
+    noise = np.zeros(49).reshape(7, 7)
 
     data = catalog[index]
 
     noise[0, 0] = data[cold['magRError']]**2 + data[cold['magIError']]**2
     noise[1, 1] = data[cold['magIError']]**2 + data[cold['magZError']]**2
-    noise[2, 2] = data[cold['mag_j_error']]**2 + data[cold['mag_h_error']]**2
-    noise[3, 3] = data[cold['mag_h_error']]**2 + data[cold['mag_k_error']]**2
-    noise[4, 4] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
-    noise[5, 5] = data[cold['mag_36error']]**2 + data[cold['mag_45error']]**2
+    noise[2, 2] = data[cold['magZError']]**2 + data[cold['magYError']]**2
+
+    noise[3, 3] = data[cold['mag_j_error']]**2 + data[cold['mag_h_error']]**2
+    noise[4, 4] = data[cold['mag_h_error']]**2 + data[cold['mag_k_error']]**2
+    noise[5, 5] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
+    noise[6, 6] = data[cold['mag_36error']]**2 + data[cold['mag_45error']]**2
 
     noise[0, 1] = -data[cold['magIError']]**2
-    noise[2, 3] = -data[cold['mag_h_error']]**2
-    noise[3, 4] = -data[cold['mag_k_error']]**2
-    noise[4, 5] = -data[cold['mag_36error']]**2
+    noise[1, 2] = -data[cold['magZError']]**2
+    noise[3, 4] = -data[cold['mag_h_error']]**2
+    noise[4, 5] = -data[cold['mag_k_error']]**2
+    noise[5, 6] = -data[cold['mag_36error']]**2
 
     noise[1, 0] = noise[0, 1]
-    noise[3, 2] = noise[2, 3]
+    noise[2, 1] = noise[1, 2]
     noise[4, 3] = noise[3, 4]
     noise[5, 4] = noise[4, 5]
+    noise[6, 5] = noise[5, 6]
 
     return noise
 
@@ -291,6 +297,7 @@ catalog = pyfits.getdata('MatchHellDeconv2.fits')
 DeconvolutionGraphAnalysis(badStarIndices, 'magR', 'R', 1)
 DeconvolutionGraphAnalysis(badStarIndices, 'magI', 'I', 1)
 DeconvolutionGraphAnalysis(badStarIndices, 'magZ', 'Z', 1)
+DeconvolutionGraphAnalysis(badStarIndices, 'magY', 'Y', 1)
 DeconvolutionGraphAnalysis(badStarIndices, 'mag_j', 'J', 1)
 DeconvolutionGraphAnalysis(badStarIndices, 'mag_h', 'H', 1)
 DeconvolutionGraphAnalysis(badStarIndices, 'mag_k', 'K', 1)
@@ -300,6 +307,7 @@ DeconvolutionGraphAnalysis(badStarIndices, 'mag_45', r'4.5 $\mu{}m$', 1)
 DeconvolutionGraphAnalysis(badGalaxyIndices, 'magR', 'R', 0)
 DeconvolutionGraphAnalysis(badGalaxyIndices, 'magI', 'I', 0)
 DeconvolutionGraphAnalysis(badGalaxyIndices, 'magZ', 'Z', 0)
+DeconvolutionGraphAnalysis(badGalaxyIndices, 'magY', 'Y', 0)
 DeconvolutionGraphAnalysis(badGalaxyIndices, 'mag_j', 'J', 0)
 DeconvolutionGraphAnalysis(badGalaxyIndices, 'mag_h', 'H', 0)
 DeconvolutionGraphAnalysis(badGalaxyIndices, 'mag_k', 'K', 0)
