@@ -268,16 +268,73 @@ names = sum(names, [])
 spitzerData = spitzerData[np.logical_and.reduce((spitzerData['flux_c1_2'] > 0, spitzerData['flux_c2_2'] > 0 , spitzerData['flux_c3_2'] > 0, spitzerData['flux_c4_2'] > 0 ))]
 
 # getting the magnitudes using the spitzer data
-mag36 = Column(data=-2.5 * np.log10(spitzerData['flux_c1_2'].data/0.765) + 23.9 - 2.788, name ='mag_36', unit='AB mag')
-mag45 = Column(data=-2.5 * np.log10(spitzerData['flux_c2_2'].data/0.740) + 23.9 -3.255, name ='mag_45', unit='AB mag')
-mag58 = Column(data=-2.5 * np.log10(spitzerData['flux_c3_2'].data/0.625) + 23.9 -3.743, name = 'mag_58', unit = 'AB mag')
-mag80 = Column(data=-2.5 * np.log10(spitzerData['flux_c4_2'].data/0.580) + 23.9 -4.372, name = 'mag_80', unit = 'AB mag')
+# flux should always be channel 2nd aperture size
+
+def properMagSpitzer(flux1, flux2, channelnumber): 
+    if len(flux1) != len(flux2):
+        raise Exception('Something wrong with spitzer')
+
+    if channelnumber==1:
+        divisionFluxCorrection1 = 0.765
+        divisonFluxCorrection2 = 0.900
+    elif channelnumber==2:
+        divisionFluxCorrection1 = 0.740
+        divisionFluxCorrection2 = 0.900
+    elif channelnumber==3:
+        divisionFluxCorrection1 = 0.625
+        divisionFluxCorrection2 = 0.840
+    elif channelnumber==4:
+        divisionFluxCorrection1 = 0.580
+        divisionFluxCorrection2 = 0.730
+    else:
+        raise Exception('Improper channel number')
+    workingFlux = []
+
+    for i in range(len(flux1)):
+        if flux2[i] > flux1[i]:
+            workingFlux.append(flux2[i]/divisionFluxCorrection2)
+        else:
+            workingFlux.append(flux1[i]/divisionFluxCorrection1)
+    workingFlux = np.array(workingFlux)
+    mags = -2.5 * np.log10(workingFlux) + 23.9
+    return mags
+
+def properErrorSpitzer(flux1, flux2, error1, error2):
+    if len(flux1) != len(flux2):
+        raise Exception('Wrong length in errors for fluxes')
+    if len(error1) != len(error2):
+        raise Exception('Wrong length in errors for errors')
+    if len(flux1) != len(error1):
+        raise Exception('Error and fluxes mismatch in length')
+    workingFlux = []
+
+    for i in range(len(flux1)):
+        if flux2[i] > flux1[i]:
+            workingFlux.append(1.08574/flux2[i] * error2[i])
+        else:
+            workingFlux.append(1.08574/flux1[i] * error1[i])
+
+    workingFlux = np.array(workingFlux)
+    return np.abs(workingFlux)
+
+mag36 = Column(data = properMagSpitzer(spitzerData['flux_c1_2'].data, spitzerData['flux_c1_3'].data, 1), name = 'mag_36', unit = 'AB mag')
+mag45 = Column(data = properMagSpitzer(spitzerData['flux_c2_2'].data, spitzerData['flux_c2_3'].data, 2), name = 'mag_45', unit = 'AB mag')
+mag58 = Column(data = properMagSpitzer(spitzerData['flux_c3_2'].data, spitzerData['flux_c3_3'].data, 3), name = 'mag_58', unit = 'AB mag')
+mag80 = Column(data = properMagSpitzer(spitzerData['flux_c4_2'].data, spitzerData['flux_c4_3'].data, 4), name = 'mag_80', unit = 'AB mag')
 
 #include magnitude errors
-mag36error = Column(data = np.abs(1.08574/spitzerData['flux_c1_2'].data*spitzerData['err_c1_2'].data), name='mag_36error', unit='AB mag')
-mag45error = Column(data = np.abs(1.08574/spitzerData['flux_c2_2'].data * spitzerData['err_c2_2'].data), name='mag_45error', unit='AB mag')
-mag58error = Column(data = np.abs(1.08574/ spitzerData['flux_c3_2'].data*spitzerData['err_c3_2'].data), name='mag_58error', unit='AB mag')
-mag80error = Column(data = np.abs(1.08574/spitzerData['flux_c4_2'].data *spitzerData['err_c4_2'].data), name='mag_80error', unit='AB mag')
+mag36error = Column(data = properErrorSpitzer(spitzerData['flux_c1_2'].data, spitzerData['flux_c1_3'].data, \
+        spitzerData['err_c1_2'].data, spitzerData['err_c1_3'].data), name='mag_36error', unit='AB mag')
+
+mag45error = Column(data = properErrorSpitzer(spitzerData['flux_c2_2'].data, spitzerData['flux_c2_3'].data, \
+        spitzerData['err_c2_2'].data, spitzerData['err_c2_3'].data), name='mag_45error', unit='AB mag')
+
+mag58error = Column(data = properErrorSpitzer(spitzerData['flux_c3_2'].data, spitzerData['flux_c3_3'].data, \
+        spitzerData['err_c3_2'].data, spitzerData['err_c3_3'].data), name='mag_58error', unit='AB mag')
+
+mag80error = Column(data = properErrorSpitzer(spitzerData['flux_c4_2'].data, spitzerData['flux_c4_3'].data, \
+        spitzerData['err_c4_2'].data, spitzerData['err_c4_3'].data), name='mag_80error', unit='AB mag')
+
 spitzerData.add_columns([mag36, mag45, mag58, mag80, mag36error, mag45error, mag58error, mag80error])
 ascii.write(output='SpitzerWithMag.tbl', table=spitzerData, format='ipac')
 
