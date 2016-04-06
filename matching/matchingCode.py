@@ -276,7 +276,7 @@ def properMagSpitzer(flux1, flux2, channelnumber):
 
     if channelnumber==1:
         divisionFluxCorrection1 = 0.765
-        divisonFluxCorrection2 = 0.900
+        divisionFluxCorrection2 = 0.900
     elif channelnumber==2:
         divisionFluxCorrection1 = 0.740
         divisionFluxCorrection2 = 0.900
