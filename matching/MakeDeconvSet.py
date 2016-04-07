@@ -4,8 +4,8 @@ import os
 
 catalog = pyfits.getdata('MatchHellErrorCut2.fits')
 
-columns = ['magR', 'magI', 'magZ', 'mag_j' ,'mag_h', 'mag_k', 'mag_36', 'mag_45']
-columns = ['magR', 'magI', 'magZ', 'mag_j' ,'mag_h', 'mag_k', 'mag_36', 'mag_45', 'magRError', 'magIError', 'magZError', 'mag_j_error', \
+columns = ['magR', 'magI', 'magZ', 'magY', 'mag_j' ,'mag_h', 'mag_k', 'mag_36', 'mag_45', \
+        'magRError', 'magIError', 'magZError', 'magYError', 'mag_j_error', \
         'mag_h_error', 'mag_k_error', 'mag_36error', 'mag_45error']
 
 
