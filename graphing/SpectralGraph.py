@@ -15,6 +15,8 @@ magI = catalog['magI']
 magIError = catalog['magIError']
 magZ = catalog['magZ']
 magZError = catalog['magZError']
+magY = catalog['magY']
+magYError = catalog['magYError']
 magJ = catalog['mag_j']
 magJError = catalog['mag_j_error']
 magH = catalog['mag_h']
@@ -31,8 +33,8 @@ def PlotSpectra(index, filename):
     fig = plt.figure()
     # get current axis
     ax = plt.gca()
-    y = [magR[index], magI[index], magZ[index], magJ[index], magH[index], magK[index], mag36[index], mag45[index]]
-    yerr = [magRError[index], magIError[index], magZError[index], \
+    y = [magR[index], magI[index], magZ[index], magY[index], magJ[index], magH[index], magK[index], mag36[index], mag45[index]]
+    yerr = [magRError[index], magIError[index], magZError[index], magYError[index], \
             magJError[index], magHError[index], magKError[index], \
             mag36Error[index], mag45Error[index]]
 
@@ -68,7 +70,7 @@ def PlotSpectra(index, filename):
     ax.set_ylim(ax.get_ylim()[::-1])
 
     # the first entry is for the zero point
-    ax.set_xticklabels(['R', 'I', 'Z', 'J', 'H', 'K', 'Chan 1', 'Chan 2'])
+    ax.set_xticklabels(['R', 'I', 'Z', 'Y', 'J', 'H', 'K', 'Chan 1', 'Chan 2'])
     plt.savefig(filename)
     plt.close(fig)
 

@@ -266,6 +266,10 @@ randomPlotColors(magRAll-magIAll, magIAll-magZAll, magRErrorAll, magIErrorAll, m
         magRDeconv - magIDeconv, magIDeconv-magZDeconv, magREC - magIEC, magIEC - magZEC, \
         'r-i (AB)', 'i-z (AB)', 'data/SideBySide/riz.png')
 
+randomPlotColors(magIAll-magZAll, magZAll-magYAll, magIErrorAll, magZErrorAll, magZErrorAll, magYErrorAll, \
+        magIDeconv - magZDeconv, magZDeconv-magYDeconv, magIEC - magZEC, magZEC - magYEC, \
+        'i-z (AB)', 'z-y (AB)', 'data/SideBySide/izy.png')
+
 randomPlotColors(jmagsAll-hmagsAll, hmagsAll-kmagsAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'], \
         matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], jmagsDeconv-hmagsDeconv, hmagsDeconv-kmagsDeconv, \
         jmagsEC-hmagsEC, hmagsEC-kmagsEC, 'j-h (AB)', 'h-k (AB)', 'data/SideBySide/jhk.png')

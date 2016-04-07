@@ -258,10 +258,16 @@ randomPlot(magGAll, magRAll, magIAll, magGErrorAll, magRErrorAll, magIErrorAll, 
 randomPlot(magRAll, magIAll, magZAll, magRErrorAll, magIErrorAll, magZErrorAll, magRBad, magIBad, magZBad, \
         cleanDeconvR, cleanDeconvI, cleanDeconvZ, \
         'r-i', 'i-z', 'data/SideBySide/riznoisy.png')
+
+randomPlot(magIAll, magZAll, magYAll, magIErrorAll, magZErrorAll, magYErrorAll, magIBad, magZBad, magYBad, \
+        cleanDeconvI, cleanDeconvZ, cleanDeconvY, \
+        'i-z', 'z-y', 'data/SideBySide/izynoisy.png')
+
 randomPlot(jmagsAll, hmagsAll, kmagsAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'],\
         jmagsBad, hmagsBad, kmagsBad, \
         cleanDeconvJ, cleanDeconvH, cleanDeconvK, 
         'j-h', 'h-k', 'data/SideBySide/jhknoisy.png')
+
 
 randomPlotColors(hmagsAll-kmagsAll, chan1magsAll-chan2magsAll, matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], \
                 matchedCatAll['mag_36error'], matchedCatAll['mag_45error'], hmagsBad - kmagsBad, chan1magsBad-chan2magsBad, \
