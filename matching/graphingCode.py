@@ -68,7 +68,7 @@ def randomPlot(magSource1, magSource2, goodIndices):
     gc.collect()
     print 'done'
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 gr = magG-magR
 ri = magR-magI
@@ -81,9 +81,10 @@ randomPlot(gr, ri, good)
 #plt.scatter(gr[sand(starindices, good)], ri[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(gr[sand(galaxyindices, good)], ri[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/grvsri.png')
+plt.close(fig)
 
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 ri = magR-magI
 iz = magI - magZ
@@ -95,10 +96,11 @@ randomPlot(ri, iz, good)
 #plt.scatter(ri[sand(starindices, good)], iz[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(ri[sand(galaxyindices, good)], iz[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/rivsiz.png')
+plt.close(fig)
 
 
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 iz = magI - magZ
 zy = magZ - magY
@@ -110,9 +112,10 @@ randomPlot(iz, zy, good)
 #plt.scatter(iz[sand(starindices, good)], zy[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(iz[sand(galaxyindices, good)], zy[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/izvszy.png')
+plt.close(fig)
 
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 zy = magZ - magY
 yj = magY - jmags
@@ -124,9 +127,10 @@ randomPlot(zy, yj, good)
 #plt.scatter(zy[sand(starindices, good)], yj[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(zy[sand(galaxyindices, good)], yj[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/zyvsyj.png')
+plt.close(fig)
 
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 yj = magY - jmags
 jh = jmags - hmags
@@ -138,8 +142,9 @@ randomPlot(yj, jh, good)
 #plt.scatter(yj[sand(starindices, good)], jh[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(yj[sand(galaxyindices, good)], jh[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/yjvsjh.png')
+plt.close(fig)
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 jh = jmags - hmags
 hk = hmags - kmags
@@ -151,9 +156,23 @@ randomPlot(jh, hk, good)
 #plt.scatter(jh[sand(starindices, good)], hk[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(jh[sand(galaxyindices, good)], hk[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/jhvshk.png')
+plt.close(fig)
 
+fig = plt.figure()
+ax1= plt.axes()
+yj = magY - jmag
+hk = hmags - kmags
+goodHK = sand(matchedCat['mag_h_error'] < 0.2, matchedCat['mag_k_error'] < 0.2)
+good = sand(goodYJ, goodHK)
+ax1.set_xlabel('y-j')
+ax1.set_ylabel('h-k')
+randomPlot(jh, hk, good)
+#plt.scatter(jh[sand(starindices, good)], hk[sand(starindices, good)], marker='+', c='red', label='star')
+#plt.scatter(jh[sand(galaxyindices, good)], hk[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
+plt.savefig('colorplots/yjvshk.png')
+plt.close(fig)
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 hk = hmags - kmags
 kchan1 = kmags - chan1mags
@@ -165,9 +184,10 @@ randomPlot(hk, kchan1, good)
 #plt.scatter(hk[sand(starindices, good)], kchan1[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(hk[sand(galaxyindices, good)], kchan1[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/hkvsk36u.png')
+plt.close(fig)
 
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 kchan1 = kmags - chan1mags
 chan1chan2 = chan1mags-chan2mags
@@ -179,9 +199,10 @@ randomPlot(kchan1, chan1chan2, good)
 #plt.scatter(kchan1[sand(starindices, good)], chan1chan2[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(kchan1[sand(galaxyindices, good)], chan1chan2[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/kchan1vschan1chan2.png')
+plt.close(fig)
 
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 chan1chan2 = chan1mags-chan2mags
 chan2chan3 = chan2mags-chan3mags
@@ -193,8 +214,9 @@ randomPlot(chan1chan2, chan2chan3, good)
 #plt.scatter(chan1chan2[sand(starindices, good)], chan2chan3[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(chan1chan2[sand(galaxyindices, good)], chan2chan3[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/chan1chan2vschan2chan3.png')
+plt.close(fig)
 
-plt.figure()
+fig = plt.figure()
 ax1= plt.axes()
 chan2chan3 = chan2mags-chan3mags
 chan3chan4 = chan3mags-chan4mags
@@ -206,3 +228,4 @@ randomPlot(chan2chan3, chan3chan4, good)
 #plt.scatter(chan2chan3[sand(starindices, good)], chan3chan4[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(chan2chan3[sand(galaxyindices, good)], chan3chan4[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/chan2chan3vschan3chan4.png')
+plt.close(fig)
