@@ -314,9 +314,12 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileN
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magR']], \
         'P(Star) for False Negatives in R', 'R (AB)', 'data/PStar/false_negatives_r_star.png')
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magI']], \
-        'P(Star) for False Negatives in IZ', 'I (AB)', 'data/PStar/false_negatives_i_star.png')
+        'P(Star) for False Negatives in I', 'I (AB)', 'data/PStar/false_negatives_i_star.png')
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magZ']], \
         'P(Star) for False Negatives in Z', 'Z (AB)', 'data/PStar/false_negatives_z_star.png')
+AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magY']], \
+        'P(Star) for False Negatives in Y', 'Y (AB)', 'data/PStar/false_negatives_y_star.png')
+
 
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_j']], \
         'P(Star) for False Negatives in J', 'J (AB)', 'data/PStar/false_negatives_j_star.png')
@@ -338,6 +341,9 @@ AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magI']
         'P(Star) for False Positives in I', 'I (AB)', 'data/PStar/false_positives_i_galaxy.png')
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magZ']], \
         'P(Star) for False Positives in Z', 'Z (AB)', 'data/PStar/false_positives_z_galaxy.png')
+AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magY']], \
+        'P(Star) for False Positives in Y', 'Y (AB)', 'data/PStar/false_positives_y_galaxy.png')
+
 
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_j']], \
         'P(Star) for False Positives in J', 'J (AB)', 'data/PStar/false_positives_j_galaxy.png')
