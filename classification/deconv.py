@@ -66,7 +66,7 @@ def  makeNoiseMatrix(index):
     noise[3, 3] = data[cold['magYError']]**2 + data[cold['mag_j_error']]**2
     noise[4, 4] = data[cold['mag_j_error']]**2 + data[cold['mag_h_error']]**2
     noise[5, 5] = data[cold['mag_h_error']]**2 + data[cold['mag_k_error']]**2
-    noise[6, 7] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
+    noise[6, 6] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
     noise[7, 7] = data[cold['mag_36error']]**2 + data[cold['mag_45error']]**2
 
     noise[0, 1] = -data[cold['magIError']]**2
@@ -244,7 +244,7 @@ maxr = None
 maxprecision = -1
 bestclfstar = None
 bestclfgalaxy = None
-for r in itertools.product(np.arange(1, 31), np.arange(1, 31)):
+for r in itertools.product(np.arange(1, 3), np.arange(1, 3)):
     print 'Trying Model Star: {0}, Galaxy: {1}'.format(r[0], r[1])
     precision, clfstar, clfgalaxy = TryModel(r[0], r[1])
     if precision > maxprecision:
