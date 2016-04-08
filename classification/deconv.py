@@ -244,7 +244,7 @@ maxr = None
 maxprecision = -1
 bestclfstar = None
 bestclfgalaxy = None
-for r in itertools.product(np.arange(1, 3), np.arange(1, 3)):
+for r in itertools.product(np.arange(1, 31), np.arange(1, 31)):
     print 'Trying Model Star: {0}, Galaxy: {1}'.format(r[0], r[1])
     precision, clfstar, clfgalaxy = TryModel(r[0], r[1])
     if precision > maxprecision:
