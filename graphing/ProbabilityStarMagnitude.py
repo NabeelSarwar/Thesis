@@ -67,7 +67,7 @@ def  makeNoiseMatrix(index):
     noise[3, 3] = data[cold['magYError']]**2 + data[cold['mag_j_error']]**2
     noise[4, 4] = data[cold['mag_j_error']]**2 + data[cold['mag_h_error']]**2
     noise[5, 5] = data[cold['mag_h_error']]**2 + data[cold['mag_k_error']]**2
-    noise[6, 7] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
+    noise[6, 6] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
     noise[7, 7] = data[cold['mag_36error']]**2 + data[cold['mag_45error']]**2
 
     noise[0, 1] = -data[cold['magIError']]**2
