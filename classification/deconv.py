@@ -41,13 +41,14 @@ PGalaxy = 1.0 * len(galaxyIndices[0])/ len(catalog)
 def makeEntry(index):
     colors = []
     data = catalog[index]
-    colors.append(data[cold['magR']] - data[cold['magI']])
-    colors.append(data[cold['magI']]- data[cold['magZ']])
-    colors.append(data[cold['magZ']] - data[cold['magY']])
-    colors.append(data[cold['mag_j']] - data[cold['mag_h']])
-    colors.append(data[cold['mag_h']] - data[cold['mag_k']])
-    colors.append(data[cold['mag_k']] - data[cold['mag_36']])
-    colors.append(data[cold['mag_36']] - data[cold['mag_45']])
+    colors.append(data[cold['magR']] - data[cold['magI']]) #0 
+    colors.append(data[cold['magI']]- data[cold['magZ']]) #1
+    colors.append(data[cold['magZ']] - data[cold['magY']]) #2 
+    colors.append(data[cold['magY']] - data[cold['mag_j']]) #3
+    colors.append(data[cold['mag_j']] - data[cold['mag_h']]) #4
+    colors.append(data[cold['mag_h']] - data[cold['mag_k']]) #5
+    colors.append(data[cold['mag_k']] - data[cold['mag_36']]) #6
+    colors.append(data[cold['mag_36']] - data[cold['mag_45']]) #7
     colors = np.array(colors)
 
     if np.any(np.isnan(colors)):
@@ -55,30 +56,34 @@ def makeEntry(index):
     return colors 
 
 def  makeNoiseMatrix(index):
-    noise = np.zeros(49).reshape(7, 7)
+    noise = np.zeros(64).reshape(8, 8)
 
     data = catalog[index]
 
     noise[0, 0] = data[cold['magRError']]**2 + data[cold['magIError']]**2
     noise[1, 1] = data[cold['magIError']]**2 + data[cold['magZError']]**2
     noise[2, 2] = data[cold['magZError']]**2 + data[cold['magYError']]**2
-
-    noise[3, 3] = data[cold['mag_j_error']]**2 + data[cold['mag_h_error']]**2
-    noise[4, 4] = data[cold['mag_h_error']]**2 + data[cold['mag_k_error']]**2
-    noise[5, 5] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
-    noise[6, 6] = data[cold['mag_36error']]**2 + data[cold['mag_45error']]**2
+    noise[3, 3] = data[cold['magYError']]**2 + data[cold['mag_j_error']]**2
+    noise[4, 4] = data[cold['mag_j_error']]**2 + data[cold['mag_h_error']]**2
+    noise[5, 5] = data[cold['mag_h_error']]**2 + data[cold['mag_k_error']]**2
+    noise[6, 7] = data[cold['mag_k_error']]**2 + data[cold['mag_36error']]**2
+    noise[7, 7] = data[cold['mag_36error']]**2 + data[cold['mag_45error']]**2
 
     noise[0, 1] = -data[cold['magIError']]**2
     noise[1, 2] = -data[cold['magZError']]**2
-    noise[3, 4] = -data[cold['mag_h_error']]**2
-    noise[4, 5] = -data[cold['mag_k_error']]**2
-    noise[5, 6] = -data[cold['mag_36error']]**2
+    noise[2, 3] = -data[cold['magYError']]**2
+    noise[3, 4] = -data[cold['mag_j_error']]**2
+    noise[4, 5] = -data[cold['mag_h_error']]**2
+    noise[5, 6] = -data[cold['mag_k_error']]**2
+    noise[6, 7] = -data[cold['mag_36error']]**2
 
     noise[1, 0] = noise[0, 1]
     noise[2, 1] = noise[1, 2]
+    noise[3, 2] = noise[2, 3]
     noise[4, 3] = noise[3, 4]
     noise[5, 4] = noise[4, 5]
     noise[6, 5] = noise[5, 6]
+    noise[7, 6] = noise[6, 7]
 
     return noise
 

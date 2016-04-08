@@ -175,7 +175,9 @@ for e in galaxyindices:
 results = matchedCat['mu_class']
 ids = matchedCat['id']
 
-magnitudeMatrix = np.matrix([magR-magI, magI-magZ, magZ-magY, jmags-hmags, hmags-kmags, kmags-chan1mags, chan1mags-chan2mags], dtype=np.dtype('float64')).transpose()
+magnitudeMatrix = np.matrix([magR-magI, magI-magZ, magZ-magY, magY-jmags, \
+        jmags-hmags, hmags-kmags, kmags-chan1mags, chan1mags-chan2mags], \
+        dtype=np.dtype('float64')).transpose()
 
 
 #this dtype somehow encodes the names into the format, so the sklearn thinks that the names are a type and fail to cast
