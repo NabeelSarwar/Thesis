@@ -160,13 +160,13 @@ plt.close(fig)
 
 fig = plt.figure()
 ax1= plt.axes()
-yj = magY - jmag
+yj = magY - jmags
 hk = hmags - kmags
 goodHK = sand(matchedCat['mag_h_error'] < 0.2, matchedCat['mag_k_error'] < 0.2)
 good = sand(goodYJ, goodHK)
 ax1.set_xlabel('y-j')
 ax1.set_ylabel('h-k')
-randomPlot(jh, hk, good)
+randomPlot(yj, hk, good)
 #plt.scatter(jh[sand(starindices, good)], hk[sand(starindices, good)], marker='+', c='red', label='star')
 #plt.scatter(jh[sand(galaxyindices, good)], hk[sand(galaxyindices, good)], marker='+', c='blue', label='galaxy')
 plt.savefig('colorplots/yjvshk.png')
