@@ -255,9 +255,6 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     print 'done'
 
 
-randomPlot(jmagsAll, hmagsAll, kmagsAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'],\
-        jmagsBad, hmagsBad, kmagsBad, \
-        'j-h', 'h-k', 'data/SideBySide/jhk.png')
 
 randomPlotColors(magGAll-magRAll, magRAll-magIAll, magGErrorAll, magRErrorAll, magRErrorAll, magIErrorAll, magGDeconv-magRDeconv, \
         magRDeconv-magIDeconv, magGEC-magREC, magREC-magIEC, 'g-r (AB)', 'r-i (AB)', 'data/SideBySide/gri.png')
@@ -269,6 +266,11 @@ randomPlotColors(magRAll-magIAll, magIAll-magZAll, magRErrorAll, magIErrorAll, m
 randomPlotColors(magIAll-magZAll, magZAll-magYAll, magIErrorAll, magZErrorAll, magZErrorAll, magYErrorAll, \
         magIDeconv - magZDeconv, magZDeconv-magYDeconv, magIEC - magZEC, magZEC - magYEC, \
         'i-z (AB)', 'z-y (AB)', 'data/SideBySide/izy.png')
+
+randomPlotColors(magYAll-jmagsAll, hmagsAll-kmagsAll, magYErrorAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'] , \
+        matchedCatAll['mag_k_error'], magYDeconv - jmagsDeconv, hmagsDeconv-kmagsDeconv, \
+        magYEC - jmagsEC, hmagsEC - kmagsEC, \
+        'y-j (AB)', 'h-k (AB)', 'data/SideBySide/yjhk.png')
 
 randomPlotColors(jmagsAll-hmagsAll, hmagsAll-kmagsAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'], \
         matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], jmagsDeconv-hmagsDeconv, hmagsDeconv-kmagsDeconv, \
