@@ -200,8 +200,8 @@ galaxyIndicesTest = np.array(galaxyIndicesTest)
 if len(galaxyIndicesTest) != galaxyTestNumber:
     raise Exception('False Galaxy Test numbers')
 
-nGaussiansStar = 13
-nGaussiansGalaxy = 27
+nGaussiansStar = 3
+nGaussiansGalaxy = 28
 
 print 'Making Arrays'
 print 'Making X'
