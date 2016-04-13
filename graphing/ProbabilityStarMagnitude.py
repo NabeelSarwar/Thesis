@@ -38,6 +38,8 @@ galaxyIndices = np.where(catalog[: , cold['mu_class']]==1)
 PStar = 1.0 * len(starIndices[0]) / len(catalog)
 PGalaxy = 1.0 * len(galaxyIndices[0])/ len(catalog)
 
+print 'PStar is {0}'.format(PStar)
+
 # can always get id
 def makeEntry(index):
     colors = []
@@ -172,9 +174,6 @@ def generateROCCurve(predictions, results):
     plt.legend(loc="lower right")
     plt.savefig('data/PStar/ROC.png')
 
-
-
-
 starTrainNumber = int(np.floor(len(starIndices[0]) * 0.8))
 starTestNumber = len(starIndices[0]) - starTrainNumber
 starIndicesTrain = np.random.choice(starIndices[0], starTrainNumber, replace=False)
@@ -294,22 +293,11 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileN
     plt.ylabel(r'$P(Star)$')
     plt.xlabel(xaxistitle)
 
-    qr1x = np.percentile(color, 25)
-    qr3x = np.percentile(color, 75)
-    IQRx = qr3x - qr1x
     # do it for x
     xticks, xticklabels = plt.xticks()
 
-    if np.min(color) < (qr1x - 1.5 * IQRx):
-        xmin = qr1x - 1.5 * IQRx
-    else:
-        xmin = (3*xticks[0] - xticks[1])/2.
-    # shift half a step to the right
-
-    if np.max(color) > (qr3x + 1.5 * IQRx):
-        xmax = qr3x + 1.5 * IQRx
-    else:
-        xmax = (3*xticks[-1] - xticks[-2])/2.
+    xmin = (3*xticks[0] - xticks[1])/2.
+    xmax = (3*xticks[-1] - xticks[-2])/2.
 
     plt.xlim(xmin, xmax)
     plt.xticks(xticks)
