@@ -238,7 +238,7 @@ def TryModel(nGaussiansStar, nGaussiansGalaxy):
     predictions = np.array(starPredictions.tolist() +  galaxyPredictions.tolist())
     results = np.array([1 for i in range(len(starPredictions))] + [0 for i in range(len(galaxyPredictions))])
     report = generateReport(predictions, results)
-    return (report['Precision'], clfstar, clfgalaxy)
+    return (report['Precision'], report['Recall'], clfstar, clfgalaxy)
 
 maxr = None
 maxprecision = -1
@@ -246,7 +246,8 @@ bestclfstar = None
 bestclfgalaxy = None
 for r in itertools.product(np.arange(1, 31), np.arange(1, 31)):
     print 'Trying Model Star: {0}, Galaxy: {1}'.format(r[0], r[1])
-    precision, clfstar, clfgalaxy = TryModel(r[0], r[1])
+    precision, recall, clfstar, clfgalaxy = TryModel(r[0], r[1])
+    precision = 1.0 * (precision + recall)/2
     if precision > maxprecision:
         maxprecision = precision
         maxr = r
