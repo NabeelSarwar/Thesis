@@ -293,7 +293,9 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileN
     plt.ylabel(r'$P(Star)$')
     plt.xlabel(xaxistitle)
 
+    plt.scatter(color, predictions)
     # do it for x
+
     xticks, xticklabels = plt.xticks()
 
     xmin = (3*xticks[0] - xticks[1])/2.
@@ -302,7 +304,6 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileN
     plt.xlim(xmin, xmax)
     plt.xticks(xticks)
 
-    plt.scatter(color, predictions)
     plt.savefig(fileName)
 
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magR']], \
