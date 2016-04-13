@@ -177,9 +177,9 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     magSource1Bad = color1Deconv
     magSource2Bad = color2Deconv
 
-    plt.scatter(magSource1Bad[badGalaxyIndices], magSource2Bad[badGalaxyIndices], c='blue', marker='o',\
+    plt.scatter(magSource1Bad[deconvGalaxyIndices], magSource2Bad[deconvGalaxyIndices], c='blue', marker='o',\
             label = 'Galaxies')
-    plt.scatter(magSource1Bad[badStarIndices], magSource2Bad[badStarIndices], c='red', marker='o',\
+    plt.scatter(magSource1Bad[deconvStarIndices], magSource2Bad[deconvStarIndices], c='red', marker='o',\
             label='Stars')
 
     ax2.set_ylim([-2, 2])
