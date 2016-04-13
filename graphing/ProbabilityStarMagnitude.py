@@ -176,6 +176,7 @@ def generateROCCurve(predictions, results):
 
 starTrainNumber = int(np.floor(len(starIndices[0]) * 0.8))
 starTestNumber = len(starIndices[0]) - starTrainNumber
+print 'Number of test stars: {0}'.format(starTestNumber)
 starIndicesTrain = np.random.choice(starIndices[0], starTrainNumber, replace=False)
 starIndicesTest = []
 
@@ -189,6 +190,9 @@ if len(starIndicesTest) != starTestNumber:
 
 galaxyTrainNumber = int(np.floor(len(galaxyIndices[0]) * 0.8))
 galaxyTestNumber = len(galaxyIndices[0])- galaxyTrainNumber
+
+print 'Number of test galaxies: {0}'.format(galaxyTestNumber)
+
 galaxyIndicesTrain = np.random.choice(galaxyIndices[0], galaxyTrainNumber, replace=False)
 galaxyIndicesTest = []
 for index in galaxyIndices[0]:
