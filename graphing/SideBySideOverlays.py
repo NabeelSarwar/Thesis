@@ -138,7 +138,7 @@ chan4magsEC = matchedCat['mag_80']
 
 def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error, color1Deconv, color2Deconv, \
         color1Clustering, color2Clustering, xaxistitle, yaxistitle, filename):
-    fig = plt.figure(figsize=(10,5))
+    fig = plt.figure(figsize=(10,10))
 
     ax1 = plt.subplot(321)
 
@@ -165,7 +165,7 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
             label='Stars')
     
     handles, labels = ax1.get_legend_handles_labels()
-    ax1.legend(handles, labels, loc='lower left')
+    # ax1.legend(handles, labels, loc='lower left')
 
     ax1.set_ylim([-2, 2])
     ax1.set_xlim([-2, 2])
@@ -188,7 +188,7 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax2.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax2.set_title('Distribution of Colors for Misclassified Sources (XD)')
     handles, labels = ax2.get_legend_handles_labels()
-    ax2.legend(handles, labels, loc='lower left')
+    # ax2.legend(handles, labels, loc='lower left')
 
     # logistic regression IDs
     ax3 = plt.subplot(323)
@@ -207,7 +207,7 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax3.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax3.set_title('Distribution of Colors for Misclassified Sources (LR)')
     handles, labels = ax3.get_legend_handles_labels()
-    ax3.legend(handles, labels, loc='lower left')
+    # ax3.legend(handles, labels, loc='lower left')
 
     # svm linear IDs
     ax4 = plt.subplot(324)
@@ -226,7 +226,7 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax4.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax4.set_title('Distribution of Colors for Misclassified Sources (SVM-Linear)')
     handles, labels = ax4.get_legend_handles_labels()
-    ax4.legend(handles, labels, loc='lower left')
+    # ax4.legend(handles, labels, loc='lower left')
 
     #SVM RBF IDs
     ax5 = plt.subplot(325)
@@ -245,7 +245,7 @@ def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error,
     ax5.set_ylabel(yaxistitle, fontdict={'fontsize': 10})
     ax5.set_title('Distribution of Colors for Misclassified Sources (SVM-RBF)')
     handles, labels = ax5.get_legend_handles_labels()
-    ax5.legend(handles, labels, loc='lower left')
+    # ax5.legend(handles, labels, loc='lower left')
 
 
     # speed up performance
