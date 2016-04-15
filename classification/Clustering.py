@@ -15,6 +15,10 @@ import numpy as np
 import pyfits
 #output false positive rate and all that jazz
 
+# for the linear svm only
+def PlattScaling(fvalues):
+    return 1.0 / (1 + np.exp(-fvalues))
+
 def generateReport(model, data, results):
     if data.shape[0] != len(results):
         print 'Incorrect size of data and results'
@@ -64,7 +68,7 @@ def generateReport(model, data, results):
     badGalaxyIndices = np.array(badGalaxyIndices)
     badStarIndices = np.array(badStarIndices)
     badStarProbs = probabilities[badStarIndices]
-    badGalProbs = probabilities[badGalIndices]
+    badGalProbs = probabilities[badGalaxyIndices]
     return report, badStarIndices, badGalaxyIndices, badStarProbs, badGalProbs
 
 def writeReport(report, fileName):
@@ -80,9 +84,6 @@ def writeReport(report, fileName):
     buf.write('Accuracy: {0}\n'.format(report['Accuracy']))
     buf.close()
 
-
-def PlattScaling(fvalues):
-    return 1.0 / (1 + np.exp(-fvalues))
 
 def tryModel(model, data, ids, results):
     if len(ids) != len(results):
