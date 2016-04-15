@@ -120,7 +120,7 @@ def tryModel(model, data, ids, results):
         print trainingSetSize
 
     model.fit(trainingSet, results[trainingIndices])
-    trainingReport, _, _ = generateReport(model, trainingSet, results[trainingIndices])
+    trainingReport, _, _, _, _ = generateReport(model, trainingSet, results[trainingIndices])
     testReport, badStarIndicesTest, badGalaxyIndicesTest, badStarProbs, badGalProbs = generateReport(model, testSet, results[testIndices])
     # need to get the proper test indices
     badStarIndices = testIndices[badStarIndicesTest]
