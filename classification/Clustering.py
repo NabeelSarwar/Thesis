@@ -219,8 +219,8 @@ bestModelLogistic = clf.best_estimator_
 bestParamsLogistic = clf.best_params_
 print 'Trying Logistic Model'
 reportLogistic, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs = tryModel(bestModelLogistic, magnitudeMatrix, ids, results)
-np.savetxt('data/logistic/badStarIDs.txt', np.array([badStarIDs, badStarProbs]).tranpose())
-np.savetxt('data/logistic/badGalaxyIDs.txt', np.array([badGalaxyIDs, badGalProbs]).tranpose())
+np.savetxt('data/logistic/badStarIDs.txt', np.array([badStarIDs, badStarProbs]).transpose())
+np.savetxt('data/logistic/badGalaxyIDs.txt', np.array([badGalaxyIDs, badGalProbs]).transpose())
 writeReport(reportLogistic, 'data/logistic/best_logistic.txt')
 json.dump(bestParamsLogistic, open('data/logistic/best_params_logistic.json', 'w'))
 
@@ -239,8 +239,8 @@ bestModelSVMLinear = clf.best_estimator_
 bestParamsSVMLinear = clf.best_params_
 print 'Trying Linear Model'
 reportSVMLinear, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs = tryModel(bestModelSVMLinear, magnitudeMatrix, ids, results)
-np.savetxt('data/svm/badStarIDslinear.txt', np.array([badStarIDs, badStarProbs]).tranpose())
-np.savetxt('data/svm/badGalaxyIDslinear.txt', np.array([badGalaxyIDs, badGalProbs]).tranpose())
+np.savetxt('data/svm/badStarIDslinear.txt', np.array([badStarIDs, badStarProbs]).transpose())
+np.savetxt('data/svm/badGalaxyIDslinear.txt', np.array([badGalaxyIDs, badGalProbs]).transpose())
 writeReport(reportSVMLinear, 'data/svm/best_svm_linear.txt')
 json.dump(bestParamsSVMLinear, open('data/svm/best_params_svm_linear.json', 'w'))
 
@@ -257,8 +257,8 @@ bestModelSVMRBF = clf.best_estimator_
 bestParamsSVMRBF = clf.best_params_
 print 'Trying RBF Model'
 reportSVMRBF, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs= tryModel(bestModelSVMRBF, magnitudeMatrix, ids, results)
-np.savetxt('data/svm/badStarIDsRBF.txt', np.array([badStarIds, badStarProbs]).tranpose())
-np.savetxt('data/svm/badGalaxyIDsRBF.txt', np.array([badGalaxyIDs, badGalProbs]).tranpose())
+np.savetxt('data/svm/badStarIDsRBF.txt', np.array([badStarIds, badStarProbs]).transpose())
+np.savetxt('data/svm/badGalaxyIDsRBF.txt', np.array([badGalaxyIDs, badGalProbs]).transpose())
 writeReport(reportSVMRBF, 'data/svm/best_svm_rbf.txt')
 json.dump(bestParamsSVMRBF, open('data/svm/best_params_svm_rbf.json', 'w'))
 
