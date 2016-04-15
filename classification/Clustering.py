@@ -72,6 +72,9 @@ def writeReport(report, fileName):
     buf.close()
 
 
+def PlattScaling(fvalues):
+    return 1.0 / (1 + np.exp(-fvalues))
+
 def tryModel(model, data, ids, results):
     if len(ids) != len(results):
         raise Exception('bad length')
@@ -109,13 +112,23 @@ def tryModel(model, data, ids, results):
     model.fit(trainingSet, results[trainingIndices])
     trainingReport, _, _ = generateReport(model, trainingSet, results[trainingIndices])
     testReport, badStarIndicesTest, badGalaxyIndicesTest = generateReport(model, testSet, results[testIndices])
+    try:
+        positiveIndex = model.classes_ == 1
+        print positiveIndex
+        probabilities = model.predict_proba(testSet)[:, positiveIndex]
+    except AttributeError:
+        probabilities = PlattScaling(model.decision_function(testSet))
+        
+
 
     # need to get the proper test indices
     badStarIndices = testIndices[badStarIndicesTest]
     badGalaxyIndices = testIndices[badGalaxyIndicesTest]
     badStarIDs = ids[badStarIndices]
     badGalaxyIDs = ids[badGalaxyIndices]
-    return {'training': trainingReport, 'test': testReport}, badStarIDs, badGalaxyIDs
+    badStarProbs = probabilities[badStarIndices]
+    badGalProbs = probabilities[badGalIndices]
+    return {'training': trainingReport, 'test': testReport}, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs
 
 matchedCat = pyfits.getdata('MatchHellErrorCut2.fits')
 #shortcut and
@@ -206,9 +219,9 @@ clf.fit(magnitudeMatrix, results)
 bestModelLogistic = clf.best_estimator_
 bestParamsLogistic = clf.best_params_
 print 'Trying Logistic Model'
-reportLogistic, badStarIDs, badGalaxyIDs = tryModel(bestModelLogistic, magnitudeMatrix, ids, results)
-np.savetxt('data/logistic/badStarIDs.txt', badStarIDs)
-np.savetxt('data/logistic/badGalaxyIDs.txt', badGalaxyIDs)
+reportLogistic, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs = tryModel(bestModelLogistic, magnitudeMatrix, ids, results)
+np.savetxt('data/logistic/badStarIDs.txt', np.array([badStarIDs, badStarProbs]).tranpose())
+np.savetxt('data/logistic/badGalaxyIDs.txt', np.array([badGalaxyIDs, badGalProbs]).tranpose())
 writeReport(reportLogistic, 'data/logistic/best_logistic.txt')
 json.dump(bestParamsLogistic, open('data/logistic/best_params_logistic.json', 'w'))
 
@@ -226,16 +239,16 @@ clf.fit(magnitudeMatrix, results)
 bestModelSVMLinear = clf.best_estimator_
 bestParamsSVMLinear = clf.best_params_
 print 'Trying Linear Model'
-reportSVMLinear, badStarIDs, badGalaxyIDs = tryModel(bestModelSVMLinear, magnitudeMatrix, ids, results)
-np.savetxt('data/svm/badStarIDslinear.txt', badStarIDs)
-np.savetxt('data/svm/badGalaxyIDslinear.txt', badGalaxyIDs)
+reportSVMLinear, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs = tryModel(bestModelSVMLinear, magnitudeMatrix, ids, results)
+np.savetxt('data/svm/badStarIDslinear.txt', np.array([badStarIDs, badStarProbs]).tranpose())
+np.savetxt('data/svm/badGalaxyIDslinear.txt', np.array([badGalaxyIDs, badGalProbs]).tranpose())
 writeReport(reportSVMLinear, 'data/svm/best_svm_linear.txt')
 json.dump(bestParamsSVMLinear, open('data/svm/best_params_svm_linear.json', 'w'))
 
 
 print 'RBF SVM'
 modelSVMRBF = sklearn.svm.SVC()
-grid = {'C': [1, 2, 3, 5, 10], 'gamma' : ['auto', 0.1, 0.5, 1, 2, 3]}
+grid = {'C': [1, 2, 3, 5, 10], 'gamma' : ['auto', 0.1, 0.5, 1, 2, 3], 'probability': [True]}
 
 clf = sklearn.grid_search.GridSearchCV(modelSVMRBF, param_grid=grid)
 
@@ -244,9 +257,9 @@ clf.fit(magnitudeMatrix, results)
 bestModelSVMRBF = clf.best_estimator_
 bestParamsSVMRBF = clf.best_params_
 print 'Trying RBF Model'
-reportSVMRBF, badStarIDs, badGalaxyIDs = tryModel(bestModelSVMRBF, magnitudeMatrix, ids, results)
-np.savetxt('data/svm/badStarIDsRBF.txt', badStarIDs)
-np.savetxt('data/svm/badGalaxyIDsRBF.txt', badGalaxyIDs)
+reportSVMRBF, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs= tryModel(bestModelSVMRBF, magnitudeMatrix, ids, results)
+np.savetxt('data/svm/badStarIDsRBF.txt', np.array([badStarIds, badStarProbs]).tranpose())
+np.savetxt('data/svm/badGalaxyIDsRBF.txt', np.array([badGalaxyIDs, badGalProbs]).tranpose())
 writeReport(reportSVMRBF, 'data/svm/best_svm_rbf.txt')
 json.dump(bestParamsSVMRBF, open('data/svm/best_params_svm_rbf.json', 'w'))
 
