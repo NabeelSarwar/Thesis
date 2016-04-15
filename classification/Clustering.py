@@ -26,6 +26,13 @@ def generateReport(model, data, results):
     predictions = model.predict(data)
     badStarIndices = []
     badGalaxyIndices = []
+    try:
+        positiveIndex = model.classes_ == 1
+        print positiveIndex
+        probabilities = model.predict_proba(data)[:, positiveIndex]
+    except AttributeError:
+        probabilities = PlattScaling(model.decision_function(data))
+     
     if len(results) != len(predictions):
         print 'Incorrect predictions'
     for i in range(len(predictions)):
@@ -56,7 +63,9 @@ def generateReport(model, data, results):
     report['Accuracy'] = 1.0 * (truepositive + truenegative) / len(results)
     badGalaxyIndices = np.array(badGalaxyIndices)
     badStarIndices = np.array(badStarIndices)
-    return report, badStarIndices, badGalaxyIndices
+    badStarProbs = probabilities[badStarIndices]
+    badGalProbs = probabilities[badGalIndices]
+    return report, badStarIndices, badGalaxyIndices, badStarProbs, badGalProbs
 
 def writeReport(report, fileName):
     buf = open(fileName, 'w')
@@ -111,23 +120,12 @@ def tryModel(model, data, ids, results):
 
     model.fit(trainingSet, results[trainingIndices])
     trainingReport, _, _ = generateReport(model, trainingSet, results[trainingIndices])
-    testReport, badStarIndicesTest, badGalaxyIndicesTest = generateReport(model, testSet, results[testIndices])
-    try:
-        positiveIndex = model.classes_ == 1
-        print positiveIndex
-        probabilities = model.predict_proba(testSet)[:, positiveIndex]
-    except AttributeError:
-        probabilities = PlattScaling(model.decision_function(testSet))
-        
-
-
+    testReport, badStarIndicesTest, badGalaxyIndicesTest, badStarProbs, badGalProbs = generateReport(model, testSet, results[testIndices])
     # need to get the proper test indices
     badStarIndices = testIndices[badStarIndicesTest]
     badGalaxyIndices = testIndices[badGalaxyIndicesTest]
     badStarIDs = ids[badStarIndices]
     badGalaxyIDs = ids[badGalaxyIndices]
-    badStarProbs = probabilities[badStarIndices]
-    badGalProbs = probabilities[badGalIndices]
     return {'training': trainingReport, 'test': testReport}, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs
 
 matchedCat = pyfits.getdata('MatchHellErrorCut2.fits')
