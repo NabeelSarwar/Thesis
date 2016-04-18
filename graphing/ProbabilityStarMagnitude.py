@@ -310,6 +310,16 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileN
 
     plt.savefig(fileName)
 
+# to analyze bad SVM points
+def ErrorCutIDsToMask(matchedCat, idArray):
+    indices = []
+    for i in range(len(matchedCat['id'])):
+        if matchedCat['id'][i] in idArray:
+            indices.append(i)
+    mask = np.array([True if i in indices else False for i in range(len(matchedCat['id']))])
+    return mask
+
+
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magR']], \
         'P(Star) for False Negatives in R', 'R (AB)', 'data/PStar/false_negatives_r_star.png')
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magI']], \
