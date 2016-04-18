@@ -268,7 +268,7 @@ report = generateReport(predictions, results)
 json.dump(report, open('data/deconv/deconv_results.json', 'w'))
 
 gaussianResults = open('data/deconv/GaussianResults.txt', 'w')
-gaussianResults.write('Precision {0}\n'.format(maxprecision))
+gaussianResults.write('F1 {0}\n'.format(maxf1))
 gaussianResults.write('Gaussians Star {0}\n'.format(maxr[0]))
 gaussianResults.write('Gaussians Galaxy {0}\n'.format(maxr[1]))
 gaussianResults.close()
