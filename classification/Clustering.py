@@ -257,7 +257,7 @@ bestModelSVMRBF = clf.best_estimator_
 bestParamsSVMRBF = clf.best_params_
 print 'Trying RBF Model'
 reportSVMRBF, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs= tryModel(bestModelSVMRBF, magnitudeMatrix, ids, results)
-np.savetxt('data/svm/badStarIDsRBF.txt', np.array([badStarIds, badStarProbs]).transpose())
+np.savetxt('data/svm/badStarIDsRBF.txt', np.array([badStarIDs, badStarProbs]).transpose())
 np.savetxt('data/svm/badGalaxyIDsRBF.txt', np.array([badGalaxyIDs, badGalProbs]).transpose())
 writeReport(reportSVMRBF, 'data/svm/best_svm_rbf.txt')
 json.dump(bestParamsSVMRBF, open('data/svm/best_params_svm_rbf.json', 'w'))
