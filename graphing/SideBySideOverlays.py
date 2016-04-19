@@ -104,8 +104,8 @@ goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_y'] != 0)
 matchedCat = matchedCat[goodIndices]
 matchedCat = pyfits.BinTableHDU(matchedCat).data
 
-idsStarLog = np.genfromtxt('data/logistic/badStarIDs.txt')
-idsGalaxyLog = np.genfromtxt('data/logistic/badGalaxyIDs.txt')
+idsStarLog = np.genfromtxt('data/logistic/badStarIDs.txt')[:, 0]
+idsGalaxyLog = np.genfromtxt('data/logistic/badGalaxyIDs.txt')[:, 0]
 idsStarLog = np.array([int(i) for i in idsStarLog])
 idsGalaxyLog = np.array([int(i) for i in idsGalaxyLog])
 
