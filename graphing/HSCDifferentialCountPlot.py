@@ -43,15 +43,20 @@ bins = np.arange(30)
 
 #HSC
 #Stars only
-PlotHistogramMagnitudes(magR[starIndices], bins, 'data/logcountsall/countsStarsRBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in R Band')
-PlotHistogramMagnitudes(magI[starIndices], bins, 'data/logcountsall/countsStarsIBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in I Band')
-PlotHistogramMagnitudes(magZ[starIndices], bins, 'data/logcountsall/countsStarsZBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in Z Band')
+PlotHistogramMagnitudes(magR[starIndices], bins, 'data/logcountsall/countsStarsRBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in R Band (AB)')
+PlotHistogramMagnitudes(magI[starIndices], bins, 'data/logcountsall/countsStarsIBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in I Band (AB)')
+PlotHistogramMagnitudes(magZ[starIndices], bins, 'data/logcountsall/countsStarsZBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in Z Band (AB)')
+PlotHistogramMagnitudes(magY[starIndices], bins, 'data/logcountsall/countsStarsYBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in Y Band (AB)')
+
 
 
 #Galaxies
-PlotHistogramMagnitudes(magR[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesRBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in R Band')
-PlotHistogramMagnitudes(magI[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesIBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in I Band')
-PlotHistogramMagnitudes(magZ[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesZBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in Z Band')
+PlotHistogramMagnitudes(magR[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesRBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in R Band (AB)')
+PlotHistogramMagnitudes(magI[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesIBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in I Band (AB)')
+PlotHistogramMagnitudes(magZ[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesZBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in Z Band (AB)')
+PlotHistogramMagnitudes(magY[galaxyIndices], bins, 'data/logcountsall/countsStarsYBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in Y Band (AB)')
+
+
 
 #Ultravista
 data = pyfits.getdata('UltraVistaHSCHST.fits')
@@ -63,14 +68,14 @@ magh = data['mag_h']
 magk = data['mag_k']
 
 # Stars
-PlotHistogramMagnitudes(magj[starIndices], bins, 'data/logcountsall/countsStarsJBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in J Band')
-PlotHistogramMagnitudes(magh[starIndices], bins, 'data/logcountsall/countsStarsHBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in H Band')
-PlotHistogramMagnitudes(magk[starIndices], bins, 'data/logcountsall/countsStarsKBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in K Band')
+PlotHistogramMagnitudes(magj[starIndices], bins, 'data/logcountsall/countsStarsJBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in J Band (AB)')
+PlotHistogramMagnitudes(magh[starIndices], bins, 'data/logcountsall/countsStarsHBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in H Band (AB)')
+PlotHistogramMagnitudes(magk[starIndices], bins, 'data/logcountsall/countsStarsKBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in K Band (AB)')
 
 # Galaxies
-PlotHistogramMagnitudes(magj[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesJBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in J Band')
-PlotHistogramMagnitudes(magh[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesHBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in H Band')
-PlotHistogramMagnitudes(magk[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesKBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in K Band')
+PlotHistogramMagnitudes(magj[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesJBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in J Band (AB)')
+PlotHistogramMagnitudes(magh[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesHBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in H Band (AB)')
+PlotHistogramMagnitudes(magk[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesKBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in K Band (AB)')
 
 
 #Spitzer
@@ -82,9 +87,9 @@ mag36 = data['mag_36']
 mag45 = data['mag_45']
 
 # Stars
-PlotHistogramMagnitudes(mag36[starIndices], bins, 'data/logcountsall/countsStars36MicronBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in 3.6 Band')
-PlotHistogramMagnitudes(mag45[starIndices], bins, 'data/logcountsall/countsStars45MicronBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in 4.5 Band')
+PlotHistogramMagnitudes(mag36[starIndices], bins, 'data/logcountsall/countsStars36MicronBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in 3.6 Band (AB)')
+PlotHistogramMagnitudes(mag45[starIndices], bins, 'data/logcountsall/countsStars45MicronBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in 4.5 Band (AB)')
 
 # Galaxies
-PlotHistogramMagnitudes(mag36[galaxyIndices], bins, 'data/logcountsall/countsGalaxies36MicronBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in 3.6 Band')
-PlotHistogramMagnitudes(mag45[galaxyIndices], bins, 'data/logcountsall/countsGalaxies45MicronBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in 4.5 Band')
+PlotHistogramMagnitudes(mag36[galaxyIndices], bins, 'data/logcountsall/countsGalaxies36MicronBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in 3.6 Band (AB)')
+PlotHistogramMagnitudes(mag45[galaxyIndices], bins, 'data/logcountsall/countsGalaxies45MicronBand.png', r'Logarithm of Approximate $\frac{dN}{dm}$ in 4.5 Band (AB)')
