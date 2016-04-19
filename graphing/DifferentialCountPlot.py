@@ -1,9 +1,11 @@
 import pyfits
-import matplotlib.pyplot as plt
-import numpy as np
+
 import matplotlib
 
 matplotlib.use('Agg')
+
+import matplotlib.pyplot as plt
+import numpy as np
 catalog = pyfits.getdata('MatchHellErrorCut2.fits')
 
 def DifferentialCountPlot(starBoolean, catalog, bandColumn, bandTitle, bins, fileName):
