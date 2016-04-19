@@ -109,13 +109,13 @@ idsGalaxyLog = np.genfromtxt('data/logistic/badGalaxyIDs.txt')[:, 0]
 idsStarLog = np.array([int(i) for i in idsStarLog])
 idsGalaxyLog = np.array([int(i) for i in idsGalaxyLog])
 
-idsStarSVML = np.genfromtxt('data/svm/badStarIDslinear.txt')
-idsGalaxySVML = np.genfromtxt('data/svm/badGalaxyIDslinear.txt')
+idsStarSVML = np.genfromtxt('data/svm/badStarIDslinear.txt')[:, 0]
+idsGalaxySVML = np.genfromtxt('data/svm/badGalaxyIDslinear.txt')[:, 0]
 idsStarSVML = np.array([int(i) for i in idsStarSVML])
 idsGalaxySVML = np.array([int(i) for i in idsGalaxySVML])
 
-idsStarSVMR = np.genfromtxt('data/svm/badStarIDsRBF.txt')
-idsGalaxySVMR = np.genfromtxt('data/svm/badGalaxyIDsRBF.txt')
+idsStarSVMR = np.genfromtxt('data/svm/badStarIDsRBF.txt')[:, 0]
+idsGalaxySVMR = np.genfromtxt('data/svm/badGalaxyIDsRBF.txt')[:, 0]
 idsStarSVMR = np.array([int(i) for i in idsStarSVMR])
 idsGalaxySVMR = np.array([int(i) for i in idsGalaxySVMR])
 
