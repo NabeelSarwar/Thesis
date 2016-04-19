@@ -321,13 +321,13 @@ def ErrorCutIDsToMask(matchedCat, idArray):
 
 
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magR']], \
-        'P(Star) for False Negatives in R', 'R (AB)', 'data/PStar/false_negatives_r_star.png')
+        'P(Star) for False Negatives in r', 'r (AB)', 'data/PStar/false_negatives_r_star.png')
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magI']], \
-        'P(Star) for False Negatives in I', 'I (AB)', 'data/PStar/false_negatives_i_star.png')
+        'P(Star) for False Negatives in i', 'i (AB)', 'data/PStar/false_negatives_i_star.png')
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magZ']], \
-        'P(Star) for False Negatives in Z', 'Z (AB)', 'data/PStar/false_negatives_z_star.png')
+        'P(Star) for False Negatives in z', 'z (AB)', 'data/PStar/false_negatives_z_star.png')
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magY']], \
-        'P(Star) for False Negatives in Y', 'Y (AB)', 'data/PStar/false_negatives_y_star.png')
+        'P(Star) for False Negatives in y', 'y (AB)', 'data/PStar/false_negatives_y_star.png')
 
 
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_j']], \
@@ -335,7 +335,7 @@ AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_j']], 
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_h']],  \
         'P(Star) for False Negatives in H', 'H (AB)', 'data/PStar/false_negatives_h_star.png')
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_k']],  \
-        'P(Star) for False Negatives in K', 'H (AB)', 'data/PStar/false_negatives_k_star.png')
+        'P(Star) for False Negatives in K_s', 'K_s (AB)', 'data/PStar/false_negatives_k_star.png')
 
 AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_36']], \
         r'P(Star) for False Negatives in $3.6\mu{}m$', r'$3.6\mu{}m$ (AB)', \
@@ -345,13 +345,13 @@ AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_45']],
         'data/PStar/false_negatives_chan2_star.png')
 
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magR']], \
-        'P(Star) for False Positives in R', 'R (AB)', 'data/PStar/false_positives_r_galaxy.png')
+        'P(Star) for False Positives in r', 'r (AB)', 'data/PStar/false_positives_r_galaxy.png')
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magI']], \
-        'P(Star) for False Positives in I', 'I (AB)', 'data/PStar/false_positives_i_galaxy.png')
+        'P(Star) for False Positives in i', 'i (AB)', 'data/PStar/false_positives_i_galaxy.png')
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magZ']], \
-        'P(Star) for False Positives in Z', 'Z (AB)', 'data/PStar/false_positives_z_galaxy.png')
+        'P(Star) for False Positives in z', 'z (AB)', 'data/PStar/false_positives_z_galaxy.png')
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magY']], \
-        'P(Star) for False Positives in Y', 'Y (AB)', 'data/PStar/false_positives_y_galaxy.png')
+        'P(Star) for False Positives in y', 'y (AB)', 'data/PStar/false_positives_y_galaxy.png')
 
 
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_j']], \
@@ -359,7 +359,7 @@ AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_j'
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_h']], \
         'P(Star) for False Positives in H', 'H (AB)', 'data/PStar/false_positives_h_galaxy.png')
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_k']], \
-        'P(Star) for False Positives in K', 'K (AB)', 'data/PStar/false_positives_k_galaxy.png')
+        'P(Star) for False Positives in K_s', 'K_s (AB)', 'data/PStar/false_positives_k_galaxy.png')
 
 AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_36']], \
         r'P(Star) for False Positives in $3.6\mu{}m$', r'$3.6\mu{}m$ (AB)', \

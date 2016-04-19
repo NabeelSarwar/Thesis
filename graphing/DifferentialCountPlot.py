@@ -46,7 +46,7 @@ DifferentialCountPlot(1, catalog, 'magZ', 'Z', bins, 'data/counts/starsZcounts.p
 DifferentialCountPlot(1, catalog, 'magY', 'Y', bins, 'data/counts/starsYcounts.png')
 DifferentialCountPlot(1, catalog, 'mag_j', 'J', bins, 'data/counts/starsJcounts.png')
 DifferentialCountPlot(1, catalog, 'mag_h', 'H', bins, 'data/counts/starsHcounts.png')
-DifferentialCountPlot(1, catalog, 'mag_k', 'K', bins, 'data/counts/starsKcounts.png')
+DifferentialCountPlot(1, catalog, 'mag_k', 'K_s', bins, 'data/counts/starsKcounts.png')
 DifferentialCountPlot(1, catalog, 'mag_36', r'3.6 $\mu$m', bins, 'data/counts/stars36counts.png')
 DifferentialCountPlot(1, catalog, 'mag_45', r'4.5 $\mu$m', bins, 'data/counts/stars45counts.png')
 
@@ -56,6 +56,6 @@ DifferentialCountPlot(0, catalog, 'magZ', 'Z', bins, 'data/counts/galaxiesZcount
 DifferentialCountPlot(0, catalog, 'magY', 'Y', bins, 'data/counts/galaxiesYcounts.png')
 DifferentialCountPlot(0, catalog, 'mag_j', 'J', bins, 'data/counts/galaxiesJcounts.png')
 DifferentialCountPlot(0, catalog, 'mag_h', 'H', bins, 'data/counts/galaxiesHcounts.png')
-DifferentialCountPlot(0, catalog, 'mag_k', 'K', bins, 'data/counts/galaxiesKcounts.png')
+DifferentialCountPlot(0, catalog, 'mag_k', 'K_s', bins, 'data/counts/galaxiesKcounts.png')
 DifferentialCountPlot(0, catalog, 'mag_36', r'3.6 $\mu$m', bins, 'data/counts/galaxies36counts.png')
 DifferentialCountPlot(0, catalog, 'mag_45', r'4.5 $\mu$m', bins, 'data/counts/galaxies45counts.png')
