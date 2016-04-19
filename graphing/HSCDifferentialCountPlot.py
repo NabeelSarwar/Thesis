@@ -54,7 +54,7 @@ PlotHistogramMagnitudes(magY[starIndices], bins, 'data/logcountsall/countsStarsY
 PlotHistogramMagnitudes(magR[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesRBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in R Band (AB)')
 PlotHistogramMagnitudes(magI[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesIBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in I Band (AB)')
 PlotHistogramMagnitudes(magZ[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesZBand.png', r'Logarithm of Approximate $\frac{dN_{galaxy}}{dm}$ in Z Band (AB)')
-PlotHistogramMagnitudes(magY[galaxyIndices], bins, 'data/logcountsall/countsStarsYBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in Y Band (AB)')
+PlotHistogramMagnitudes(magY[galaxyIndices], bins, 'data/logcountsall/countsGalaxiesYBand.png', r'Logarithm of Approximate $\frac{dN_{star}}{dm}$ in Y Band (AB)')
 
 
 
