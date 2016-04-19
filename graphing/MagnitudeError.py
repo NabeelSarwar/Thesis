@@ -45,6 +45,8 @@ def MagnitudeErrorPlot(magnitudes, errors, bandString, starboolean):
 MagnitudeErrorPlot(catalog['magR'][starIndices], catalog['magRError'][starIndices], 'R', 1)
 MagnitudeErrorPlot(catalog['magI'][starIndices], catalog['magIError'][starIndices], 'I', 1)
 MagnitudeErrorPlot(catalog['magZ'][starIndices], catalog['magZError'][starIndices], 'Z', 1)
+MagnitudeErrorPlot(catalog['magY'][starIndices], catalog['magYError'][starIndices], 'Y', 1)
+
 
 MagnitudeErrorPlot(catalog['mag_j'][starIndices], catalog['mag_j_error'][starIndices], 'J', 1)
 MagnitudeErrorPlot(catalog['mag_h'][starIndices], catalog['mag_h_error'][starIndices], 'H', 1)
@@ -56,6 +58,7 @@ MagnitudeErrorPlot(catalog['mag_45'][starIndices], catalog['mag_36error'][starIn
 MagnitudeErrorPlot(catalog['magR'][galIndices], catalog['magRError'][galIndices], 'R', 0)
 MagnitudeErrorPlot(catalog['magI'][galIndices], catalog['magIError'][galIndices], 'I', 0)
 MagnitudeErrorPlot(catalog['magZ'][galIndices], catalog['magZError'][galIndices], 'Z', 0)
+MagnitudeErrorPlot(catalog['magY'][galIndices], catalog['magYError'][galIndices], 'Y', 0)
 
 MagnitudeErrorPlot(catalog['mag_j'][galIndices], catalog['mag_j_error'][galIndices], 'J', 0)
 MagnitudeErrorPlot(catalog['mag_h'][galIndices], catalog['mag_h_error'][galIndices], 'H', 0)
