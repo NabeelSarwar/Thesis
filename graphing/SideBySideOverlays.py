@@ -138,7 +138,7 @@ chan4magsEC = matchedCat['mag_80']
 
 def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error, color1Deconv, color2Deconv, \
         color1Clustering, color2Clustering, xaxistitle, yaxistitle, filename):
-    fig = plt.figure(figsize=(30, 30))
+    fig = plt.figure(figsize=(15, 15))
 
     ax1 = plt.subplot(321)
 
@@ -276,6 +276,10 @@ randomPlotColors(magRAll-magIAll, magIAll-magZAll, magRErrorAll, magIErrorAll, m
 randomPlotColors(magIAll-magZAll, magZAll-magYAll, magIErrorAll, magZErrorAll, magZErrorAll, magYErrorAll, \
         magIDeconv - magZDeconv, magZDeconv-magYDeconv, magIEC - magZEC, magZEC - magYEC, \
         'i-z (AB)', 'z-y (AB)', 'data/SideBySide/izy.png')
+
+randomPlotColors(magZAll-magYAll, magYAll-jmagsAll, magZErrorAll, magYErrorAll, magYErrorAll, matchedCatAll['mag_j_error'], \
+        magZDeconv - magYDeconv, magYDeconv-jmagsEC, magZEC - magYEC, magYEC - jmagsEC, \
+        'z-y (AB)', 'y-J (AB)', 'data/SideBySide/zyj.png')
 
 randomPlotColors(magYAll-jmagsAll, hmagsAll-kmagsAll, magYErrorAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'] , \
         matchedCatAll['mag_k_error'], magYDeconv - jmagsDeconv, hmagsDeconv-kmagsDeconv, \
