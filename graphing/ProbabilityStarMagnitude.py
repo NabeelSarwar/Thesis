@@ -330,9 +330,8 @@ chan3magsEC = matchedCatEC['mag_58']
 chan4magsEC = matchedCatEC['mag_80']
 
 # indices correspond to indices in catalog above
-def AnalyzeBadPoints(predictions, indices, magnitudes, title, xaxistitle):
+def AnalyzeBadPoints(predictions, indices, magnitudes, xaxistitle):
     color = magnitudes[indices]
-    plt.title(title)
     plt.ylabel(r'$P(Star)$')
     plt.xlabel(xaxistitle)
 
@@ -484,52 +483,3 @@ MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndice
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         r'$4.5\mu{}m$ (AB)', 'data/PStar/side_false_positives_chan2_galaxy.png')
-
-# KEEP OLD STUFF
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magR']], \
-        'P(Star) for False Negatives in r', 'r (AB)', 'data/PStar/false_negatives_r_star.png')
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magI']], \
-        'P(Star) for False Negatives in i', 'i (AB)', 'data/PStar/false_negatives_i_star.png')
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magZ']], \
-        'P(Star) for False Negatives in z', 'z (AB)', 'data/PStar/false_negatives_z_star.png')
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['magY']], \
-        'P(Star) for False Negatives in y', 'y (AB)', 'data/PStar/false_negatives_y_star.png')
-
-
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_j']], \
-        'P(Star) for False Negatives in J', 'J (AB)', 'data/PStar/false_negatives_j_star.png')
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_h']],  \
-        'P(Star) for False Negatives in H', 'H (AB)', 'data/PStar/false_negatives_h_star.png')
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_k']],  \
-        'P(Star) for False Negatives in K_s', 'K_s (AB)', 'data/PStar/false_negatives_k_star.png')
-
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_36']], \
-        r'P(Star) for False Negatives in $3.6\mu{}m$', r'$3.6\mu{}m$ (AB)', \
-        'data/PStar/false_negatives_chan1_star.png')
-AnalyzeBadPoints(badStarPredictions, badStarIndices, catalog[:, cold['mag_45']], \
-        r'P(Star) for False Negatives in $4.5\mu{}m$', r'$4.5\mu{}m$ (AB)', \
-        'data/PStar/false_negatives_chan2_star.png')
-
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magR']], \
-        'P(Star) for False Positives in r', 'r (AB)', 'data/PStar/false_positives_r_galaxy.png')
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magI']], \
-        'P(Star) for False Positives in i', 'i (AB)', 'data/PStar/false_positives_i_galaxy.png')
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magZ']], \
-        'P(Star) for False Positives in z', 'z (AB)', 'data/PStar/false_positives_z_galaxy.png')
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magY']], \
-        'P(Star) for False Positives in y', 'y (AB)', 'data/PStar/false_positives_y_galaxy.png')
-
-
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_j']], \
-        'P(Star) for False Positives in J', 'J (AB)', 'data/PStar/false_positives_j_galaxy.png')
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_h']], \
-        'P(Star) for False Positives in H', 'H (AB)', 'data/PStar/false_positives_h_galaxy.png')
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_k']], \
-        'P(Star) for False Positives in K_s', 'K_s (AB)', 'data/PStar/false_positives_k_galaxy.png')
-
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_36']], \
-        r'P(Star) for False Positives in $3.6\mu{}m$', r'$3.6\mu{}m$ (AB)', \
-        'data/PStar/false_positives_chan1_galaxy.png')
-AnalyzeBadPoints(badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_45']], \
-        r'P(Star) for False Positives in $4.5\mu{}m$', r'$4.5\mu{}m$ (AB)', \
-        'data/PStar/false_positives_chan2_galaxy.png')
