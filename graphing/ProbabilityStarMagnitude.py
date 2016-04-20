@@ -349,10 +349,11 @@ def AnalyzeBadPoints(predictions, indices, magnitudes, xaxistitle):
 # to analyze bad SVM points
 def ErrorCutIDsToMask(matchedCat, idArray):
     indices = []
-    for i in range(len(matchedCat['id'])):
-        if matchedCat['id'][i] in idArray:
+    column = matchedCat['id']
+    for i in range(len(column)):
+        if column[i] in idArray:
             indices.append(i)
-    mask = np.array([True if i in indices else False for i in range(len(matchedCat['id']))])
+    mask = np.array([True if i in indices else False for i in range(len(column))])
     return mask
 
 
