@@ -138,7 +138,7 @@ chan4magsEC = matchedCat['mag_80']
 
 def randomPlotColors(color1, color2, mag1Error, mag2Error, mag3Error, mag4Error, color1Deconv, color2Deconv, \
         color1Clustering, color2Clustering, xaxistitle, yaxistitle, filename):
-    fig = plt.figure(figsize=(10,10))
+    fig = plt.figure(figsize=(30,15))
 
     ax1 = plt.subplot(321)
 
