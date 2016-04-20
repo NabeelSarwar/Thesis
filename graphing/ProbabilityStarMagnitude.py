@@ -280,8 +280,8 @@ starPredictionsNumbers = np.array([predictStarDouble(np.array([XTestStar[i]]), n
 galaxyPredictionsNumbers = np.array([predictStarDouble(np.array([XTestGalaxy[i]]), np.array([XErrTestGalaxy[i]]), galaxyIndicesTest[i]) for i in range(galaxyTestNumber)])
 
 # these are the bad probabilities
-badStarPredictions = starPredictionsNumbers[badStarPredictions]
-badGalaxyPredictions = galaxyPredictionsNumbers[badGalaxyPredictions]
+badStarPredictionsDeconv = starPredictionsNumbers[badStarPredictions]
+badGalaxyPredictionsDeconv = galaxyPredictionsNumbers[badGalaxyPredictions]
 
 starSaveInformation = np.array([badStarIndices, badStarPredictions]).transpose()
 galaxySaveInformation = np.array([badGalaxyIndices, badGalaxyPredictions]).transpose()
@@ -289,10 +289,49 @@ galaxySaveInformation = np.array([badGalaxyIndices, badGalaxyPredictions]).trans
 np.savetxt('data/deconv/starBadPredictionIndexProbability.txt', starSaveInformation)
 np.savetxt('data/deconv/galaxyBadPredictionIndexProbability.txt', galaxySaveInformation)
 
+
+matchedCatEC = pyfits.getdata('MatchHellErrorCut2.fits')
+idsStarLog = np.genfromtxt('data/logistic/badStarIDs.txt')[:, 0]
+idsGalaxyLog = np.genfromtxt('data/logistic/badGalaxyIDs.txt')[:, 0]
+idsStarLog = np.array([int(i) for i in idsStarLog])
+idsGalaxyLog = np.array([int(i) for i in idsGalaxyLog])
+starLogPredictions  = np.genfromtxt('data/logistic/badStarIDs.txt')[:, 1]
+galaxyLogPredictions = np.genfromtxt('data/logistic/badGalaxyIDs.txt')[:, 1]
+
+idsStarSVML = np.genfromtxt('data/svm/badStarIDslinear.txt')[:, 0]
+idsGalaxySVML = np.genfromtxt('data/svm/badGalaxyIDslinear.txt')[:, 0]
+idsStarSVML = np.array([int(i) for i in idsStarSVML])
+idsGalaxySVML = np.array([int(i) for i in idsGalaxySVML])
+starSVMLPredictions = np.genfromtxt('data/svm/badStarIDslinear.txt')[:, 1]
+galaxySVMLPredictions = np.genfromtxt('data/svm/badGalaxyIDslinear.txt')[:, 1]
+
+idsStarSVMR = np.genfromtxt('data/svm/badStarIDsRBF.txt')[:, 0]
+idsGalaxySVMR = np.genfromtxt('data/svm/badGalaxyIDsRBF.txt')[:, 0]
+idsStarSVMR = np.array([int(i) for i in idsStarSVMR])
+idsGalaxySVMR = np.array([int(i) for i in idsGalaxySVMR])
+starSVMRPredictions = np.genfromtxt('data/svm/badStarIDsRBF.txt')[:, 1]
+galaxySVMRPredictions = np.genfromtxt('data/svm/badGalaxyIDsRBF.txt')[:, 1]
+
+#EC stands for ErrorCut
+magGEC = -2.5*np.log10(matchedCatEC['cmodel_flux_g']/matchedCatEC['flux_zeromag_g'])
+magREC = -2.5*np.log10(matchedCatEC['cmodel_flux_r']/matchedCatEC['flux_zeromag_r'])
+magIEC = -2.5*np.log10(matchedCatEC['cmodel_flux_i']/matchedCatEC['flux_zeromag_i'])
+magZEC = -2.5*np.log10(matchedCatEC['cmodel_flux_z']/matchedCatEC['flux_zeromag_z'])
+magYEC = -2.5*np.log10(matchedCatEC['cmodel_flux_y']/matchedCatEC['flux_zeromag_y'])
+
+ymagsEC = matchedCatEC['mag_y']
+jmagsEC = matchedCatEC['mag_j']
+hmagsEC = matchedCatEC['mag_h']
+kmagsEC = matchedCatEC['mag_k']
+
+chan1magsEC = matchedCatEC['mag_36']
+chan2magsEC = matchedCatEC['mag_45']
+chan3magsEC = matchedCatEC['mag_58']
+chan4magsEC = matchedCatEC['mag_80']
+
 # indices correspond to indices in catalog above
-def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileName):
-    plt.figure()
-    color = magnitudes1[indices]
+def AnalyzeBadPoints(predictions, indices, magnitudes, title, xaxistitle):
+    color = magnitudes[indices]
     plt.title(title)
     plt.ylabel(r'$P(Star)$')
     plt.xlabel(xaxistitle)
@@ -306,9 +345,23 @@ def AnalyzeBadPoints(predictions, indices, magnitudes1, title, xaxistitle, fileN
     xmax = (3*xticks[-1] - xticks[-2])/2.
 
     plt.xlim(xmin, xmax)
-    plt.xticks(xticks)
+    plt.xticks(xticks) 
 
-    plt.savefig(fileName)
+# 3 of the methods share the same magnitudes
+def MultipleViewAnalyzeBadPoints(predictions1, indices1, magnitudes1, title1, \
+        magnitudes2, predictions2, indices2, title2, \
+        predictions3, indices3, title3, \
+        predictions4, indices4, title4, \
+        xaxistitle, filename):
+
+        plt.figure(figsize=(30, 30))
+
+        ax1 = plt.subplot(221)
+        AnalyzeBadPoints(predictions1, indices1, magnitudes1, title1, xaxistitle)
+
+        ax2 = plt.subplot(222)
+        AnalyzeBadPoints(predictions2, indices2, magnitudes2, title2, xaxistitle)
+
 
 # to analyze bad SVM points
 def ErrorCutIDsToMask(matchedCat, idArray):
