@@ -223,6 +223,7 @@ np.savetxt('data/logistic/badStarIDs.txt', np.array([badStarIDs, badStarProbs]).
 np.savetxt('data/logistic/badGalaxyIDs.txt', np.array([badGalaxyIDs, badGalProbs]).transpose())
 writeReport(reportLogistic, 'data/logistic/best_logistic.txt')
 json.dump(bestParamsLogistic, open('data/logistic/best_params_logistic.json', 'w'))
+np.savetxt('data/logistic/logistic_coef.txt', bestModelLogistic.coef_)
 
 
 
@@ -243,6 +244,8 @@ np.savetxt('data/svm/badStarIDslinear.txt', np.array([badStarIDs, badStarProbs])
 np.savetxt('data/svm/badGalaxyIDslinear.txt', np.array([badGalaxyIDs, badGalProbs]).transpose())
 writeReport(reportSVMLinear, 'data/svm/best_svm_linear.txt')
 json.dump(bestParamsSVMLinear, open('data/svm/best_params_svm_linear.json', 'w'))
+np.savetxt('data/svm/linear_coef.txt', bestModelSVMLinear.coef_)
+
 
 
 print 'RBF SVM'
