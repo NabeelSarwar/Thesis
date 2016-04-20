@@ -365,6 +365,7 @@ def MultipleViewAnalyzeBadPoints(matchedCatEC, predictions1, indices1, magnitude
         xaxistitle, filename):
 
         plt.figure(figsize=(15, 15))
+        print xaxistitle
 
         ax1 = plt.subplot(221)
         AnalyzeBadPoints(predictions1, indices1, magnitudes1, xaxistitle)
