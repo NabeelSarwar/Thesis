@@ -278,7 +278,7 @@ randomPlotColors(magIAll-magZAll, magZAll-magYAll, magIErrorAll, magZErrorAll, m
         'i-z (AB)', 'z-y (AB)', 'data/SideBySide/izy.png')
 
 randomPlotColors(magZAll-magYAll, magYAll-jmagsAll, magZErrorAll, magYErrorAll, magYErrorAll, matchedCatAll['mag_j_error'], \
-        magZDeconv - magYDeconv, magYDeconv-jmagsEC, magZEC - magYEC, magYEC - jmagsEC, \
+        magZDeconv - magYDeconv, magYDeconv-jmagsDeconv, magZEC - magYEC, magYEC - jmagsEC, \
         'z-y (AB)', 'y-J (AB)', 'data/SideBySide/zyj.png')
 
 randomPlotColors(magYAll-jmagsAll, hmagsAll-kmagsAll, magYErrorAll, matchedCatAll['mag_j_error'], matchedCatAll['mag_h_error'] , \
