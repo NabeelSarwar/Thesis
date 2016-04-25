@@ -291,7 +291,12 @@ randomPlotColors(jmagsAll-hmagsAll, hmagsAll-kmagsAll, matchedCatAll['mag_j_erro
         matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], jmagsDeconv-hmagsDeconv, hmagsDeconv-kmagsDeconv, \
         jmagsEC-hmagsEC, hmagsEC-kmagsEC, 'J-H (AB)', 'H-K_s (AB)', 'data/SideBySide/jhk.png')
 
+randomPlotColors(hmagsAll-kmagsAll, kmagsAll- chan1magsAll, matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], \
+                matchedCatAll['mag_k_error'], matchedCatAll['mag_36error'], hmagsDeconv - kmagsDeconv, kmagsDeconv-chan1magsDeconv, \
+                hmagsEC-kmagsEC, kmagsEC-chan1magsEC, \
+                'H-K_s', r'K_s $-3.6\mu{}m$', 'data/SideBySide/hkchan1chan2.png')
+
 randomPlotColors(hmagsAll-kmagsAll, chan1magsAll-chan2magsAll, matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], \
                 matchedCatAll['mag_36error'], matchedCatAll['mag_45error'], hmagsDeconv - kmagsDeconv, chan1magsDeconv-chan2magsDeconv, \
                 hmagsEC-kmagsEC, chan1magsEC-chan2magsEC, \
-                r'$3.6\mu{}m - 4.5\mu{}m$', 'H-K_s', 'data/SideBySide/hkchan1chan2.png')
+                'H-K_s', r'$3.6\mu{}m - 4.5\mu{}m$', 'data/SideBySide/hkchan1chan2.png')
