@@ -294,7 +294,7 @@ randomPlotColors(jmagsAll-hmagsAll, hmagsAll-kmagsAll, matchedCatAll['mag_j_erro
 randomPlotColors(hmagsAll-kmagsAll, kmagsAll- chan1magsAll, matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], \
                 matchedCatAll['mag_k_error'], matchedCatAll['mag_36error'], hmagsDeconv - kmagsDeconv, kmagsDeconv-chan1magsDeconv, \
                 hmagsEC-kmagsEC, kmagsEC-chan1magsEC, \
-                'H-K_s', r'K_s $-3.6\mu{}m$', 'data/SideBySide/hkchan1chan2.png')
+                'H-K_s', r'K_s $-3.6\mu{}m$', 'data/SideBySide/hkchan1.png')
 
 randomPlotColors(hmagsAll-kmagsAll, chan1magsAll-chan2magsAll, matchedCatAll['mag_h_error'], matchedCatAll['mag_k_error'], \
                 matchedCatAll['mag_36error'], matchedCatAll['mag_45error'], hmagsDeconv - kmagsDeconv, chan1magsDeconv-chan2magsDeconv, \
