@@ -103,11 +103,13 @@ def predictStarDouble(X, Xerr, index):
     fraction = np.log(PStar) + clfstar.logprob_a(X, Xerr) \
             - np.logaddexp(np.log(PStar) +  clfstar.logprob_a(X, Xerr), np.log(PGalaxy) + clfgalaxy.logprob_a(X, Xerr))
 
-    if np.isnan(fraction):
+    if len(fraction) != 1:
+        raise Exception('Not doing index by index')
+    if np.isnan(fraction[0]):
         raise Exception('Invalid Fractions')
 
     fraction = np.exp(fraction)
-    return fraction
+    return fraction[0]
 
 def predictStar(X, Xerr, index):
     fraction = predictStarDouble(X, Xerr, index)
