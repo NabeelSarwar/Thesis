@@ -96,12 +96,12 @@ def  makeNoiseMatrix(index):
 def predictStarDouble(X, Xerr, index):
     if np.any(np.isnan(Xerr)):
         print index
-    #numerator = PStar * np.exp(clfstar.logL(X, Xerr))
-    #demominator = PStar * np.exp(clfstar.logL(X, Xerr)) + PGalaxy * np.exp(clfgalaxy.logL(X, Xerr))
+    #numerator = PStar * np.exp(clfstar.logprob_a(X, Xerr))
+    #demominator = PStar * np.exp(clfstar.logprob_a(X, Xerr)) + PGalaxy * np.exp(clfgalaxy.logprob_a(X, Xerr))
     #P(Star|X, XErr)
 
-    fraction = np.log(PStar) + clfstar.logL(X, Xerr) \
-            - np.logaddexp(np.log(PStar) +  clfstar.logL(X, Xerr), np.log(PGalaxy) + clfgalaxy.logL(X, Xerr))
+    fraction = np.log(PStar) + clfstar.logprob_a(X, Xerr) \
+            - np.logaddexp(np.log(PStar) +  clfstar.logprob_a(X, Xerr), np.log(PGalaxy) + clfgalaxy.logprob_a(X, Xerr))
 
     if np.isnan(fraction):
         raise Exception('Invalid Fractions')
