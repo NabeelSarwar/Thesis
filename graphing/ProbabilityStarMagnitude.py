@@ -105,7 +105,9 @@ def predictStarDouble(X, Xerr, index):
     fraction = np.sum(np.exp(fraction))
 
     if np.isnan(fraction):
-        raise Exception('Invalid Fractions')
+        raise Exception('Invalid Fractions Nan')
+    if fraction > 1 or fraction < 0:
+        raise Exception('Invalid Fraction Range')
 
     return fraction
 
