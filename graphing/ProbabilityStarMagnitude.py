@@ -99,8 +99,8 @@ def predictStarDouble(X, Xerr, index):
     #demominator = PStar * np.exp(clfstar.logprob_a(X, Xerr)) + PGalaxy * np.exp(clfgalaxy.logprob_a(X, Xerr))
     #P(Star|X, XErr)
 
-    fraction = np.log(PStar) + clfstar.logprob_a(X, Xerr)[0] \
-            - np.logaddexp(np.log(PStar) +  clfstar.logprob_a(X, Xerr)[0], np.log(PGalaxy) + clfgalaxy.logprob_a(X, Xerr)[0])
+    fraction = np.log(PStar) + clfstar.logprob_a(X, Xerr) \
+            - np.logaddexp(np.log(PStar) +  clfstar.logprob_a(X, Xerr), np.log(PGalaxy) + clfgalaxy.logprob_a(X, Xerr))
     
     fraction = np.sum(np.exp(fraction))
 
