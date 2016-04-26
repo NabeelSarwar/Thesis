@@ -289,8 +289,8 @@ galaxyPredictionsNumbers = np.array([predictStarDouble(np.array([XTestGalaxy[i]]
 badStarPredictionsDeconv = starPredictionsNumbers[badStarPredictions]
 badGalaxyPredictionsDeconv = galaxyPredictionsNumbers[badGalaxyPredictions]
 
-starSaveInformation = np.array([badStarIndices, badStarPredictions]).transpose()
-galaxySaveInformation = np.array([badGalaxyIndices, badGalaxyPredictions]).transpose()
+starSaveInformation = np.array([badStarIndices, badStarPredictionsDeconv]).transpose()
+galaxySaveInformation = np.array([badGalaxyIndices, badGalaxyPredictionsDeconv]).transpose()
 
 np.savetxt('data/deconv/starBadPredictionIndexProbability.txt', starSaveInformation)
 np.savetxt('data/deconv/galaxyBadPredictionIndexProbability.txt', galaxySaveInformation)
