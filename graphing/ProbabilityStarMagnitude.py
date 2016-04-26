@@ -389,105 +389,104 @@ def MultipleViewAnalyzeBadPoints(matchedCatEC, predictions1, indices1, magnitude
         AnalyzeBadPoints(predictions4, indices4, magnitudes2, xaxistitle)
         plt.savefig(filename)
 
-
 # DO THE SIDE BY SIDE ALL PSTARS
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['magR']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['magR']], \
         magREC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         'r (AB)', 'data/PStar/side_false_negatives_r_star.png')
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['magI']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['magI']], \
         magIEC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         'i (AB)', 'data/PStar/side_false_negatives_i_star.png')
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['magZ']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['magZ']], \
         magZEC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         'z (AB)', 'data/PStar/side_false_negatives_z_star.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['magY']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['magY']], \
         magYEC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         'y (AB)', 'data/PStar/side_false_negatives_y_star.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['mag_j']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['mag_j']], \
         jmagsEC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         'J (AB)', 'data/PStar/side_false_negatives_j_star.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['mag_h']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['mag_h']], \
         hmagsEC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         'H (AB)', 'data/PStar/side_false_negatives_h_star.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['mag_k']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['mag_k']], \
         kmagsEC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         'K_s (AB)', 'data/PStar/side_false_negatives_k_star.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['mag_36']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['mag_36']], \
         chan1magsEC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         r'$3.6\mu{}m$ (AB)', 'data/PStar/side_false_negatives_chan1_star.png')
-MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictions, badStarIndices, catalog[:, cold['mag_45']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badStarPredictionsDeconv, badStarIndices, catalog[:, cold['mag_45']], \
         chan2magsEC, starLogPredictions, idsStarLog, \
         starSVMLPredictions, idsStarSVML, \
         starSVMRPredictions, idsStarSVMR, 
         r'$4.5\mu{}m$ (AB)', 'data/PStar/side_false_negatives_chan2_star.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magR']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['magR']], \
         magREC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         'r (AB)', 'data/PStar/side_false_positives_r_galaxy.png')
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magI']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['magI']], \
         magIEC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         'i (AB)', 'data/PStar/side_false_positives_i_galaxy.png')
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magZ']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['magZ']], \
         magZEC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         'z (AB)', 'data/PStar/side_false_positives_z_galaxy.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['magY']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['magY']], \
         magYEC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         'y (AB)', 'data/PStar/side_false_positives_y_galaxy.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_j']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['mag_j']], \
         jmagsEC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         'J (AB)', 'data/PStar/side_false_positives_j_galaxy.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_h']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['mag_h']], \
         hmagsEC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         'H (AB)', 'data/PStar/side_false_positives_h_galaxy.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_k']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['mag_k']], \
         kmagsEC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         'K_s (AB)', 'data/PStar/side_false_positives_k_galaxy.png')
 
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_36']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['mag_36']], \
         chan1magsEC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
         r'$3.6\mu{}m$ (AB)', 'data/PStar/side_false_positives_chan1_galaxy.png')
-MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictions, badGalaxyIndices, catalog[:, cold['mag_45']], \
+MultipleViewAnalyzeBadPoints(matchedCatEC, badGalaxyPredictionsDeconv, badGalaxyIndices, catalog[:, cold['mag_45']], \
         chan2magsEC, galaxyLogPredictions, idsGalaxyLog, \
         galaxySVMLPredictions, idsGalaxySVML, \
         galaxySVMRPredictions, idsGalaxySVMR, 
