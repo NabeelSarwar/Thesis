@@ -99,10 +99,13 @@ def predictStarDouble(X, Xerr, index):
     #demominator = PStar * np.exp(clfstar.logprob_a(X, Xerr)) + PGalaxy * np.exp(clfgalaxy.logprob_a(X, Xerr))
     #P(Star|X, XErr)
 
-    fraction = np.log(PStar) + clfstar.logprob_a(X, Xerr) \
-            - np.logaddexp(np.log(PStar) +  clfstar.logprob_a(X, Xerr), np.log(PGalaxy) + clfgalaxy.logprob_a(X, Xerr))
+    logcondstar = np.logaddexp(clfstar.logprob_a(X, Xerr))
+    logcondgal = np.logaddexp(clfgalaxy.logprob_a(X, Xerr))
+
+    fraction = np.log(PStar) + logcondstar \
+            - np.logaddexp(np.log(PStar) +  logcondstar, np.log(PGalaxy) + logcondgalaxy )
     
-    fraction = np.sum(np.exp(fraction))
+    fraction = np.exp(fraction)
 
     if np.isnan(fraction):
         raise Exception('Invalid Fractions Nan')
