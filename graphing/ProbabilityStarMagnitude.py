@@ -104,7 +104,7 @@ def predictStarDouble(X, Xerr, index):
     logcondgal = misc.logsumexp(clfgalaxy.logprob_a(X, Xerr))
 
     fraction = np.log(PStar) + logcondstar \
-            - np.logaddexp(np.log(PStar) +  logcondstar, np.log(PGalaxy) + logcondgalaxy )
+            - np.logaddexp(np.log(PStar) +  logcondstar, np.log(PGalaxy) + logcondgal)
     
     fraction = np.exp(fraction)
 
