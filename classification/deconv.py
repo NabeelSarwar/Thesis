@@ -5,6 +5,7 @@ import extreme_deconvolution as xd
 from sklearn.mixture import GMM
 from astroML.density_estimation import XDGMM
 import json
+import scipy.misc as misc
 
 import matplotlib
 
@@ -96,8 +97,8 @@ def predictStar(clfstar, clfgalaxy, X, Xerr, index):
     #P(Star|X, XErr)
 
 
-    logcondstar = np.logaddexp(*clfstar.logprob_a(X, Xerr))
-    logcondgal = np.logaddexp(*clfgalaxy.logprob_a(X, Xerr))
+    logcondstar = misc.logsumexp(clfstar.logprob_a(X, Xerr))
+    logcondgal = misc.logsumexp(clfgalaxy.logprob_a(X, Xerr))
 
     fraction = np.log(PStar) + logcondstar \
             - np.logaddexp(np.log(PStar) +  logcondstar, np.log(PGalaxy) + logcondgalaxy )
