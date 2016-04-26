@@ -107,7 +107,7 @@ def predictStar(clfstar, clfgalaxy, X, Xerr, index):
     if np.isnan(fraction):
         raise Exception('Invalid Fractions Nan')
     if fraction > 1 or fraction < 0:
-        raise Exception('Invalid Fraction Range')
+        raise Exception('Invalid Fraction Range: {0}'.format(fraction))
 
     if fraction >= 0.5:
         return 1
