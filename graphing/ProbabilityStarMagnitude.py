@@ -53,7 +53,6 @@ def makeEntry(index):
     colors.append(data[cold['mag_k']] - data[cold['mag_36']]) #6
     colors.append(data[cold['mag_36']] - data[cold['mag_45']]) #7
     colors = np.array(colors)
-
     if np.any(np.isnan(colors)):
         print index
     return colors 
@@ -100,16 +99,15 @@ def predictStarDouble(X, Xerr, index):
     #demominator = PStar * np.exp(clfstar.logprob_a(X, Xerr)) + PGalaxy * np.exp(clfgalaxy.logprob_a(X, Xerr))
     #P(Star|X, XErr)
 
-    fraction = np.log(PStar) + clfstar.logprob_a(X, Xerr) \
-            - np.logaddexp(np.log(PStar) +  clfstar.logprob_a(X, Xerr), np.log(PGalaxy) + clfgalaxy.logprob_a(X, Xerr))
+    fraction = np.log(PStar) + clfstar.logprob_a(X, Xerr)[0] \
+            - np.logaddexp(np.log(PStar) +  clfstar.logprob_a(X, Xerr)[0], np.log(PGalaxy) + clfgalaxy.logprob_a(X, Xerr)[0])
+    
+    fraction = np.sum(np.exp(fraction))
 
-    if len(fraction) != 1:
-        raise Exception('Not doing index by index')
-    if np.isnan(fraction[0]):
+    if np.isnan(fraction):
         raise Exception('Invalid Fractions')
 
-    fraction = np.exp(fraction)
-    return fraction[0]
+    return fraction
 
 def predictStar(X, Xerr, index):
     fraction = predictStarDouble(X, Xerr, index)
@@ -205,8 +203,8 @@ galaxyIndicesTest = np.array(galaxyIndicesTest)
 if len(galaxyIndicesTest) != galaxyTestNumber:
     raise Exception('False Galaxy Test numbers')
 
-nGaussiansStar = 19
-nGaussiansGalaxy = 19
+nGaussiansStar = 2
+nGaussiansGalaxy = 2
 
 print 'Making Arrays'
 print 'Making X'
@@ -245,6 +243,7 @@ clfstar.alpha = ampstar
 clfstar.mu = meanstar
 clfstar.V = covarstar
 
+
 print 'Deconvolving galaxies'
 xd.extreme_deconvolution(XTrainGalaxy, XErrTrainGalaxy, ampgalaxy, meangalaxy, covargalaxy)
 
@@ -252,7 +251,6 @@ clfgalaxy = XDGMM(nGaussiansGalaxy)
 clfgalaxy.alpha = ampgalaxy
 clfgalaxy.mu = meangalaxy
 clfgalaxy.V = covargalaxy
-
 
 print 'Predicting'
 # need to pass XTestStar[i] and XTestGalaxy[i] as np.array([XTestStar[i]]) because internally it assumes 2D matrix

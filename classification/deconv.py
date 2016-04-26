@@ -98,15 +98,12 @@ def predictStar(clfstar, clfgalaxy, X, Xerr, index):
     fraction = np.log(PStar) + clfstar.logprob_a(X, Xerr) \
             - np.logaddexp(np.log(PStar) +  clfstar.logprob_a(X, Xerr), np.log(PGalaxy) + clfgalaxy.logprob_a(X, Xerr))
 
-    if len(fraction) != 1:
-        raise Exception('Not doing index by index')
+    fraction = np.sum(np.exp(fraction))
 
     if np.isnan(fraction):
         raise Exception('Invalid Fractions')
 
-    fraction = np.exp(fraction)
-
-    if fraction[0] >= 0.5:
+    if fraction >= 0.5:
         return 1
     else:
         return 0
