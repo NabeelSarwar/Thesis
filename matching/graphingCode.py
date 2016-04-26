@@ -25,6 +25,8 @@ goodIndices = sand(goodIndices, matchedCat['cmodel_flux_err_y'] != 0)
 matchedCat = matchedCat[goodIndices]
 starindices = np.where((matchedCat['mu_class'] == 2)==True)[0]
 galaxyindices = np.where((matchedCat['mu_class'] == 1)==True)[0]
+starmask = matchedCat['mu_class']==2
+galaxymask = matchedCat['mu_class']==1
 print starindices
 print galaxyindices
 starGalHash = {}
@@ -58,12 +60,12 @@ chan4mags = matchedCat['mag_80']
 
 def randomPlot(magSource1, magSource2, goodIndices):
     numbers = np.random.permutation(np.where(goodIndices == True)[0])
-    print len(numbers)
-    for e in numbers:
-        if starGalHash[e] == 'star':
-            plt.plot(magSource1[e], magSource2[e], markersize=1, marker='.', c='red')
-        else:
-            plt.plot(magSource1[e], magSource2[e], markersize=1, marker='.', c='blue')
+    stars = sand(goodIndices, starmask)
+    galaxies = sand(goodIndices, galaxymask)
+
+    plt.scatter(magSource1[galaxies], magSource2[galaxies], markersize=1, marker='.', c='blue')
+    plt.scatter(magSource1[stars], magSource2[stars], markersize=1, marker='.', c='red')
+
     # speed up performance
     gc.collect()
     print 'done'
