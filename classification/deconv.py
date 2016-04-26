@@ -96,8 +96,8 @@ def predictStar(clfstar, clfgalaxy, X, Xerr, index):
     #P(Star|X, XErr)
 
 
-    logcondstar = np.logaddexp(clfstar.logprob_a(X, Xerr))
-    logcondgal = np.logaddexp(clfgalaxy.logprob_a(X, Xerr))
+    logcondstar = np.logaddexp(*clfstar.logprob_a(X, Xerr))
+    logcondgal = np.logaddexp(*clfgalaxy.logprob_a(X, Xerr))
 
     fraction = np.log(PStar) + logcondstar \
             - np.logaddexp(np.log(PStar) +  logcondstar, np.log(PGalaxy) + logcondgalaxy )
