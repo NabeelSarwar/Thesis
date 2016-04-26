@@ -63,8 +63,8 @@ def randomPlot(magSource1, magSource2, goodIndices):
     stars = sand(goodIndices, starmask)
     galaxies = sand(goodIndices, galaxymask)
 
-    plt.scatter(magSource1[galaxies], magSource2[galaxies], markersize=1, marker='.', c='blue')
-    plt.scatter(magSource1[stars], magSource2[stars], markersize=1, marker='.', c='red')
+    plt.scatter(magSource1[galaxies], magSource2[galaxies], marker='.', c='blue')
+    plt.scatter(magSource1[stars], magSource2[stars], marker='.', c='red')
 
     # speed up performance
     gc.collect()
