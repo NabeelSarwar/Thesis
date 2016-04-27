@@ -82,6 +82,11 @@ hdu.writeto('MatchHellErrorCut2.fits')
 matchedCat = pyfits.getdata('MatchHellErrorCut2.fits')
 
 # establish the indices with proper colors, and then get this
+magGError = np.abs(1.08574 / matchedCat['cmodel_flux_g'] * matchedCat['cmodel_flux_err_g'])
+magRError = np.abs(1.08574 / matchedCat['cmodel_flux_r'] * matchedCat['cmodel_flux_err_r'])
+magIError = np.abs(1.08574 / matchedCat['cmodel_flux_i'] * matchedCat['cmodel_flux_err_i'])
+magZError = np.abs(1.08574 / matchedCat['cmodel_flux_z'] * matchedCat['cmodel_flux_err_z'])
+magYError = np.abs(1.08574 / matchedCat['cmodel_flux_y'] * matchedCat['cmodel_flux_err_y'])
 
 #possible errors ahead
 goodIndices = magRError < 0.2

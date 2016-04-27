@@ -77,10 +77,8 @@ def AnalyzeBadPoints(predictions, indices, magnitudes, xaxistitle):
     plt.xlabel(xaxistitle)
 
     plt.scatter(color, predictions)
-    # do it for x
 
-    plt.xlim(18, 28)
-
+    
 # to analyze bad SVM points
 def ErrorCutIDsToMask(matchedCat, idArray):
     indices = []
@@ -104,18 +102,23 @@ def MultipleViewAnalyzeBadPoints(matchedCatEC, predictions1, indices1, magnitude
 
         ax1 = plt.subplot(221)
         AnalyzeBadPoints(predictions1, indices1, magnitudes1, xaxistitle)
+        ax1.set_xlim(18, 28)
 
         ax2 = plt.subplot(222)
         indices2 = ErrorCutIDsToMask(matchedCatEC, indices2)
         AnalyzeBadPoints(predictions2, indices2, magnitudes2, xaxistitle)
+        ax2.set_xlim(18, 28)
 
         ax3 = plt.subplot(223)
         indices3 = ErrorCutIDsToMask(matchedCatEC, indices3)
         AnalyzeBadPoints(predictions3, indices3, magnitudes2, xaxistitle)
-        
+        ax3.set_xlim(18, 28)
+       
         ax4 = plt.subplot(224)
         indices4 = ErrorCutIDsToMask(matchedCatEC, indices4)
         AnalyzeBadPoints(predictions4, indices4, magnitudes2, xaxistitle)
+        ax4.set_xlim(18, 28)
+
         plt.savefig(filename)
 
 # DO THE SIDE BY SIDE ALL PSTARS
