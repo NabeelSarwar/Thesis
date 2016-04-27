@@ -344,12 +344,9 @@ def AnalyzeBadPoints(predictions, indices, magnitudes, xaxistitle):
     plt.scatter(color, predictions)
     # do it for x
 
-    xticks, xticklabels = plt.xticks()
 
-    xmin = (3*xticks[0] - xticks[1])/2.
-    xmax = (3*xticks[-1] - xticks[-2])/2.
 
-    plt.xlim(xmin, xmax)
+    plt.xlim(18, 28)
     plt.xticks(xticks) 
 
 # to analyze bad SVM points
