@@ -129,7 +129,7 @@ def tryModel(model, data, ids, results):
     badGalaxyIDs = ids[badGalaxyIndices]
     return {'training': trainingReport, 'test': testReport}, badStarIDs, badGalaxyIDs, badStarProbs, badGalProbs
 
-matchedCat = pyfits.getdata('MatchHellErrorCut2.fits')
+matchedCat = pyfits.getdata('MatchHellDeconv2.fits')
 #shortcut and
 sand = np.logical_and
 

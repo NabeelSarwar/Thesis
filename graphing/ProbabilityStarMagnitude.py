@@ -296,7 +296,7 @@ np.savetxt('data/deconv/starBadPredictionIndexProbability.txt', starSaveInformat
 np.savetxt('data/deconv/galaxyBadPredictionIndexProbability.txt', galaxySaveInformation)
 
 
-matchedCatEC = pyfits.getdata('MatchHellErrorCut2.fits')
+matchedCatEC = pyfits.getdata('MatchHellDeconv2.fits')
 idsStarLog = np.genfromtxt('data/logistic/badStarIDs.txt')[:, 0]
 idsGalaxyLog = np.genfromtxt('data/logistic/badGalaxyIDs.txt')[:, 0]
 idsStarLog = np.array([int(i) for i in idsStarLog])

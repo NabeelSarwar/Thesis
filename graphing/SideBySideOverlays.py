@@ -77,7 +77,7 @@ chan4magsDeconv = matchedCatBad['mag_80']
 
 
 # get the data from SVM and regression
-matchedCat = pyfits.getdata('MatchHellErrorCut2.fits')
+matchedCat = pyfits.getdata('MatchHellDeconv2.fits')
 #shortcut and
 sand = np.logical_and
 
