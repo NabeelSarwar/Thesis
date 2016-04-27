@@ -79,10 +79,7 @@ def AnalyzeBadPoints(predictions, indices, magnitudes, xaxistitle):
     plt.scatter(color, predictions)
     # do it for x
 
-
-
     plt.xlim(18, 28)
-    plt.xticks(xticks) 
 
 # to analyze bad SVM points
 def ErrorCutIDsToMask(matchedCat, idArray):
